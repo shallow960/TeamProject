@@ -25,6 +25,9 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 
     // 예약번호로 단건 조회 (상세 페이지)
     Optional<Reserve> findByReserveCode(Long reserveCode);
+    
+    //예) 특정 날짜에 소형견놀이터 예약 몇건 들어왔는지 확인
+    List<Reserve> findByReserveTypeAndReserveDate(int reserveType, LocalDate date);
 
 }
 

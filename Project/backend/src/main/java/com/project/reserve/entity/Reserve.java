@@ -5,6 +5,9 @@ import lombok.*;
 import com.project.member.Member;
 import com.project.reserve.entity.ReserveState;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "Reserve")
@@ -21,6 +24,10 @@ public class Reserve {
 
     @Column(name = "reserve_date")
     private LocalDate reserveDate;
+    
+    @CreationTimestamp
+    @Column(name = "apply_date", updatable = false)
+    private LocalDateTime applyDate;
 
     @Column(name = "reserve_type")
     private Integer reserveType;

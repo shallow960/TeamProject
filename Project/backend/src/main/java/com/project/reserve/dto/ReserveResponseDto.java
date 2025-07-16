@@ -7,6 +7,7 @@ import com.project.reserve.entity.Reserve;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ public class ReserveResponseDto {
 	private Long memberNum;
     private Long reserveCode;
     private LocalDate reserveDate;
+    private LocalDateTime applyDate;
     private int reserveType;
     private ReserveState reserveState;
     private int reserveNumber;
@@ -30,6 +32,7 @@ public class ReserveResponseDto {
                 .reserveCode(reserve.getReserveCode())
                 .memberNum(member != null ? member.getMemberNum() : null)
                 .reserveDate(reserve.getReserveDate())
+                .applyDate(reserve.getApplyDate()) 
                 .reserveType(reserve.getReserveType())
                 .reserveState(reserve.getReserveState())
                 .reserveNumber(reserve.getReserveNumber())
