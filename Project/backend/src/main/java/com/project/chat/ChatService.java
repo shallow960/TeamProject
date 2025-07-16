@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.entity.chat.ChatEntity;
-import com.project.repository.chat.ChatRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,5 +18,17 @@ public class ChatService {
 	
 	public List<ChatEntity> getAllChat(){
 		return chatRepository.findAll();
+	}
+	
+	
+	
+	
+	
+	
+	// 예외처리
+	public ChatEntity getChatById(Integer id) {
+		return chatRepository.findById(id)
+				.orElseThrow(() -> new ChatException("채팅 ID " + id + "를 찾을 수 없습니다."));
+		
 	}
 }

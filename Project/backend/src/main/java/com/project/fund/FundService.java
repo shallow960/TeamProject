@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.entity.fund.FundEntity;
-import com.project.repository.fund.FundRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,4 +20,13 @@ public class FundService {
 		return fundRepository.findAll();
 	}
 	
+	
+	
+	
+	
+	//예외처리
+	public FundEntity getFundById(Integer id) {
+		return fundRepository.findById(id)
+				.orElseThrow(() -> new FundException("회원 ID " + id + "를 찾을 수 없습니다."));
+	}
 }
