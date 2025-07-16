@@ -1,4 +1,4 @@
-package com.project.phoneVeify;
+package com.project.phoneAuth;
 
 import java.time.LocalDateTime;
 
@@ -22,14 +22,14 @@ import lombok.Setter;
 @Setter
 @Table(name = "PhoneAuth")
 
-public class PhoneVerifyEntity {
+public class PhoneAuthEntity {
 	@Id
 	@Column(name = "phone_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long PhoneId; // 고유값으로 PK 따로 둠
 	
 	@Column(name = "phone_num", nullable = false)
-	private Long PhoneNum;	//휴대폰 번호
+	private String PhoneNum;	//휴대폰 번호
 	
 	@Column(name = "auth_num",nullable = false)
 	private String AuthNum;	//인증번호
