@@ -36,7 +36,7 @@ public class ChatEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "admin_id", nullable=false) // 참조할 테이블의 PK 컬럼명
-    private AdminEntity adminId;
+    private AdminEntity admin_id;
 	//관리자 아이디
 	
 	@Column(name = "chat_cont", nullable=false)

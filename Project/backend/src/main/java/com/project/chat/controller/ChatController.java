@@ -41,7 +41,7 @@ public class ChatController {
                 .stream()
                 .map(chat -> new ChatResponseDto(
                         chat.getMemberNum(),
-                        chat.getAdminId().getManageNum(),
+                        chat.getAdminId().getAdmin_id(),
                         chat.getChatCont(),
                         chat.getSendTime().toString(),
                         chat.getChatCheck().name()
@@ -60,7 +60,7 @@ public class ChatController {
 
         ChatResponseDto dto = new ChatResponseDto(
                 chat.getMemberNum(),
-                chat.getAdminId().getManageNum(),
+                chat.getAdminId().getAdmin_id(),
                 chat.getChatCont(),
                 chat.getSendTime().toString(),
                 chat.getChatCheck().name()

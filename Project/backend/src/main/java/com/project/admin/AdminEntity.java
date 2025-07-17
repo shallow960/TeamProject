@@ -1,8 +1,8 @@
 package com.project.admin;
 
-import com.project.member.MemberEntity;//회원정보를 담은 엔티티
-
 import java.time.LocalDateTime;
+
+import com.project.member.MemberEntity;//회원정보를 담은 엔티티
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Admin")
