@@ -31,7 +31,8 @@ public class ChatEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer member_num; //회원번호
+	@Column(name = "member_num")
+	private Integer memberNum; //회원번호
 	
 	@ManyToOne
     @JoinColumn(name = "admin_id", nullable=false) // 참조할 테이블의 PK 컬럼명

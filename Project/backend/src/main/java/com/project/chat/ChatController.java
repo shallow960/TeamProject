@@ -1,4 +1,4 @@
-package com.project.chat;
+package com.project.chat.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,54 +11,59 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.chat.dto.ChatRequestDto;
+import com.project.chat.dto.ChatResponseDto;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/chat")
 @RequiredArgsConstructor
 public class ChatController {
-	
-	private final ChatService chatService;
-	
-	// 채팅 등록
-	@PostMapping
-	public ResponseEntity<String> createChat(@RequestBody ChatDto chatDto){
-		ChatEntity chatEntity = new ChatEntity();
-		chatEntity.setChatCont(chatDto.getChatCont());
-		
-		chatService.saveChat(chatEntity);
-		return ResponseEntity.ok("채팅이 저장되었습니다.");
-	}
-	
-	// 채팅 전체 조회
-	@GetMapping
-	public ResponseEntity<List<ChatDto>> getAllChats(){
-		List<ChatDto> chatList = chatService.getAllChat()
-				.stream()
-				.map(chat -> new ChatDto(
-						chat.getAdmin().getAdminId().intValue(),
-						chat.getChatCont(),
-						chat.getSendTime().toString(),
-						chat.getChatCheck().name()
-				))
-				.collect(Collectors.toList());
-		
-		return ResponseEntity.ok(chatList);
-	}
-	
-	// 채팅 단일 조회 
-	@GetMapping("/{id}")
-	public ResponseEntity<ChatDto> getChatById(@PathVariable Integer id){
-		ChatEntity chat = chatService.getChatById(id);
-		ChatDto dto = new ChatDto(
-				chat.getAdmin().getAdminId().intValue(),
-				chat.getChatCont(),
-				chat.getSendTime().toString(),
-				chat.getChatCheck().name()
-		);
-		
-		return ResponseEntity.ok(dto);
-	}
-	
-	
+
+    private final ChatService chatService;
+
+    
+     //	채팅 등록 (사용자 메시지 저장)
+   
+    @PostMapping
+    public ResponseEntity<String> createChat(@RequestBody ChatRequestDto chatDto) {
+        chatService.saveChat(chatDto); // Service에서 Entity 생성 & 저장
+        return ResponseEntity.ok("채팅이 저장되었습니다.");
+    }
+
+    //	전체 채팅 조회
+    @GetMapping
+    public ResponseEntity<List<ChatResponseDto>> getAllChats() {
+        List<ChatResponseDto> chatList = chatService.getAllChat()
+                .stream()
+                .map(chat -> new ChatResponseDto(
+                        chat.getMemberNum(),
+                        chat.getAdminId().getManageNum(),
+                        chat.getChatCont(),
+                        chat.getSendTime().toString(),
+                        chat.getChatCheck().name()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(chatList);
+    }
+
+    
+     //  단일 채팅 조회
+     
+    @GetMapping("/{id}")
+    public ResponseEntity<ChatResponseDto> getChatById(@PathVariable Integer id) {
+        ChatEntity chat = chatService.getChatById(id);
+
+        ChatResponseDto dto = new ChatResponseDto(
+                chat.getMemberNum(),
+                chat.getAdminId().getManageNum(),
+                chat.getChatCont(),
+                chat.getSendTime().toString(),
+                chat.getChatCheck().name()
+        );
+
+        return ResponseEntity.ok(dto);
+    }
 }

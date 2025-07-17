@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.entity.mapdata.MapDataEntity;
-import com.project.repository.mapData.MapDataRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service

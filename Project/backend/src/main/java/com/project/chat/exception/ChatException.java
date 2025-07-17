@@ -1,4 +1,4 @@
-package com.project.chat;
+package com.project.chat.exception;
 
 public class ChatException extends RuntimeException{
 	
