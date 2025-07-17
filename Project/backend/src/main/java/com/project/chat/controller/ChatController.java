@@ -41,7 +41,7 @@ public class ChatController {
                 .stream()
                 .map(chat -> new ChatResponseDto(
                         chat.getMemberNum(),
-                        chat.getAdminId().getAdmin_id(),
+                        chat.getManageNum(), // 타입 맞게 수정됨
                         chat.getChatCont(),
                         chat.getSendTime().toString(),
                         chat.getChatCheck().name()
@@ -50,17 +50,15 @@ public class ChatController {
 
         return ResponseEntity.ok(chatList);
     }
-
     
-     //  단일 채팅 조회
-     
+    // 단일 채팅 조회
     @GetMapping("/{id}")
     public ResponseEntity<ChatResponseDto> getChatById(@PathVariable Integer id) {
         ChatEntity chat = chatService.getChatById(id);
 
         ChatResponseDto dto = new ChatResponseDto(
                 chat.getMemberNum(),
-                chat.getAdminId().getAdmin_id(),
+                chat.getManageNum(),
                 chat.getChatCont(),
                 chat.getSendTime().toString(),
                 chat.getChatCheck().name()
@@ -68,4 +66,5 @@ public class ChatController {
 
         return ResponseEntity.ok(dto);
     }
+
 }

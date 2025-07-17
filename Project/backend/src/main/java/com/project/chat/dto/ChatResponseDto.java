@@ -15,7 +15,7 @@ public class ChatResponseDto {
 	
 	private Integer memberNum;
 
-	private Integer manageNum;
+	private String manageNum;
 	
 	private String chatCont;
 	

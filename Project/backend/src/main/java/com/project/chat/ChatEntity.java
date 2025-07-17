@@ -1,6 +1,6 @@
 package com.project.chat;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import com.project.admin.AdminEntity;
 
@@ -34,19 +34,22 @@ public class ChatEntity {
 	@Column(name = "member_num")
 	private Integer memberNum; //회원번호
 	
+	@Column(name = "manage_num", nullable =false)
+	private String manageNum; //관리번호
+	
 	@ManyToOne
     @JoinColumn(name = "admin_id", nullable=false) // 참조할 테이블의 PK 컬럼명
-    private AdminEntity admin_id;
+    private AdminEntity adminId;
 	//관리자 아이디
 	
 	@Column(name = "chat_cont", nullable=false)
 	private String chatCont; // 대화 내용
 	
 	@Column(name = "send_time",nullable=false)
-	private Date sendTime; // 보낸 시간
+	private Timestamp sendTime; // 보낸 시간
 	
 	@Column(name = "take_time", nullable=false)
-	private Date takeTime; // 받은 시간
+	private Timestamp takeTime; // 받은 시간
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "chat_check", length = 1, nullable=false)
