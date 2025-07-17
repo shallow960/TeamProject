@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 
-    // 특정 회원의 예약 목록 조회
+    // 예)회원번호 :3인 회원 예약 목록 가져오기
     List<Reserve> findByMember_MemberNum(Long memberNum);
 
     // 예약 상태로 검색
