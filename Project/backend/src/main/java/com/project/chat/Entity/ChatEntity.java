@@ -1,8 +1,9 @@
-package com.project.chat;
+package com.project.chat.Entity;
 
 import java.sql.Timestamp;
 
 import com.project.admin.AdminEntity;
+import com.project.chat.ChatCheck;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -55,6 +56,10 @@ public class ChatEntity {
 	@Column(name = "chat_check", length = 1, nullable=false)
 	private ChatCheck chatCheck;  //확인 상태
 	
+	@ManyToOne
+	@JoinColumn(name = "chatRoomId")
+	private ChatRoomEntity chatRoomId;
+
 
 }
 //

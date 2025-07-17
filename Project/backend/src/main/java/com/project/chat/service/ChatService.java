@@ -1,4 +1,4 @@
-package com.project.chat;
+package com.project.chat.service;
 
 
 import java.sql.Timestamp;
@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.project.admin.AdminEntity;
 import com.project.admin.AdminRepository;
+import com.project.chat.ChatCheck;
+import com.project.chat.Entity.ChatEntity;
+import com.project.chat.Repository.ChatRepository;
 import com.project.chat.dto.ChatRequestDto;
 import com.project.chat.exception.ChatException;
 import com.project.chat.websocket.ChatMessage;

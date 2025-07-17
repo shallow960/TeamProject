@@ -4,7 +4,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
-import com.project.chat.ChatService;
+import com.project.chat.service.ChatService;
 
 import lombok.RequiredArgsConstructor;
 

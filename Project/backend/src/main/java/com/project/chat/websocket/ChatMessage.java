@@ -11,8 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ChatMessage {
 	
-	private Integer adminId;
-	private Integer memberNum;
+	private Integer adminId;	// 관리자일 경우
+	private Integer memberNum;	// 회원일 경우
     private String content;    // 실제 메시지
     private String timestamp;  // 전송 시간
 
