@@ -1,5 +1,6 @@
 package com.project.chat.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,4 +35,18 @@ public interface ChatRepository extends JpaRepository<ChatEntity, Integer> {
      * 3) 특정 관리번호의 모든 채팅 내역을 시간순으로 조회
      */
     List<ChatEntity> findByManageNumOrderBySendTimeAsc(String manageNum);
+    
+    /**
+     * 4) 특정 회원번호의 모든 채팅 내역을 시간순으로 조회
+     */
+    List<ChatEntity> findByMemberNumOrderBySendTimeAsc(Integer memberNum);
+
+    /**
+     * 5) 채팅 저장 최대 30일 제한
+     */
+    List<ChatEntity> findByManageNumAndSendTimeAfterOrderBySendTimeAsc(String manageNum, Timestamp afterTime);
+    
+    
+    void deleteBySendTimeBefore(Timestamp threshold);
+
 }

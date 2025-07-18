@@ -1,16 +1,22 @@
 package com.project.chat.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.chat.ChatCheck;
+import com.project.chat.dto.ChatAdminRequestDto;
 import com.project.chat.dto.ChatAdminResponseDto;
 import com.project.chat.dto.ChatHistoryRequestDto;
 import com.project.chat.dto.ChatListResponseDto;
 import com.project.chat.dto.ChatMarkReadRequestDto;
+import com.project.chat.dto.ChatUserRequestDto;
+import com.project.chat.dto.ChatUserResponseDto;
 import com.project.chat.entity.ChatEntity;
 import com.project.chat.repository.ChatRepository;
 
@@ -93,5 +99,104 @@ public class ChatService {
 
         // 완성된 리스트 반환
         return dtos;
+        
     }
+    /**
+     * 고객이 채팅 메시지를 보낼 때 저장하는 메서드
+     */
+    @Transactional
+    public ChatEntity saveUserChat(Integer memberNum, String manageNum, ChatUserRequestDto requestDto) {
+        ChatEntity chat = new ChatEntity();
+
+        // 회원번호 세팅 (인증 정보 등에서 가져올 수 있음)
+        chat.setMemberNum(memberNum);
+
+        // 관리번호 세팅 (필요 시 매핑)
+        chat.setManageNum(manageNum);
+
+        // 채팅 내용 세팅 (사용자가 보낸 메시지)
+        chat.setChatCont(requestDto.getChatCont());
+
+        // 보낸 시간 현재 시각으로 세팅
+        chat.setSendTime(new Timestamp(System.currentTimeMillis()));
+
+        // 받은 시간은 null 또는 동일하게 설정 가능 (운영 정책에 따라)
+        chat.setTakeTime(null);
+
+        // 읽음 여부 초기값 N (관리자가 확인 전)
+        chat.setChatCheck(ChatCheck.N);
+
+        // 관리자 아이디는 null (사용자 메시지이므로)
+        chat.setAdminId(null);
+
+        // 저장 후 반환
+        return chatRepository.save(chat);
+    }
+
+    /**
+     * 고객이 자신의 채팅 내역을 조회하는 메서드
+     */
+    @Transactional(readOnly = true)
+    public List<ChatUserResponseDto> getUserChatHistory(Integer memberNum) {
+        // memberNum 기준으로 모든 채팅 내역 조회 (시간순)
+        List<ChatEntity> chatEntities = chatRepository.findByMemberNumOrderBySendTimeAsc(memberNum);
+
+        List<ChatUserResponseDto> dtos = new ArrayList<>();
+        for (ChatEntity entity : chatEntities) {
+            ChatUserResponseDto dto = new ChatUserResponseDto(entity);
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+    /**
+     *  관리자가 사용자에게 메시지를 보내는 메서드
+     */
+    @Transactional
+    public void saveAdminChat(ChatAdminRequestDto requestDto) {
+        ChatEntity chat = new ChatEntity();
+
+        // 관리번호 세팅 (누구와 대화 중인지 식별)
+        chat.setManageNum(requestDto.getManageNum());
+
+        // 회원번호는 null로 둘 수 있음 (관리자 기준이므로)
+        chat.setMemberNum(null);
+
+        // 채팅 내용 세팅
+        chat.setChatCont(requestDto.getChatCont());
+
+        // 현재 시간으로 보낸 시간 세팅
+        chat.setSendTime(new Timestamp(System.currentTimeMillis()));
+
+        // 받은 시간은 null 또는 운영 정책에 따라
+        chat.setTakeTime(null);
+
+        // 읽음 여부는 Y (관리자가 보낸 메시지이므로 이미 본 것으로 처리)
+        chat.setChatCheck(ChatCheck.Y);
+
+        // 관리자 ID 세팅
+        //chat.setAdminId(requestDto.getAdminId());
+
+        // DB 저장
+        chatRepository.save(chat);
+    }
+    
+    @Transactional
+    public void markChatAsRead(String manageNum) {
+        List<ChatEntity> unreadChats = chatRepository.findByManageNumAndChatCheck(manageNum, ChatCheck.N);
+        for (ChatEntity chat : unreadChats) {
+            chat.setChatCheck(ChatCheck.Y);
+        }
+        // dirty checking으로 save 생략 가능 (JPA flush 시점)
+    }
+
+    
+    @Scheduled(cron = "0 0 3 * * *") // 매일 새벽 3시
+    public void deleteOldChats() {
+        Timestamp threshold = Timestamp.valueOf(LocalDateTime.now().minusDays(30));
+        chatRepository.deleteBySendTimeBefore(threshold);
+    }
+
+
+    
 }
