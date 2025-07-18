@@ -1,4 +1,4 @@
-package com.project.chat.Entity;
+package com.project.chat.entity;
 
 import java.sql.Timestamp;
 
@@ -40,8 +40,7 @@ public class ChatEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "admin_id", nullable=false) // 참조할 테이블의 PK 컬럼명
-    private AdminEntity adminId;
-	//관리자 아이디
+    private AdminEntity adminId; //관리자 아이디
 	
 	@Column(name = "chat_cont", nullable=false)
 	private String chatCont; // 대화 내용
@@ -55,10 +54,6 @@ public class ChatEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "chat_check", length = 1, nullable=false)
 	private ChatCheck chatCheck;  //확인 상태
-	
-	@ManyToOne
-	@JoinColumn(name = "chatRoomId")
-	private ChatRoomEntity chatRoomId;
 
 
 }

@@ -1,68 +1,97 @@
 package com.project.chat.service;
 
-
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.project.admin.AdminEntity;
-import com.project.admin.AdminRepository;
 import com.project.chat.ChatCheck;
-import com.project.chat.Entity.ChatEntity;
-import com.project.chat.Repository.ChatRepository;
-import com.project.chat.dto.ChatRequestDto;
-import com.project.chat.exception.ChatException;
-import com.project.chat.websocket.ChatMessage;
-
-import lombok.RequiredArgsConstructor;
+import com.project.chat.dto.ChatAdminResponseDto;
+import com.project.chat.dto.ChatHistoryRequestDto;
+import com.project.chat.dto.ChatListResponseDto;
+import com.project.chat.dto.ChatMarkReadRequestDto;
+import com.project.chat.entity.ChatEntity;
+import com.project.chat.repository.ChatRepository;
 
 @Service
-@RequiredArgsConstructor
 public class ChatService {
 
     private final ChatRepository chatRepository;
-    private final AdminRepository adminRepository;
 
-    public void saveChat(ChatRequestDto dto) {
-        AdminEntity admin = adminRepository.findFirst()
-                .orElseThrow(() -> new RuntimeException("기본 관리자 없음"));
-
-        ChatEntity entity = new ChatEntity();
-        entity.setMemberNum(1); // 실제 사용자는 로그인 정보 기반으로 설정해야 함
-        entity.setAdminId(admin);
-        entity.setChatCont(dto.getChatCont());
-        entity.setSendTime(new Timestamp(System.currentTimeMillis()));
-        entity.setTakeTime(new Timestamp(System.currentTimeMillis()));
-        entity.setChatCheck(ChatCheck.N);
-
-        chatRepository.save(entity);
+    // 생성자 주입 방식 (스프링 권장)
+    public ChatService(ChatRepository chatRepository) {
+        this.chatRepository = chatRepository;
     }
 
-    public List<ChatEntity> getAllChat() {
-        return chatRepository.findAll();
+    /**
+     * 1) 관리자용 - 회원별 최근 메시지 목록 조회
+     */
+    @Transactional(readOnly = true) // 읽기 전용 트랜잭션 설정
+    public List<ChatListResponseDto> getRecentChatsByAdmin() {
+        // DB에서 회원별 최근 메시지 목록 조회하는 메서드 호출 (쿼리는 Repository에 구현 필요)
+        List<ChatEntity> chatEntities = chatRepository.findLatestChatsGroupedByMember();
+
+        // DTO 리스트 생성
+        List<ChatListResponseDto> dtos = new ArrayList<>();
+
+        // Entity -> DTO 변환 반복문
+        for (ChatEntity entity : chatEntities) {
+            // 각 엔티티를 기반으로 DTO 생성자 호출
+            ChatListResponseDto dto = new ChatListResponseDto(entity);
+
+            // 변환된 DTO 리스트에 추가
+            dtos.add(dto);
+        }
+
+        // 완성된 DTO 리스트 반환
+        return dtos;
     }
 
-    public ChatEntity getChatById(Integer id) {
-        return chatRepository.findById(id)
-                .orElseThrow(() -> new ChatException("해당 ID의 채팅이 존재하지 않습니다. ID: " + id));
+    /**
+     * 2) 관리자용 - 회원 채팅 읽음 상태(Y)로 변경
+     */
+    @Transactional
+    public void markChatsAsRead(ChatMarkReadRequestDto requestDto) {
+        // 요청 DTO에서 관리번호 읽어오기
+        String manageNum = requestDto.getManageNum();
+
+        // DB에서 해당 관리번호에 대해 읽지 않은 채팅(N) 모두 조회
+        List<ChatEntity> unreadChats = chatRepository.findByManageNumAndChatCheck(manageNum, ChatCheck.N);
+
+        // 읽지 않은 채팅 하나씩 읽음(Y) 상태로 변경
+        for (ChatEntity chat : unreadChats) {
+            chat.setChatCheck(ChatCheck.Y);
+
+            // 변경된 엔티티 저장 (DB 업데이트)
+            chatRepository.save(chat);
+        }
     }
-    
-    //웹 소켓에서 들어오는 메시지 저장
-    public ChatEntity saveChatViaSocket(ChatMessage message) {
-        AdminEntity admin = adminRepository.findFirst() // 관리자 entity를 ID로 조회
-                .orElseThrow(() -> new RuntimeException("기본 관리자 없음"));
 
-        ChatEntity entity = new ChatEntity();
-        entity.setMemberNum(1); // 임시, 실제로는 클라이언트/세션 기반 설정 필요
-        entity.setAdminId(admin);
-        entity.setChatCont(message.getContent());
-        entity.setSendTime(new Timestamp(System.currentTimeMillis()));
-        entity.setTakeTime(new Timestamp(System.currentTimeMillis()));
-        entity.setChatCheck(ChatCheck.N);
+    /**
+     * 3) 관리자용 - 특정 회원의 전체 채팅 내역 조회
+     */
+    @Transactional(readOnly = true)
+    public List<ChatAdminResponseDto> getChatHistory(ChatHistoryRequestDto requestDto) {
+        // 요청 DTO에서 관리번호 읽어오기
+        String manageNum = requestDto.getManageNum();
 
-        return chatRepository.save(entity);
+        // DB에서 해당 관리번호의 모든 채팅 내역 시간순 조회
+        List<ChatEntity> chatEntities = chatRepository.findByManageNumOrderBySendTimeAsc(manageNum);
+
+        // 반환용 DTO 리스트 생성
+        List<ChatAdminResponseDto> dtos = new ArrayList<>();
+
+        // Entity -> DTO 변환 반복문
+        for (ChatEntity entity : chatEntities) {
+            // 각 엔티티를 기반으로 DTO 생성자 호출
+            ChatAdminResponseDto dto = new ChatAdminResponseDto(entity);
+
+            // 리스트에 추가
+            dtos.add(dto);
+        }
+
+        // 완성된 리스트 반환
+        return dtos;
     }
-
-
 }

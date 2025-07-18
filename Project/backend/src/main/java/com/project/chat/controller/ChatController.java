@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.chat.Entity.ChatEntity;
-import com.project.chat.dto.ChatRequestDto;
-import com.project.chat.dto.ChatResponseDto;
+import com.project.chat.dto.ChatUserRequestDto;
+import com.project.chat.dto.ChatAdminResponseDto;
+import com.project.chat.entity.ChatEntity;
 import com.project.chat.service.ChatService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,17 +29,17 @@ public class ChatController {
      //	채팅 등록 (사용자 메시지 저장)
    
     @PostMapping
-    public ResponseEntity<String> createChat(@RequestBody ChatRequestDto chatDto) {
+    public ResponseEntity<String> createChat(@RequestBody ChatUserRequestDto chatDto) {
         chatService.saveChat(chatDto); // Service에서 Entity 생성 & 저장
         return ResponseEntity.ok("채팅이 저장되었습니다.");
     }
 
     //	전체 채팅 조회
     @GetMapping
-    public ResponseEntity<List<ChatResponseDto>> getAllChats() {
-        List<ChatResponseDto> chatList = chatService.getAllChat()
+    public ResponseEntity<List<ChatAdminResponseDto>> getAllChats() {
+        List<ChatAdminResponseDto> chatList = chatService.getAllChat()
                 .stream()
-                .map(chat -> new ChatResponseDto(
+                .map(chat -> new ChatAdminResponseDto(
                         chat.getMemberNum(),
                         chat.getManageNum(), // 타입 맞게 수정됨
                         chat.getChatCont(),
@@ -53,10 +53,10 @@ public class ChatController {
     
     // 단일 채팅 조회
     @GetMapping("/{id}")
-    public ResponseEntity<ChatResponseDto> getChatById(@PathVariable Integer id) {
+    public ResponseEntity<ChatAdminResponseDto> getChatById(@PathVariable Integer id) {
         ChatEntity chat = chatService.getChatById(id);
 
-        ChatResponseDto dto = new ChatResponseDto(
+        ChatAdminResponseDto dto = new ChatAdminResponseDto(
                 chat.getMemberNum(),
                 chat.getManageNum(),
                 chat.getChatCont(),

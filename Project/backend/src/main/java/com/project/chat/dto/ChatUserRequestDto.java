@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatRequestDto {
+public class ChatUserRequestDto {
 
 	private String chatCont;
 	
