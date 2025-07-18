@@ -11,7 +11,7 @@ import lombok.Getter;
 public class ChatListResponseDto {
 
     private Integer memberNum;
-    private String manageNum;
+    private Integer manageNum;
     private String lastChatCont;
     private Timestamp lastSendTime;
     private boolean isNew;

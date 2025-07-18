@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class ChatMarkReadRequestDto {
 
-    private String manageNum; // 해당 회원의 관리번호 (채팅 읽음 처리 대상)
+    private Integer manageNum; // 해당 회원의 관리번호 (채팅 읽음 처리 대상)
 }

@@ -36,7 +36,7 @@ public class ChatEntity {
 	private Integer memberNum; //회원번호
 	
 	@Column(name = "manage_num", nullable =false)
-	private String manageNum; //관리번호
+	private Integer manageNum; //관리번호
 	
 	@ManyToOne
     @JoinColumn(name = "admin_id", nullable=false) // 참조할 테이블의 PK 컬럼명

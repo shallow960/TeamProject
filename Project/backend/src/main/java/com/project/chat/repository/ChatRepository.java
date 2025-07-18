@@ -29,12 +29,12 @@ public interface ChatRepository extends JpaRepository<ChatEntity, Integer> {
     /**
      * 2) 특정 관리번호와 채팅 확인 상태(chatCheck)로 조회
      */
-    List<ChatEntity> findByManageNumAndChatCheck(String manageNum, ChatCheck chatCheck);
+    List<ChatEntity> findByManageNumAndChatCheck(Integer manageNum, ChatCheck chatCheck);
 
     /**
      * 3) 특정 관리번호의 모든 채팅 내역을 시간순으로 조회
      */
-    List<ChatEntity> findByManageNumOrderBySendTimeAsc(String manageNum);
+    List<ChatEntity> findByManageNumOrderBySendTimeAsc(Integer manageNum);
     
     /**
      * 4) 특정 회원번호의 모든 채팅 내역을 시간순으로 조회
@@ -44,7 +44,7 @@ public interface ChatRepository extends JpaRepository<ChatEntity, Integer> {
     /**
      * 5) 채팅 저장 최대 30일 제한
      */
-    List<ChatEntity> findByManageNumAndSendTimeAfterOrderBySendTimeAsc(String manageNum, Timestamp afterTime);
+    List<ChatEntity> findByManageNumAndSendTimeAfterOrderBySendTimeAsc(Integer manageNum, Timestamp afterTime);
     
     
     void deleteBySendTimeBefore(Timestamp threshold);

@@ -1,27 +1,29 @@
 package com.project.chat.websocket;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
+import com.project.chat.dto.ChatSocketRequestDto;
 import com.project.chat.service.ChatService;
 
-import lombok.RequiredArgsConstructor;
-
 @Controller
-@RequiredArgsConstructor
 public class ChatSocketController {
 
     private final ChatService chatService;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    // 클라이언트가 "/app/chat/send"로 메시지를 보낼 경우 이 메서드로 전달됨
+    public ChatSocketController(ChatService chatService, SimpMessagingTemplate messagingTemplate) {
+        this.chatService = chatService;
+        this.messagingTemplate = messagingTemplate;
+    }
+
     @MessageMapping("/chat/send")
-    @SendTo("/topic/public") // 메시지를 "/topic/public"을 구독한 모든 클라이언트에게 브로드캐스트
-    public ChatMessage sendMessage(ChatMessage message) {
-        // DB에 저장 (chatService에서 구현 필요)
-        chatService.saveChatViaSocket(message);
+    public void sendMessage(ChatSocketRequestDto message) {
+        // 1. 수신된 메시지를 DB에 저장
+        chatService.saveChatSocket(message);
 
-        // 그대로 브로드캐스트
-        return message;
+        // 2. 해당 사용자에게 메시지 전송 (구독 중인 클라이언트에게)
+        messagingTemplate.convertAndSend("/topic/user/" + message.getManageNum(), message);
     }
 }

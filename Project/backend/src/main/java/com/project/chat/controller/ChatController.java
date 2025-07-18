@@ -35,7 +35,7 @@ public class ChatController {
             @Valid @RequestBody ChatUserRequestDto requestDto       // 사용자 채팅 요청 본문 수신 (JSON → DTO 매핑)
     ) {
         // 임의의 관리 번호 (예: 관리자 ID는 실제 시스템에 따라 구하거나 지정해야 함)
-        String manageNum = "auto-linked-mng"; // 실제로는 사용자 번호에 따라 자동 지정해야 함
+        Integer manageNum = 1; // 실제로는 사용자 번호에 따라 자동 지정해야 함
 
         // 사용자 채팅 저장을 서비스에 요청
         chatService.saveUserChat(memberNum, manageNum, requestDto);
@@ -57,7 +57,7 @@ public class ChatController {
 
     // ✅ 3. 관리자가 특정 회원의 전체 채팅 내역을 조회하는 API
     @GetMapping("/admin/history/{manageNum}")
-    public ResponseEntity<List<ChatAdminResponseDto>> getChatHistory(@PathVariable String manageNum) {
+    public ResponseEntity<List<ChatAdminResponseDto>> getChatHistory(@PathVariable Integer manageNum) {
         
         // 1. DTO 객체 생성
         ChatHistoryRequestDto requestDto = new ChatHistoryRequestDto();
@@ -77,7 +77,7 @@ public class ChatController {
     // ✅ 4. 관리자가 특정 회원의 채팅을 클릭하여 확인 상태로 변경하는 API
     @PutMapping("/admin/mark-read/{manageNum}")
     public ResponseEntity<?> markChatAsRead(
-            @PathVariable String manageNum
+            @PathVariable Integer manageNum
     ) {
         // 서비스에서 확인 상태(chatCheck)를 'Y'로 업데이트 처리
         chatService.markChatAsRead(manageNum);

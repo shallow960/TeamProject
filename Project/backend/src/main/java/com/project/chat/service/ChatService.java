@@ -15,6 +15,7 @@ import com.project.chat.dto.ChatAdminResponseDto;
 import com.project.chat.dto.ChatHistoryRequestDto;
 import com.project.chat.dto.ChatListResponseDto;
 import com.project.chat.dto.ChatMarkReadRequestDto;
+import com.project.chat.dto.ChatSocketRequestDto;
 import com.project.chat.dto.ChatUserRequestDto;
 import com.project.chat.dto.ChatUserResponseDto;
 import com.project.chat.entity.ChatEntity;
@@ -60,7 +61,7 @@ public class ChatService {
     @Transactional
     public void markChatsAsRead(ChatMarkReadRequestDto requestDto) {
         // 요청 DTO에서 관리번호 읽어오기
-        String manageNum = requestDto.getManageNum();
+        Integer manageNum = requestDto.getManageNum();
 
         // DB에서 해당 관리번호에 대해 읽지 않은 채팅(N) 모두 조회
         List<ChatEntity> unreadChats = chatRepository.findByManageNumAndChatCheck(manageNum, ChatCheck.N);
@@ -80,7 +81,7 @@ public class ChatService {
     @Transactional(readOnly = true)
     public List<ChatAdminResponseDto> getChatHistory(ChatHistoryRequestDto requestDto) {
         // 요청 DTO에서 관리번호 읽어오기
-        String manageNum = requestDto.getManageNum();
+        Integer manageNum = requestDto.getManageNum();
 
         // DB에서 해당 관리번호의 모든 채팅 내역 시간순 조회
         List<ChatEntity> chatEntities = chatRepository.findByManageNumOrderBySendTimeAsc(manageNum);
@@ -105,7 +106,7 @@ public class ChatService {
      * 고객이 채팅 메시지를 보낼 때 저장하는 메서드
      */
     @Transactional
-    public ChatEntity saveUserChat(Integer memberNum, String manageNum, ChatUserRequestDto requestDto) {
+    public ChatEntity saveUserChat(Integer memberNum, Integer manageNum, ChatUserRequestDto requestDto) {
         ChatEntity chat = new ChatEntity();
 
         // 회원번호 세팅 (인증 정보 등에서 가져올 수 있음)
@@ -182,15 +183,40 @@ public class ChatService {
     }
     
     @Transactional
-    public void markChatAsRead(String manageNum) {
+    public void markChatAsRead(Integer manageNum) {
         List<ChatEntity> unreadChats = chatRepository.findByManageNumAndChatCheck(manageNum, ChatCheck.N);
         for (ChatEntity chat : unreadChats) {
             chat.setChatCheck(ChatCheck.Y);
         }
         // dirty checking으로 save 생략 가능 (JPA flush 시점)
     }
-
     
+    
+    /* chat socket save message */
+    @Transactional
+    public ChatEntity saveChatSocket(ChatSocketRequestDto dto) {
+        ChatEntity chat = new ChatEntity();
+
+        chat.setManageNum(dto.getManageNum());
+        chat.setChatCont(dto.getChatCont());
+        chat.setSendTime(new Timestamp(System.currentTimeMillis()));
+
+        if ("ADMIN".equalsIgnoreCase(dto.getSenderType())) {
+            chat.setMemberNum(null);
+            chat.setChatCheck(ChatCheck.Y);
+            chat.setAdminId(null);
+            chat.setTakeTime(null);
+        } else {
+            chat.setMemberNum(dto.getManageNum()); // 또는 필요시 다른 값
+            chat.setChatCheck(ChatCheck.N);
+            chat.setAdminId(null);
+            chat.setTakeTime(null);
+        }
+
+        return chatRepository.save(chat);
+    }
+
+
     @Scheduled(cron = "0 0 3 * * *") // 매일 새벽 3시
     public void deleteOldChats() {
         Timestamp threshold = Timestamp.valueOf(LocalDateTime.now().minusDays(30));
