@@ -5,6 +5,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.project.chat.dto.ChatSocketRequestDto;
+import com.project.chat.dto.ChatSocketResponseDto;
+import com.project.chat.entity.ChatEntity;
 import com.project.chat.service.ChatService;
 
 @Controller
@@ -20,10 +22,14 @@ public class ChatSocketController {
 
     @MessageMapping("/chat/send")
     public void sendMessage(ChatSocketRequestDto message) {
-        // 1. 수신된 메시지를 DB에 저장
-        chatService.saveChatSocket(message);
+        // 저장
+        ChatEntity saved = chatService.saveChatSocket(message);
 
-        // 2. 해당 사용자에게 메시지 전송 (구독 중인 클라이언트에게)
-        messagingTemplate.convertAndSend("/topic/user/" + message.getManageNum(), message);
+        // DTO 변환
+        ChatSocketResponseDto response = new ChatSocketResponseDto(saved);
+
+        // 해당 manageNum을 구독 중인 사용자에게 전송
+        messagingTemplate.convertAndSend("/topic/user/" + message.getManageNum(), response);
     }
+
 }

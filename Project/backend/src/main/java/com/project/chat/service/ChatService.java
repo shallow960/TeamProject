@@ -192,7 +192,8 @@ public class ChatService {
     }
     
     
-    /* chat socket save message */
+    /* 소켓 상호 채팅 저장
+     * */
     @Transactional
     public ChatEntity saveChatSocket(ChatSocketRequestDto dto) {
         ChatEntity chat = new ChatEntity();
@@ -209,7 +210,7 @@ public class ChatService {
         } else {
             chat.setMemberNum(dto.getManageNum()); // 또는 필요시 다른 값
             chat.setChatCheck(ChatCheck.N);
-            chat.setAdminId(null);
+            chat.setAdminId(null); // 추후 값 기입 필요
             chat.setTakeTime(null);
         }
 
