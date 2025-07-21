@@ -1,8 +1,11 @@
-package com.project.fund;
+package com.project.fund.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import com.project.fund.entity.FundEntity;
+import com.project.fund.exception.FundException;
 
 import lombok.RequiredArgsConstructor;
 

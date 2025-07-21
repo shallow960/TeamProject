@@ -1,4 +1,4 @@
-package com.project.fund;
+package com.project.fund.exception;
 
 public class FundException extends RuntimeException{
 	
