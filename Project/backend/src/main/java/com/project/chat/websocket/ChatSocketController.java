@@ -4,8 +4,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import com.project.chat.dto.ChatSocketRequestDto;
-import com.project.chat.dto.ChatSocketResponseDto;
+import com.project.chat.dto.request.ChatSocketRequestDto;
+import com.project.chat.dto.response.ChatSocketResponseDto;
 import com.project.chat.entity.ChatEntity;
 import com.project.chat.service.ChatService;
 

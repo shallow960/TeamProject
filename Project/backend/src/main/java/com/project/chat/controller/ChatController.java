@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.chat.dto.ChatAdminRequestDto;
-import com.project.chat.dto.ChatAdminResponseDto;
-import com.project.chat.dto.ChatHistoryRequestDto;
-import com.project.chat.dto.ChatListResponseDto;
-import com.project.chat.dto.ChatUserRequestDto;
+import com.project.chat.dto.request.ChatAdminRequestDto;
+import com.project.chat.dto.request.ChatHistoryRequestDto;
+import com.project.chat.dto.request.ChatUserRequestDto;
+import com.project.chat.dto.response.ChatAdminResponseDto;
+import com.project.chat.dto.response.ChatListResponseDto;
 import com.project.chat.service.ChatService;
 
 import jakarta.validation.Valid;

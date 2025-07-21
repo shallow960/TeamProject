@@ -1,4 +1,4 @@
-package com.project.chat.dto;
+package com.project.chat.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

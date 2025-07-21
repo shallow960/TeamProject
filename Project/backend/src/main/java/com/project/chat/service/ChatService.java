@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.chat.ChatCheck;
-import com.project.chat.dto.ChatAdminRequestDto;
-import com.project.chat.dto.ChatAdminResponseDto;
-import com.project.chat.dto.ChatHistoryRequestDto;
-import com.project.chat.dto.ChatListResponseDto;
-import com.project.chat.dto.ChatMarkReadRequestDto;
-import com.project.chat.dto.ChatSocketRequestDto;
-import com.project.chat.dto.ChatUserRequestDto;
-import com.project.chat.dto.ChatUserResponseDto;
+import com.project.chat.dto.request.ChatAdminRequestDto;
+import com.project.chat.dto.request.ChatHistoryRequestDto;
+import com.project.chat.dto.request.ChatMarkReadRequestDto;
+import com.project.chat.dto.request.ChatSocketRequestDto;
+import com.project.chat.dto.request.ChatUserRequestDto;
+import com.project.chat.dto.response.ChatAdminResponseDto;
+import com.project.chat.dto.response.ChatListResponseDto;
+import com.project.chat.dto.response.ChatUserResponseDto;
 import com.project.chat.entity.ChatEntity;
 import com.project.chat.repository.ChatRepository;
 
@@ -182,6 +182,7 @@ public class ChatService {
         chatRepository.save(chat);
     }
     
+    // 관리자가 확인시 N -> Y 전환
     @Transactional
     public void markChatAsRead(Integer manageNum) {
         List<ChatEntity> unreadChats = chatRepository.findByManageNumAndChatCheck(manageNum, ChatCheck.N);
@@ -217,7 +218,7 @@ public class ChatService {
         return chatRepository.save(chat);
     }
 
-
+    // 매일 새벽3시에 db 내의 30일지난 보관내용 삭제
     @Scheduled(cron = "0 0 3 * * *") // 매일 새벽 3시
     public void deleteOldChats() {
         Timestamp threshold = Timestamp.valueOf(LocalDateTime.now().minusDays(30));

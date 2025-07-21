@@ -1,4 +1,4 @@
-package com.project.chat.dto;
+package com.project.chat.dto.response;
 
 import com.project.chat.entity.ChatEntity;
 
