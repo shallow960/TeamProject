@@ -1,29 +1,57 @@
 package com.project.fund.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.project.fund.dto.request.FundItemRequestDto;
 import com.project.fund.dto.request.FundMoneyRequestDto;
 import com.project.fund.dto.response.FundItemResponseDto;
 import com.project.fund.entity.FundCheck;
 import com.project.fund.entity.FundEntity;
 import com.project.fund.repository.FundRepository;
+import com.project.member.entity.MemberEntity;
+import com.project.member.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
-
 public class FundService {
 
-	private final FundRepository fundRepository;
-	
-	public FundService(FundRepository fundRepository) {
-	    this.fundRepository = fundRepository;
-	}
+    private final FundRepository fundRepository;
+    private final MemberRepository memberRepository;
+
+    public FundService(FundRepository fundRepository, MemberRepository memberRepository) {
+        this.fundRepository = fundRepository;
+        this.memberRepository = memberRepository;
+    }
 	
 	// 후원 물품 신청
+	@Transactional
+	public void saveFundRequest(FundItemRequestDto dto) {
+	    // 1. 회원번호로 MemberEntity 조회
+	    MemberEntity member = memberRepository.findById(dto.getMemberNum())
+	            .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다"));
+
+	    // 2. FundEntity 생성
+	    FundEntity fund = new FundEntity();
+	    fund.setMemberNum(member);
+	    fund.setFundMoney(dto.getFundMoney());
+	    fund.setFundItem(dto.getFundItem());
+	    fund.setFundNote(dto.getFundNote());
+	    fund.setFundBank(dto.getFundBank());
+	    fund.setFundAccountNumber(dto.getFundAccountNumber());
+	    fund.setFundSponsor(dto.getFundSponsor());
+	    fund.setFundDrawalDate(dto.getFundDrawalDate());
+	    fund.setFundCheck(FundCheck.N); // 기본은 미확인 상태
+
+	    fund.setFundTime(new Date(System.currentTimeMillis())); // 현재 시간
+
+	    // 3. 저장
+	    fundRepository.save(fund);
+	}
 
 
 

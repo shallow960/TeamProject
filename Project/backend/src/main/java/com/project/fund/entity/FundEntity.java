@@ -2,7 +2,7 @@ package com.project.fund.entity;
 
 import java.sql.Date;
 
-import com.project.member.MemberEntity;
+import com.project.member.entity.MemberEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +29,7 @@ public class FundEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_num", nullable = false)
-	private MemberEntity member;
+	private MemberEntity memberNum;
 
 	
 	@Column(name = "fund_money")
