@@ -6,9 +6,9 @@ import lombok.Setter;
 //후원금 신청
 @Getter
 @Setter
-public class FundMoneyResponseDto {
+public class FundMoneyRequestDto {
 	
-	private String memberName;
+	private String fundSponsor;
 	private String memberPhone;
 	private String memberBirth;
 	private String fundCheck;

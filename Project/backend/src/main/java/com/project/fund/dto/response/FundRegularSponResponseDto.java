@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class FundRegularSponResponseDto {
 	
-	private String memberName;
+	
 	private String memberPhone;
 	private String memberBirth;
 	private String fundCheck;

@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class FundRegularSponRequestDto {
 
-	private String memberName;
 	private String memberPhone;
 	private String memberBirth;
 	private String fundCheck;

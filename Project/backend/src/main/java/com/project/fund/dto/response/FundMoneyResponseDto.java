@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class FundMoneyResponseDto {
 	
-	private String memberName;
+	private String fundSponsor;
 	private String memberPhone;
 	private String memberBirth;
 	private String fundCheck;
