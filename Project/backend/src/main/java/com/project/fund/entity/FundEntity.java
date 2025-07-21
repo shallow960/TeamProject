@@ -28,8 +28,9 @@ import lombok.ToString;
 public class FundEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_num")  // MemberEntity의 PK를 FK로 참조
-	private MemberEntity memberNum; // 회원번호
+	@JoinColumn(name = "member_num", nullable = false)
+	private MemberEntity member;
+
 	
 	@Column(name = "fund_money")
 	private String fundMoney;	// 후원 금액

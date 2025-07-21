@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.chat.ChatCheck;
-import com.project.fund.dto.request.FundItemRequestDto;
 import com.project.fund.dto.request.FundMoneyRequestDto;
 import com.project.fund.dto.response.FundItemResponseDto;
 import com.project.fund.entity.FundCheck;
@@ -26,26 +24,7 @@ public class FundService {
 	}
 	
 	// 후원 물품 신청
-	@Transactional
-	public void saveItemFund(FundItemRequestDto dto) {
-	    FundEntity entity = new FundEntity();
 
-	    // FundSponsor는 DTO에서 받아오므로 그대로 사용
-	    entity.setFundSponsor(dto.getFundSponsor());
-	    entity.setMemberPhone(dto.getMemberPhone());
-	    entity.setMemberBirth(dto.getMemberBirth());
-
-	    entity.setFundItem(dto.getFundItem());
-	    entity.setFundNote(dto.getFundNote());
-
-	    // fundCheck는 String으로 들어오므로 Enum 변환 처리
-	    entity.setFundCheck("Y".equalsIgnoreCase(dto.getFundCheck()) ? FundCheck.Y : FundCheck.N);
-
-	    // 후원 시간은 현재 시각으로 세팅
-	    entity.setFundTime(new java.sql.Date(System.currentTimeMillis()));
-
-	    fundRepository.save(entity);
-	}
 
 
 	
@@ -73,24 +52,7 @@ public class FundService {
 
 	
 	// 후원금 신청
-	@Transactional
-	public void saveMoneyFund(FundMoneyRequestDto dto) {
-	    FundEntity entity = new FundEntity();
 
-	    entity.setFundSponsor(dto.getFundSponsor());
-	    entity.setMemberPhone(dto.getMemberPhone());
-	    entity.setMemberBirth(dto.getMemberBirth());
-
-	    // fundMoney는 Integer → String 변환 필요 (Entity 기준)
-	    entity.setFundMoney(String.valueOf(dto.getFundMoney()));
-	    entity.setFundNote(dto.getFundNote());
-
-	    entity.setFundCheck("Y".equalsIgnoreCase(dto.getFundCheck()) ? FundCheck.Y : FundCheck.N);
-
-	    entity.setFundTime(new java.sql.Date(System.currentTimeMillis()));
-
-	    fundRepository.save(entity);
-	}
 
 	
 	// 후원금 신청 내역 조회
