@@ -1,117 +1,101 @@
 package com.project.fund.service;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.project.fund.dto.request.FundItemRequestDto;
-import com.project.fund.dto.request.FundMoneyRequestDto;
-import com.project.fund.dto.response.FundItemResponseDto;
-import com.project.fund.entity.FundCheck;
+import com.project.fund.dto.request.FundItemAppRequestDto;
+import com.project.fund.dto.request.FundRegularSponAppRequestDto;
+import com.project.fund.dto.request.FundSponAppRequestDto;
 import com.project.fund.entity.FundEntity;
 import com.project.fund.repository.FundRepository;
-import com.project.member.entity.MemberEntity;
-import com.project.member.repository.MemberRepository;
 
-import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class FundService {
 
-    private final FundRepository fundRepository;
-    private final MemberRepository memberRepository;
-
-    public FundService(FundRepository fundRepository, MemberRepository memberRepository) {
-        this.fundRepository = fundRepository;
-        this.memberRepository = memberRepository;
-    }
+	private final FundRepository fundRepository;
 	
-	// 후원 물품 신청
+	//후원금 신청
 	@Transactional
-	public void saveFundRequest(FundItemRequestDto dto) {
-	    // 1. 회원번호로 MemberEntity 조회
-	    MemberEntity member = memberRepository.findById(dto.getMemberNum())
-	            .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다"));
-
-	    // 2. FundEntity 생성
-	    FundEntity fund = new FundEntity();
-	    fund.setMemberNum(member);
-	    fund.setFundMoney(dto.getFundMoney());
-	    fund.setFundItem(dto.getFundItem());
-	    fund.setFundNote(dto.getFundNote());
-	    fund.setFundBank(dto.getFundBank());
-	    fund.setFundAccountNumber(dto.getFundAccountNumber());
-	    fund.setFundSponsor(dto.getFundSponsor());
-	    fund.setFundDrawalDate(dto.getFundDrawalDate());
-	    fund.setFundCheck(FundCheck.N); // 기본은 미확인 상태
-
-	    fund.setFundTime(new Date(System.currentTimeMillis())); // 현재 시간
-
-	    // 3. 저장
-	    fundRepository.save(fund);
-	}
-
-
-
-	
-	// 후원 물품 신청 내역 조회
-	
-	@Transactional(readOnly = true)
-	public List<FundItemResponseDto> getFundItemBySponsor(String fundSponsor){
-	    List<FundEntity> fundEntities = fundRepository.findByFundSponsorAndFundCheck(fundSponsor, FundCheck.Y);
-
-	    List<FundItemResponseDto> dtos = new ArrayList<>();
-	    
-	    for (FundEntity entity : fundEntities) {
-	        FundItemResponseDto dto = new FundItemResponseDto();
-	        dto.setFundSponsor(entity.getFundSponsor());
-	        dto.setMemberPhone(entity.getMemberPhone());
-	        dto.setMemberBirth(entity.getMemberBirth());
-	        dto.setFundCheck(entity.getFundCheck().name());
-	        dto.setFundItem(entity.getFundItem());
-	        dto.setFundNote(entity.getFundNote());
-
-	        dtos.add(dto);
-	    }
-	    return dtos;
-	}
-
-	
-	// 후원금 신청
-
-
-	
-	// 후원금 신청 내역 조회
-	@Transactional(readOnly = true)
-	public List<FundMoneyRequestDto> getFundMoneyBySponsor(){
-		List<FundEntity> fundEntities = fundRepository.findSponsorAndFundCheck();
+	public void saveSponApp(FundSponAppRequestDto dto) {
+		FundEntity entity = new FundEntity();
 		
-		List<FundMoneyRequestDto> dtos = new ArrayList<>();
+		entity.setMemberNum(dto.getMemberNum());
+		entity.setFundSponsor(dto.getFundSponsor());
+		entity.setFundPhone(dto.getFundPhone());
+		entity.setFundBirth(dto.getFundBirth());
 		
-		for (FundEntity entity : fundEntities) {
-			FundMoneyRequestDto dto = new FundMoneyRequestDto(entity);
-			
-			dtos.add(dto);
-		}
-		return dtos;
+		entity.setFundCheck(dto.getFundCheck());
+		entity.setFundMoney(dto.getFundMoney());
+		entity.setFundNote(dto.getFundNote());
 	}
-	// 후원 확인 상태 (Y)로 변경
+	//후원물품 신청
 	@Transactional
-    public void markFundsAsRead(FundMarkReadRequestDto requestDto) {
-        // 요청 DTO에서 관리번호 읽어오기
-        String fundSponsor = requestDto.getFundSponsor();
-
-        // DB에서 해당 관리번호에 대해 읽지 않은 채팅(N) 모두 조회
-        List<FundEntity> unreadFunds = fundRepository.findByfundSponsorAndFundCheck(fundSponsor,FundCheck.N);
-
-        // 읽지 않은 채팅 하나씩 읽음(Y) 상태로 변경
-        for (FundEntity fund : unreadFunds) {
-            fund.setFundCheck(FundCheck.Y);
-
-            // 변경된 엔티티 저장 (DB 업데이트)
-            fundRepository.save(fund);
-        }
-    }
+	public void saveItemApp(FundItemAppRequestDto dto) {
+		FundEntity entity = new FundEntity();
+		
+		entity.setMemberNum(dto.getMemberNum());
+		entity.setFundSponsor(dto.getFundSponsor());
+		entity.setFundPhone(dto.getFundPhone());
+		entity.setFundBirth(dto.getFundBirth());
+		
+		entity.setFundCheck(dto.getFundCheck());
+		entity.setFundItem(dto.getFundItem());
+		entity.setFundNote(dto.getFundNote());
+	}
+	
+	//정기 후원 신청
+	@Transactional
+	public void saveRegularSponApp(FundRegularSponAppRequestDto dto) {
+		FundEntity entity = new FundEntity();
+		
+		entity.setMemberNum(dto.getMemberNum());
+		entity.setFundSponsor(dto.getFundSponsor());
+		entity.setFundPhone(dto.getFundPhone());
+		entity.setFundBirth(dto.getFundBirth());
+		
+		entity.setFundCheck(dto.getFundCheck());
+		entity.setFundMoney(dto.getFundMoney());
+		entity.setFundBank(dto.getFundBank());
+		entity.setFundAccountNum(dto.getFundAccountNum());
+		
+		entity.setFundDepositor(dto.getFundDepositor());
+		entity.setFundDrawalDate(dto.getFundDrawalDate());
+		
+		
+	}
+	
+	//회원 후원 내역 조회
+	@Transactional(readOnly = true)
+	public List<FundEntity> getFundListByMember(String memberId, String fundPhone){
+		return fundRepository.findByMemberNum_MemberIdAndFundPhone(memberId, fundPhone);
+	}
+	
+	//비회원 후원 내역 조회
+	@Transactional(readOnly = true)
+	public List<FundEntity> getFundListByGuest(String fundSponsor, String fundPhone){
+		return fundRepository.findByFundSponsorAndFundPhone(fundSponsor, fundPhone);
+	}
+	
+	//회원(개별) 총 후원금 계산
+	@Transactional(readOnly = true)
+	public Integer getTotalFundMoneyByMember(String memberId) {
+		List<FundEntity> fundList = fundRepository.findByMemberNum_MemberIdAndFundPhone(memberId, null);
+				return fundList.stream()
+						.mapToInt(spon -> spon.getFundMoney() != null ? spon.getFundMoney() : 0)
+						.sum();
+		
+	}
+	//전체 총 후원금 계산
+	@Transactional(readOnly = true)
+	public Integer getTotalFundMoneyAll() {
+		return fundRepository.findAll().stream()
+				.mapToInt(spon -> spon.getFundMoney() != null ? spon.getFundMoney() : 0)
+				.sum();
+	}
+	
 }

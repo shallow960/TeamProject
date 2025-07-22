@@ -57,19 +57,3 @@ public class ChatEntity {
 
 
 }
-//
-//CREATE TABLE admin (
-//	    admin_id VARCHAR(100) PRIMARY KEY,
-//	    -- 기타 관리자 정보
-//	);
-//
-//	CREATE TABLE chat (
-//	    member_num INT AUTO_INCREMENT PRIMARY KEY,
-//	    manage_num INT,
-//	    admin_id VARCHAR(255),
-//	    chat_cont TEXT,
-//	    send_time DATETIME,
-//	    take_time DATETIME,
-//	    chat_check ENUM('Y','N'),
-//
-//	);
