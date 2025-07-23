@@ -16,5 +16,4 @@ public interface FundRepository extends JpaRepository<FundEntity, Integer>{
 
 
 	
-	
 }
