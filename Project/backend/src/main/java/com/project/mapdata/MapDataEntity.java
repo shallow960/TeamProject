@@ -44,13 +44,3 @@ public class MapDataEntity {
 //	private Integer current_loc;  //현위치 , 카카오 api 지정 후 변경 확인 사항
 	
 }
-
-//CREATE TABLE map_data (
-//mapdata_num INT AUTO_INCREMENT PRIMARY KEY,
-//place_name VARCHAR(255),
-//address VARCHAR(255),
-//latitude DOUBLE,
-//longitude DOUBLE,
-//explaination TEXT,
-//
-//);
