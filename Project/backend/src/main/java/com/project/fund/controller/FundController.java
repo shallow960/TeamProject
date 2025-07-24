@@ -27,35 +27,35 @@ public class FundController {
 	private final FundService fundService;
 	
 	//사용자가 (후원금 신청) 후원하기 버튼을 눌렀을 때
-	@PostMapping("/")
+	@PostMapping("/sponsor")
 	public ResponseEntity<?> saveFundSponApp(@RequestBody FundSponAppRequestDto dto){
 		fundService.saveSponApp(dto);
 		return ResponseEntity.ok("후원 완료");
 	}
 	
 	//사용자가 (후원물품 신청) 후원하기 버튼 눌렀을 때
-	@PostMapping("/")
+	@PostMapping("/item")
 	public ResponseEntity<?> saveFundItemApp(@RequestBody FundItemAppRequestDto dto){
 		fundService.saveItemApp(dto);
 		return ResponseEntity.ok("후원 완료");
 	}
 	
 	//사용자가 (정기후원 신청) 후원하기 버튼 눌렀을 때
-	@PostMapping("/")
+	@PostMapping("/regular")
 	public ResponseEntity<?> saveRegularSponApp(@RequestBody FundRegularSponAppRequestDto dto){
 		fundService.saveRegularSponApp(dto);
 		return ResponseEntity.ok("후원 완료");
 	}
 	
 	//회원 (후원금 신청) 후원하기 버튼 클릭 후 내역 조회
-	@PostMapping("/")
+	@PostMapping("/sponsor/list")
 	public ResponseEntity<?> getFundSponApp(@RequestBody FundSponAppResponseDto dto){
 		List<FundEntity> result = fundService.getFundListByGuest(dto.getFundSponsor(), dto.getFundPhone());
 		return ResponseEntity.ok(result);
 	}
 	
 	//사용자가 (후원물품 신청) 후원하기 버튼 클릭 후 내역 조회
-	@PostMapping("/")
+	@PostMapping("/item/list")
 	public ResponseEntity<?> getFundItemApp(@RequestBody FundItemAppResponseDto dto){
 		List<FundEntity> result = fundService.getFundListByGuest(dto.getFundSponsor(),dto.getFundPhone());
 		return ResponseEntity.ok(result);
@@ -64,7 +64,7 @@ public class FundController {
 	}
 	
 	//사용자가 (정기 후원) 후원하기 버튼 클릭 후 내역 조회
-	@PostMapping("/")
+	@PostMapping("/regular/list")
 	public ResponseEntity<?> getFundRegularSponApp(@RequestBody FundRegularSponAppResponseDto dto){
 		List<FundEntity> result = fundService.getFundListByGuest(dto.getFundSponsor(),dto.getFundPhone());
 		return ResponseEntity.ok(result);
