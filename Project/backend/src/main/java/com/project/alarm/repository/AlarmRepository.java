@@ -7,14 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.project.alarm.entity.AlarmCheck;
 import com.project.alarm.entity.AlarmEntity;
 
-public interface AlarmRepository extends JpaRepository<AlarmEntity, Integer>{
-	
-	//알림 확인
-	List<AlarmEntity> findByMemberNum(Integer memberNum);
+public interface AlarmRepository extends JpaRepository<AlarmEntity, Long> {
 
-	//알림 상태 조회
-	List<AlarmEntity> findByMemberNumAndAlarmCheck(Integer memberNum, AlarmCheck alarmCheck);
-	
-	//알림 삭제
-	List<AlarmEntity> deleteByAlarmId(Integer alarmId);
+    // 회원번호로 알림 전체 조회
+    List<AlarmEntity> findByMemberNum_MemberNum(Long memberNum);
+
+    // 회원번호 + 안읽은 알림만 조회
+    List<AlarmEntity> findByMemberNum_MemberNumAndAlarmCheck(Long memberNum, AlarmCheck alarmCheck);
+    
+    // 알림 삭제
+    List<AlarmEntity> deleteByAlarmId(Long alarmId);
 }

@@ -49,14 +49,16 @@ public class AlarmEntity {
 	@Column(name = "alarm_url", length = 255)
     private String alarmURL; //알림 내용 눌렀을때 링크
 	
+	@Column(name = "alarm_time")
+	private Timestamp alarmTime; //알림 시간
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "alarm_check")
 	private AlarmCheck alarmCheck = AlarmCheck.N; //알림 봤을때 확인
 	
-	@Column(name = "alarm_time")
-	private Timestamp alarmTime; //알림 시간
-	
-	
+	public void setAlarmCheck(AlarmCheck check) {
+	    this.alarmCheck = check;
+	}
 //	//기본값이 읽지 않음이라 flase 설정
 //	@Column(name = "is_read",nullable=false)
 //    private Boolean isRead = false; //읽음 안읽음
