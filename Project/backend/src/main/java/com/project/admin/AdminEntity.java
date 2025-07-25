@@ -2,16 +2,10 @@ package com.project.admin;
 
 import java.time.LocalDateTime;
 
-<<<<<<< HEAD
-import com.project.member.MemberEntity;//회원정보를 담은 엔티티
-=======
 import com.project.member.entity.MemberEntity;
->>>>>>> refs/heads/main
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
