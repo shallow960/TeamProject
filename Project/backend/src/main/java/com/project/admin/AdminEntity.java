@@ -26,8 +26,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "Admin")
-@Getter
-@Setter
 public class AdminEntity {
 	
 	//기본
