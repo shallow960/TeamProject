@@ -22,4 +22,5 @@ public class AnimalRequestDto {
 	private String animalContent;
 	private LocalDate adoptDate;
 	
+	
 }

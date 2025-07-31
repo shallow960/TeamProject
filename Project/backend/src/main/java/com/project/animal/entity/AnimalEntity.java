@@ -49,4 +49,6 @@ public class AnimalEntity {
 	@Column(name = "adopt_date")
 	private LocalDate adoptDate; // 입양날짜
 	
+	
 }
+

@@ -56,7 +56,7 @@ public class AdoptEntity {
     @Column(name = "adopt_title")	// 제목
     private String adoptTitle;
     
-    @Column(name = "adopt_content") // 상세내용
+    @Column(name = "adopt_content") // 상담내용
     private String adoptContent;
     
     
