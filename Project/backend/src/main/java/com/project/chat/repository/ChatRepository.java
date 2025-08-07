@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.project.chat.ChatCheck;
+import com.project.chat.entity.ChatCheck;
 import com.project.chat.entity.ChatEntity;
 
 public interface ChatRepository extends JpaRepository<ChatEntity, Integer> {

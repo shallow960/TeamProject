@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://db:3306/mydb
+    username: user
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+

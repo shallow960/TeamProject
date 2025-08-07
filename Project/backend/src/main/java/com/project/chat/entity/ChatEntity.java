@@ -3,7 +3,6 @@ package com.project.chat.entity;
 import java.sql.Timestamp;
 
 import com.project.admin.AdminEntity;
-import com.project.chat.ChatCheck;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

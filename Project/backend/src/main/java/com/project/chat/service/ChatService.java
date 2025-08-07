@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.chat.ChatCheck;
 import com.project.chat.dto.request.ChatAdminRequestDto;
 import com.project.chat.dto.request.ChatHistoryRequestDto;
 import com.project.chat.dto.request.ChatMarkReadRequestDto;
@@ -18,6 +17,7 @@ import com.project.chat.dto.request.ChatUserRequestDto;
 import com.project.chat.dto.response.ChatAdminResponseDto;
 import com.project.chat.dto.response.ChatListResponseDto;
 import com.project.chat.dto.response.ChatUserResponseDto;
+import com.project.chat.entity.ChatCheck;
 import com.project.chat.entity.ChatEntity;
 import com.project.chat.repository.ChatRepository;
 

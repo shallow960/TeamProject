@@ -2,7 +2,7 @@ package com.project.chat.dto.response;
 
 import java.sql.Timestamp;
 
-import com.project.chat.ChatCheck;
+import com.project.chat.entity.ChatCheck;
 import com.project.chat.entity.ChatEntity;
 
 import lombok.Getter;
