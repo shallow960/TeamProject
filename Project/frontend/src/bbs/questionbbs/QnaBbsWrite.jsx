@@ -20,7 +20,7 @@ function QnaBbsWrite() {
 
     const formData = new FormData();
     formData.append("bbsDto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
-    formData.append("type", "QNA");
+    formData.append("type", "FAQ");
     formData.append("memberNum", memberNum);
 
     try {

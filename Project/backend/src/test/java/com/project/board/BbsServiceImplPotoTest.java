@@ -61,7 +61,7 @@ class BbsServiceImplPotoTest {
     @Autowired
     private FileUpLoadRepository fileUpLoadRepository;
 
-   /* @Test
+    @Test
     @DisplayName("POTO 게시판 게시글 작성 + 대표 이미지 + 첨부파일 저장 테스트")
     void testCreatePotoBoardWithImage() throws Exception {
         // 1. 테스트용 회원 저장
@@ -74,9 +74,8 @@ class BbsServiceImplPotoTest {
                 .memberDay(LocalDate.now())
                 .memberLock(false)
                 .memberPhone("010-3333-4444")
-                .memberSex(MemberSex.Woman)
+                .memberSex(MemberSex.WOMAN)
                 .memberState(MemberState.ACTIVE)
-                .snsYn(true)
                 .build();
         member = memberRepository.save(member);
 
@@ -131,7 +130,7 @@ class BbsServiceImplPotoTest {
         }
     }
 
-*/
+
 
 
   /*  @Test
@@ -259,7 +258,7 @@ class BbsServiceImplPotoTest {
     } */
 
     
-    @Test
+ /*   @Test
     @DisplayName("POTO 게시판 게시글 작성 + 대표 이미지 + 첨부파일 저장 테스트")
     void testCreatePotoBoardWithImage() throws Exception {
         // 1. 존재하는 회원 번호 사용
@@ -313,6 +312,6 @@ class BbsServiceImplPotoTest {
             Assertions.assertEquals(3, attachments.size(), "첨부파일은 총 3개 저장되어야 합니다.");
         }
     }
-
+*/
 
 }

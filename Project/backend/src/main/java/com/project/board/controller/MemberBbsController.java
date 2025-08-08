@@ -90,7 +90,7 @@ public class MemberBbsController {
     
     @GetMapping("/bbslist")
     public ResponseEntity<Page<BbsDto>> getBbsList(
-            @RequestParam(required = false) String searchType,
+    		@RequestParam(required = false, defaultValue = "title") String searchType,
             @RequestParam(required = false) String bbstitle,
             @RequestParam(required = false) String bbscontent,
             @RequestParam(required = false) BoardType type,
