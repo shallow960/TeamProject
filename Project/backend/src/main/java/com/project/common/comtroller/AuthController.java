@@ -1,4 +1,4 @@
-package com.project.common.controller;
+package com.project.common.comtroller;
 
 import java.time.LocalDateTime;
 import java.util.Map;
