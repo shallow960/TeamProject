@@ -36,5 +36,6 @@ public interface AdminService {
     
     //관리자 비밀번호 변경
     void updatePassword(String adminId, AdminPasswordUpdateRequestDto dto);
+
 	
 }
