@@ -24,8 +24,24 @@ const routes = {
     root: { path: "/land", label: "동물 놀이터" },
     info: { path: "/land/info", label: "놀이터 소개" },
     gallery: { path: "/land/gallery", label: "놀이터 둘러보기" },
-    reserve: { path: "/land/reserve", label: "예약하기" }, // USER 전용
   },
+
+  //예약
+reserve: {
+  root:   { path: "/reserve", label: "예약하기" },
+  land: {
+    date:    { path: "/reserve/land/date",    label: "날짜/시간 선택" }, 
+    form:    { path: "/reserve/land/form",    label: "놀이터 예약" },
+    confirm: { path: "/reserve/land/confirm", label: "예약 확인" },
+    success: { path: "/reserve/land/success", label: "예약 완료" },
+  },
+  volunteer: {
+    date:    { path: "/reserve/volunteer/date",    label: "날짜/시간 선택" },
+    form:    { path: "/reserve/volunteer/form",    label: "봉사 신청" },
+    confirm: { path: "/reserve/volunteer/confirm", label: "신청 확인" },
+    success: { path: "/reserve/volunteer/success", label: "신청 완료" },
+  },
+},
 
   // 게시판
   board: {
@@ -54,9 +70,10 @@ const routes = {
   },
 
   // 예약
-  reservation: {
+  resere: {
     list: { path: "/reservation/list", label: "예약 목록" },
     create: { path: "/reservation/create", label: "예약 생성" },
+    landreserve: { path: "/reserve/land/date", label: "놀이터예약"},
     detail: (id) => `/reservation/${id}`,
   },
 

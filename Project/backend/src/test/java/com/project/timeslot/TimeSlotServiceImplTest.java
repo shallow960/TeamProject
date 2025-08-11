@@ -46,17 +46,17 @@ class TimeSlotServiceImplTest {
     void addTimeSlot_성공() {
     	
     	TimeSlotDto dto = TimeSlotDto.builder()
-                .startTime(LocalTime.of(12, 0))
-                .endTime(LocalTime.of(14, 0))
+                .startTime(LocalTime.of(9, 0))
+                .endTime(LocalTime.of(11, 0))
                 .enabled(true)
-                .capacity(12) // ✅ 정원 설정
+                .capacity(10) // ✅ 정원 설정
                 .build();
         // when
     	timeSlotService.addTimeSlot(dto);
 
         // then
         TimeSlot saved = timeSlotRepository.findAll().stream()
-                .filter(ts -> ts.getLabel().equals("12:00 ~ 14:00"))
+                .filter(ts -> ts.getLabel().equals("09:00 ~ 11:00"))
                 .findFirst()
                 .orElseThrow();
         
