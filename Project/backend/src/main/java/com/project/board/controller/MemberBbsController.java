@@ -20,7 +20,7 @@ public class MemberBbsController {
 
     @Autowired
     private BbsService bbsService;
-    
+    //나중에 지울꺼야
     @PostMapping("/bbslist/bbsadd")
     public ResponseEntity<BbsDto> createBbs(
             @RequestParam Long memberNum,
