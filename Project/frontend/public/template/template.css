@@ -332,12 +332,9 @@ a.tel:focus{outline:2px solid rgba(36, 107, 235, 0.8);outline-offset:-1px;}
 .em_m_blue, .em_m_red, .em_m_yellow, .em_m_green, .em_m_black{font-weight:500;}
 .em_b_blue, .em_b_red, .em_b_yellow, .em_b_green, .em_b_black{font-weight:600;}
 .em_s_blue, .em_s_red, .em_s_yellow, .em_s_green, .em_s_black{font-weight:700;}
-
-.form_winning{display:inline-block;position:relative;box-sizing:border-box;padding-left:26px;font-size:16px;line-height:20px;color:red;}.form_winning:before{display:block;position:absolute;top:0;left:0;width:20px;height:20px;background-image:url('/template/images/ico_check_message2.svg');content:'';}
 /* --------- 강조(컬러) 끝 --------- */
 /* --------- 목록 시작 ---------*/
 /* 단일 목록 */
-
 .blt{display:block;position:relative;padding-left:13px;font-size:18px;color:#555;line-height:26px;letter-spacing:-0.02em;font-weight:400;font-family:'PretendardGOV';word-break:keep-all;box-sizing:border-box;}
 .blt:before{display:block;position:absolute;top:10px;left:0;width:4px;height:4px;border-radius:100%;background-color:#555;content:'';}
 .blt2{display:block;position:relative;padding-left:13px;font-size:17px;color:#555;line-height:26px;letter-spacing:-0.02em;font-weight:400;font-family:'PretendardGOV';box-sizing:border-box;}
@@ -2879,7 +2876,7 @@ ol + ol{margin-top:22px !important;}
 .tl.type3 > li:before{display:block;position:absolute;top:10px;left:0;width:4px;height:4px;border-radius:100%;background-color:#555;content:'';}
 .tl.type3 > li + li{margin-top:4px;}
 .tl.type3 > li .lt{display:inline-block;font-size:18px;color:#555;line-height:26px;letter-spacing:-0.02em;font-weight:600;font-family:'PretendardGOV';word-break:keep-all;vertical-align:top;box-sizing:border-box;}
-.tl.type3 > li .ld{display:block;font-size:18px;color:#555;line-height:26px;letter-spacing:-0.02em;font-weight:400;font-family:'PretendardGOV';word-break:keep-all;box-sizing:border-box;}
+.tl.type3 > li .ld{display:block;font-size:18px;color:#555;line-height:26px;letter-spacing:-0.02em;font-weight:400;font-family:'PretendardGOV';word-break:keep-all;vertical-align:top;box-sizing:border-box;}
 .tl.type3 > li > .num{display:block;position:relative;margin-top:9px;margin-bottom:11px;box-sizing:border-box;}
 .tl.type3 > li > .num > li{display:block;position:relative;padding-left:19px;font-size:17px;color:#555;line-height:26px;letter-spacing:-0.02em;font-weight:400;font-family:'PretendardGOV';box-sizing:border-box;}
 .tl.type3 > li > .num > li:before{display:none;}
@@ -4190,16 +4187,3 @@ span.temp_form{display:inline-block;width:auto;}
     .con_popup_box .popup_box .popup_item .item_inner .pop_close_btn{top:20px;right:20px;width:24px;height:24px;}
 }
 /* --------팝업 끝 ------ */
-
-/* form 관련 레이아웃 */
-.form_flex{display:flex;align-items:center;gap:16px;}
-
-.form_top_box{position:relative;box-sizing:border-box;text-align:center;}
-.form_top_box .form_top_item{position:relative;width:615px;margin:0 auto;;box-sizing:border-box;text-align:center;}
-.form_top_box .form_top_item .form_icon{display:block;position:relative;width:86px;height:86px;margin:0 auto;border-radius:100%;background-color:#4a71ed;}
-.form_top_box .form_top_item .form_icon:before{display:block;position:absolute;top:19px;left:26px;width:34px;height:42px;;background-repeat:no-repeat;background-position:0 0;content:'';}
-.form_top_box .form_top_item .form_title{margin-top:28px;color:#4a71ed;font-size:50px;font-weight:600;line-height:50px;letter-spacing:-0.02em;}
-.form_top_box .form_top_item .form_desc{margin-top:20px;margin-bottom:40px;text-align:center;}
-.form_top_box .form_top_item .form_desc p{text-align:center;font-family:'NotoKr';color:#333;font-size:18px;font-weight:400;line-height:30px;letter-spacing:-0.02em;}
-
-.form_wrap{display:block;position:relative;padding:30px;border-radius:30px;box-sizing:border-box;background-color:#fff;box-shadow:0 0 30px 0px rgba(238,238,238,0.3);}
