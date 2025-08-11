@@ -33,6 +33,10 @@ public class TimeSlot {
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;  // 이용가능여부 기본값 true
     
+    @Enumerated(EnumType.STRING)
+    @Column(name = "time_type", nullable = false)
+    private TimeType timeType;
+    
     //label 자동생성
     @PrePersist
     @PreUpdate

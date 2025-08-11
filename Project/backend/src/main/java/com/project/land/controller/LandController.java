@@ -19,7 +19,8 @@ import lombok.RequiredArgsConstructor;
 public class LandController {
 
     private final LandService landService;
-
+    
+    
     // 사용자용 - 시간대 전체 조회 + 예약 마리수 포함
     @GetMapping("/time-slots")
     public ResponseEntity<List<LandCountDto>> getLandTimeSlotsWithCount(

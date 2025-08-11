@@ -1,6 +1,7 @@
 package com.project.timeslot;
 
 import com.project.common.entity.TimeSlot;
+import com.project.common.entity.TimeType;
 import com.project.common.repository.TimeSlotRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import jakarta.transaction.Transactional;
-
 import java.time.LocalTime;
 import java.util.List;
 
@@ -24,27 +24,27 @@ class TimeSlotRepositoryTest {
     @Autowired
     private TimeSlotRepository timeSlotRepository;
 
-    //@Test
+    @Test
     @DisplayName("label 중복 확인 - 존재하는 경우 true 반환")
     void existsByLabel_존재함() {
         // given
-        String label = "09:00 ~ 11:00";
         TimeSlot timeSlot = TimeSlot.builder()
-                .label(label)
                 .startTime(LocalTime.of(9, 0))
                 .endTime(LocalTime.of(11, 0))
+                .capacity(10)
                 .enabled(true)
+                .timeType(TimeType.LAND) // 필수
                 .build();
         timeSlotRepository.save(timeSlot);
 
         // when
-        boolean exists = timeSlotRepository.existsByLabel(label);
+        boolean exists = timeSlotRepository.existsByLabel(timeSlot.getLabel());
 
         // then
         assertThat(exists).isTrue();
     }
 
-    //@Test
+    @Test
     @DisplayName("label 중복 확인 - 존재하지 않으면 false 반환")
     void existsByLabel_존재하지않음() {
         // given
@@ -58,26 +58,31 @@ class TimeSlotRepositoryTest {
     }
 
     @Test
-    @DisplayName("startTime 기준 오름차순 정렬 확인")
-    void findAllByOrderByStartTimeAsc_정렬확인() {
+    @DisplayName("timeType과 enabled=true 기준, startTime 오름차순 정렬 확인")
+    void findByTimeTypeAndEnabledTrueOrderByStartTimeAsc_정렬확인() {
         // given
         TimeSlot slot1 = TimeSlot.builder()
-                .label("15:00 ~ 17:00")
                 .startTime(LocalTime.of(15, 0))
                 .endTime(LocalTime.of(17, 0))
+                .capacity(10)
                 .enabled(true)
+                .timeType(TimeType.LAND)
                 .build();
 
         TimeSlot slot2 = TimeSlot.builder()
-                .label("08:00 ~ 10:00")
                 .startTime(LocalTime.of(8, 0))
                 .endTime(LocalTime.of(10, 0))
+                .capacity(10)
+                .enabled(true)
+                .timeType(TimeType.LAND)
                 .build();
 
         TimeSlot slot3 = TimeSlot.builder()
-                .label("12:00 ~ 14:00")
                 .startTime(LocalTime.of(12, 0))
                 .endTime(LocalTime.of(14, 0))
+                .capacity(10)
+                .enabled(true)
+                .timeType(TimeType.LAND)
                 .build();
 
         timeSlotRepository.save(slot1);
@@ -85,7 +90,8 @@ class TimeSlotRepositoryTest {
         timeSlotRepository.save(slot3);
 
         // when
-        List<TimeSlot> sortedList = timeSlotRepository.findAllByOrderByStartTimeAsc();
+        List<TimeSlot> sortedList =
+                timeSlotRepository.findByTimeTypeAndEnabledTrueOrderByStartTimeAsc(TimeType.LAND);
 
         // then
         assertThat(sortedList).isNotEmpty();

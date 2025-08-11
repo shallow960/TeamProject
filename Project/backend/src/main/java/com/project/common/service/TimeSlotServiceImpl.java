@@ -2,6 +2,7 @@ package com.project.common.service;
 
 import com.project.common.dto.TimeSlotDto;
 import com.project.common.entity.TimeSlot;
+import com.project.common.entity.TimeType;
 import com.project.common.repository.TimeSlotRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -32,22 +33,15 @@ public class TimeSlotServiceImpl implements TimeSlotService {
         }
     }
     
-    // 놀이터용 시간대 불러오기
+    // 타입별 시간대 조회
     @Override
-    public List<TimeSlotDto> getLandTimeSlots() {
-        return timeSlotRepository.findUsedInLand().stream()
-                .sorted(Comparator.comparing(TimeSlot::getStartTime))
+    @Transactional(readOnly = true)
+    public List<TimeSlotDto> getTimeSlotsByType(TimeType timeType) {
+        return timeSlotRepository
+                .findByTimeTypeAndEnabledTrueOrderByStartTimeAsc(timeType)
+                .stream()
                 .map(TimeSlotDto::fromEntity)
-                .collect(Collectors.toList());
-    }
-    
-    // 봉사용 시간대 불러오기
-    @Override
-    public List<TimeSlotDto> getVolunteerTimeSlots() {
-        return timeSlotRepository.findUsedInVolunteer().stream()
-                .sorted(Comparator.comparing(TimeSlot::getStartTime))
-                .map(TimeSlotDto::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
     }
     
     // 시간대 추가

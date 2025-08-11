@@ -1,6 +1,8 @@
 package com.project.common.dto;
 
 import com.project.common.entity.TimeSlot;
+import com.project.common.entity.TimeType;
+
 import lombok.*;
 
 import java.time.LocalTime;
@@ -19,6 +21,7 @@ public class TimeSlotDto {
     private LocalTime endTime;
     private int capacity;
     private boolean enabled;
+    private TimeType timeType;
 
     // 출력용 시간 범위 포맷
     public String getDisplayTimeRange() {
@@ -35,6 +38,7 @@ public class TimeSlotDto {
                 .endTime(entity.getEndTime())
                 .enabled(entity.isEnabled())
                 .capacity(entity.getCapacity())
+                .timeType(entity.getTimeType())   
                 .build();
     }
 
@@ -45,6 +49,7 @@ public class TimeSlotDto {
                 .startTime(startTime)
                 .endTime(endTime)
                 .capacity(capacity)
+                .timeType(timeType)        
                 .enabled(enabled)
                 .build();
     }

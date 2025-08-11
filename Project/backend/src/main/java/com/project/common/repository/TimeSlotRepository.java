@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
+import com.project.common.entity.TimeType; 
 import com.project.common.entity.TimeSlot;
 
 @Repository
@@ -16,12 +16,6 @@ public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
     boolean existsByLabel(String label);
 
     // 시간순 정렬 (startTime 기준 추천)
-    List<TimeSlot> findAllByOrderByStartTimeAsc();
-    
-    @Query("SELECT DISTINCT t FROM TimeSlot t WHERE EXISTS (SELECT l FROM Land l WHERE l.timeSlot = t)")
-    List<TimeSlot> findUsedInLand();
-
-    @Query("SELECT DISTINCT t FROM TimeSlot t WHERE EXISTS (SELECT v FROM Volunteer v WHERE v.timeSlot = t)")
-    List<TimeSlot> findUsedInVolunteer();
+    List<TimeSlot> findByTimeTypeAndEnabledTrueOrderByStartTimeAsc(TimeType timeType);
     
 }

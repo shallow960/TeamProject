@@ -9,11 +9,13 @@ import com.project.reserve.entity.Reserve;
 import com.project.reserve.repository.ReserveRepository;
 import com.project.member.entity.MemberEntity;
 import com.project.common.entity.TimeSlot;
+import com.project.common.entity.TimeType;
 import com.project.common.repository.TimeSlotRepository;
 
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,7 +70,7 @@ public class VolunteerServiceImpl implements VolunteerService {
         volunteerRepository.save(volunteer);
     }
     
-    //시간대에 봉사 인원 체크
+    // 관리자용 - 단일 시간대에 봉사 인원 체크
     @Override
     @Transactional(readOnly = true)
     public VolunteerCountDto getVolunteerCountInfo(LocalDate volDate, Long timeSlotId) {
@@ -87,5 +89,29 @@ public class VolunteerServiceImpl implements VolunteerService {
                 .reservedCount(count != null ? count : 0)
                 .capacity(timeSlot.getCapacity())  // 예: 봉사 정원
                 .build();
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<VolunteerCountDto> getVolunteerTimeSlotsWithCount(LocalDate volDate, Long memberNum) {
+
+        // 1) 봉사 타입(VOL) 활성 슬롯만 정렬 조회
+        List<TimeSlot> timeSlots =
+            timeSlotRepository.findByTimeTypeAndEnabledTrueOrderByStartTimeAsc(TimeType.VOL);
+
+        // 2) 슬롯별 예약 인원 집계 후 DTO 매핑
+        return timeSlots.stream()
+                .map(slot -> {
+                    Integer reserved = volunteerRepository.countByDateAndTimeSlot(volDate, slot); // ✅ 아래 리포지토리 메서드 참고
+                    int reservedCount = reserved != null ? reserved : 0;
+
+                    return VolunteerCountDto.builder()
+                            .timeSlotId(slot.getId())
+                            .label(slot.getLabel())
+                            .reservedCount(reservedCount)
+                            .capacity(slot.getCapacity())
+                            .build();
+                })
+                .toList();
     }
 }
