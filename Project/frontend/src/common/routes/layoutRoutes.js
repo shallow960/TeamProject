@@ -7,6 +7,9 @@ import routes from "./router";
 import LoginPage from "../../program/login/pages/LoginPage";
 import LogoutLink from "../../program/login/pages/LogoutLink";
 
+// 관리자 - 시간관리 페이지
+import TimeSlotManagePage from "../../program/admin/pages/TimeSlotManagePage";
+
 // ✅ Land 예약 플로우 페이지
 import LandReserveDatePage from "../../program/reserve/land/pages/LandReserveDatePage";
 import LandReserveFormPage from "../../program/reserve/land/pages/LandReserveFormPage";
@@ -35,6 +38,9 @@ const layoutRoutes = [
   <Route key="reserve-volunteer-form" path={routes.reserve.volunteer.form.path} element={<VolunteerReserveFormPage />} />,
   <Route key="reserve-volunteer-confirm" path={routes.reserve.volunteer.confirm.path} element={<VolunteerReserveConfirmPage />} />,
   <Route key="reserve-volunteer-success" path={routes.reserve.volunteer.success.path} element={<VolunteerReserveSuccessPage />} />,
+
+  // 🔹 관리자 페이지 - 시간대 관리
+  <Route key="admin-timeslot-manage" path={routes.admin.timeSlotManage.path} element={<TimeSlotManagePage />} />,
 ];
 
 export default layoutRoutes;
