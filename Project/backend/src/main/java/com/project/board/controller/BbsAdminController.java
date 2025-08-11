@@ -15,52 +15,73 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bbs")
-public class MemberBbsController {
+@RequestMapping("/admin/bbs")
+public class BbsAdminController {
 
     @Autowired
     private BbsService bbsService;
-    
+
+    // 공지사항 작성 (관리자)
     @PostMapping("/bbslist/bbsadd")
     public ResponseEntity<BbsDto> createBbs(
-            @RequestParam Long memberNum,
+            @RequestParam Long adminId,
             @RequestParam BoardType type,
             @RequestPart("bbsDto") BbsDto dto,
             @RequestPart(value = "files", required = false) List<MultipartFile> files) {
-        
-        if (type == BoardType.POTO) {
-            BbsDto created = bbsService.createPotoBbs(dto, memberNum, files);
-            return ResponseEntity.ok(created);
-        } else {
-            BbsDto created = bbsService.createBbs(dto, memberNum, null, files);
-            return ResponseEntity.ok(created);
+
+        if (type != BoardType.NORMAL) {
+            throw new IllegalArgumentException("관리자는 NORMAL 게시판만 작성할 수 있습니다.");
         }
+
+        BbsDto created = bbsService.createBbs(dto, null, adminId, files);
+        return ResponseEntity.ok(created);
     }
 
 
-    // 게시글 수정 (본인만)
-    @PutMapping("/{id}")//게시글번호
-    public ResponseEntity<BbsDto> updateBbs(
-            @PathVariable Long id,
-            @RequestParam Long memberNum,
-            @RequestPart("bbsDto") BbsDto dto) {
+    // QnA 답변 저장 (관리자)
+    @PostMapping("/qna/{bbsId}/answer")
+    public ResponseEntity<QandADto> saveQnaAnswer(
+            @PathVariable Long bbsId,
+            @RequestParam String adminId,
+            @RequestBody QandADto dto) {
 
-        BbsDto updated = bbsService.updateBbs(id, dto, memberNum);
+        QandADto saved = bbsService.saveQna(bbsId, dto, adminId);
+        return ResponseEntity.ok(saved);
+    }
+
+    // QnA 답변 수정 (관리자)
+    @PutMapping("/qna/{qnaId}")
+    public ResponseEntity<QandADto> updateQnaAnswer(
+            @PathVariable Long qnaId,
+            @RequestBody QandADto dto) {
+
+        QandADto updated = bbsService.updateQna(qnaId, dto);
         return ResponseEntity.ok(updated);
     }
 
-    // 게시글 삭제 (본인만)
-    @DeleteMapping("/{id}")	//게시글번호
+    // 게시글 삭제 (관리자는 회원글 및 관리자글 모두 삭제 가능)
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBbs(
             @PathVariable Long id,
-            @RequestParam Long memberNum) {
+            @RequestParam Long adminId) {
 
-        bbsService.deleteBbs(id, memberNum, null);
+        bbsService.deleteBbs(id, null, adminId);
         return ResponseEntity.noContent().build();
     }
 
-    // 첨부파일 수정
-    @PutMapping("/file/{fileId}")//수정데이터
+    // 관리자 본인 게시글 수정
+    @PutMapping("/{id}")
+    public ResponseEntity<BbsDto> updateBbs(
+            @PathVariable Long id,
+            @RequestParam Long adminId,
+            @RequestBody BbsDto dto) {
+
+        BbsDto updated = bbsService.updateBbs(id, dto, null);
+        return ResponseEntity.ok(updated);
+    }
+
+    // 관리자 게시글 첨부파일 수정 및 삭제
+    @PutMapping("/file/{fileId}")
     public ResponseEntity<FileUpLoadDto> updateFile(
             @PathVariable Long fileId,
             @RequestPart("fileDto") FileUpLoadDto dto,
@@ -70,24 +91,6 @@ public class MemberBbsController {
         return ResponseEntity.ok(updatedFile);
     }
 
-    // 이미지 수정 (대표 이미지 및 첨부 이미지)
-    @PutMapping("/image/{bulletinNum}")
-    public ResponseEntity<ImageBbsDto> updateImage(
-            @PathVariable Long bulletinNum,
-            @RequestPart("imageDto") ImageBbsDto dto,
-            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
-
-        ImageBbsDto updatedImage = bbsService.updateImage(bulletinNum, dto, imageFile);
-        return ResponseEntity.ok(updatedImage);
-    }
-    
-    // 게시글 조회 (단건)
-    @GetMapping("/{id}")//조건 확인
-    public ResponseEntity<BbsDto> getBbs(@PathVariable Long id) {
-        BbsDto dto = bbsService.getBbs(id);
-        return ResponseEntity.ok(dto);
-    }
-    
     @GetMapping("/bbslist")
     public ResponseEntity<Page<BbsDto>> getBbsList(
             @RequestParam(required = false) String searchType,
@@ -99,5 +102,4 @@ public class MemberBbsController {
         Page<BbsDto> result = bbsService.searchPosts(searchType, bbstitle, bbscontent, type, pageable);
         return ResponseEntity.ok(result);
     }
-
 }
