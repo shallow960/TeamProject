@@ -24,6 +24,7 @@ const routes = {
     reserve: { path: "/land/reserve", label: "예약하기" },
   },
 
+  // 게시판
    board: {
     root: { path: "/bbs", label: "게시판" },
     notice: { path: "/bbs/normalbbs", label: "공지사항" },

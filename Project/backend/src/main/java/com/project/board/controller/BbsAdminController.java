@@ -1,5 +1,7 @@
 package com.project.board.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.board.BoardType;
 import com.project.board.dto.*;
 import com.project.board.service.BbsService;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,7 +40,6 @@ public class BbsAdminController {
         return ResponseEntity.ok(created);
     }
 
-
     // QnA 답변 저장 (관리자)
     @PostMapping("/qna/{bbsId}/answer")
     public ResponseEntity<QandADto> saveQnaAnswer(
@@ -59,7 +61,7 @@ public class BbsAdminController {
         return ResponseEntity.ok(updated);
     }
 
-    // 게시글 삭제 (관리자는 회원글 및 관리자글 모두 삭제 가능)
+    // 게시글 삭제 (단일)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBbs(
             @PathVariable Long id,
@@ -69,14 +71,20 @@ public class BbsAdminController {
         return ResponseEntity.noContent().build();
     }
 
-    // 관리자 본인 게시글 수정
-    @PutMapping("/{id}")
-    public ResponseEntity<BbsDto> updateBbs(
+    // 관리자 게시글 수정
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<BbsDto> updateAdminBbs(
             @PathVariable Long id,
-            @RequestParam Long adminId,
-            @RequestBody BbsDto dto) {
+            @RequestParam Long adminId, // 관리자 ID
+            @RequestPart("bbsDto") BbsDto dto,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files,
+            @RequestParam(required = false) String deletedFileIds
+    ) {
+        List<Long> deleteIds = parseDeleteIds(deletedFileIds);
 
-        BbsDto updated = bbsService.updateBbs(id, dto, null);
+        BbsDto updated = bbsService.updateBbs(
+                id, dto, adminId, files, deleteIds, true // isAdmin = true
+        );
         return ResponseEntity.ok(updated);
     }
 
@@ -91,6 +99,17 @@ public class BbsAdminController {
         return ResponseEntity.ok(updatedFile);
     }
 
+    // QnA 답변 삭제 (관리자)
+    @DeleteMapping("/qna/{qnaId}")
+    public ResponseEntity<Void> deleteQnaAnswer(
+            @PathVariable Long qnaId,
+            @RequestParam Long adminId) {
+
+        bbsService.deleteQna(qnaId, adminId);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 게시글 리스트 조회
     @GetMapping("/bbslist")
     public ResponseEntity<Page<BbsDto>> getBbsList(
             @RequestParam(required = false) String searchType,
@@ -102,4 +121,29 @@ public class BbsAdminController {
         Page<BbsDto> result = bbsService.searchPosts(searchType, bbstitle, bbscontent, type, pageable);
         return ResponseEntity.ok(result);
     }
+
+    // 다중 삭제 (관리자)
+    @DeleteMapping("/delete-multiple")
+    public ResponseEntity<Void> deleteMultipleBbs(
+            @RequestParam Long adminId,
+            @RequestBody List<Long> ids) {
+
+        bbsService.deleteBbsMultiple(ids, null, adminId);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 파일 ID 파싱
+    private List<Long> parseDeleteIds(String deletedFileIds) {
+        if (deletedFileIds != null && !deletedFileIds.isEmpty()) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                return mapper.readValue(deletedFileIds, new TypeReference<List<Long>>() {});
+            } catch (Exception e) {
+                throw new RuntimeException("삭제할 파일 ID 파싱 오류");
+            }
+        }
+        return new ArrayList<>();
+    }
+
 }
+
