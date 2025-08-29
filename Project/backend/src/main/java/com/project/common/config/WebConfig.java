@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
     	//포토게시판
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:///C:/Image/");
+                .addResourceLocations("file:///C:/photo/");
         //배너 
         registry.addResourceHandler("/banner-uploads/**")
         .addResourceLocations("file:///C:/banner-uploads/");
