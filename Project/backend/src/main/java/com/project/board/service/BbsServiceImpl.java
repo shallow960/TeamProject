@@ -59,7 +59,7 @@ public class BbsServiceImpl implements BbsService {
     
     private final String uploadDir = "C:/photo"; // 공통 업로드 경로
 
-    // ---------------- 게시글 저장 ----------------
+    // ---------------- 게시글 저장 -----------------
     private BbsDto saveOnlyBbs(BbsDto dto, Long requesterMemberNum, String requesterAdminId) {
         MemberEntity member = null;
 
