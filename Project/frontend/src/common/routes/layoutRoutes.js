@@ -65,7 +65,6 @@ import KakaoCallbackPage from "../../program/login/pages/KakaoCallbackPage"; //�
 // 게시판 관련
 import AdminBbs from "../../bbs/adminbbs";
 
-//공지사항 게시판
 import Normal from "../../bbs/normalbbs/Normal";
 import NormalBbsView from "../../bbs/normalbbs/NormalBbsview";
 import NormalBbsWrite from "../../bbs/normalbbs/NormalBbsWrite";
@@ -74,7 +73,6 @@ import MemberNormalBbs from "../../bbs/normalbbs/MemberNormalBbs";
 import MemberNormalBbsView from "../../bbs/normalbbs/MemberNormalBbsView";
 
 
-//QNA 게시판
 import QnaBbs from "../../bbs/questionbbs/QnaBbs";
 import QnaBbsWrite from "../../bbs/questionbbs/QnaBbsWrite";
 import QnaBbsView from "../../bbs/questionbbs/QnaBbsView";
@@ -83,7 +81,6 @@ import AdminQnaBbs from "../../bbs/questionbbs/AdminQnaBbs";
 import AdminQnaBbsView from "../../bbs/questionbbs/AdminQnaBbsView";
 
 
-//이미지게시판
 import ImgList from "../../bbs/imagebbs/imgList";
 import ImgDetail from "../../bbs/imagebbs/imgdetail";
 import ImgEdit from "../../bbs/imagebbs/imgedit";
@@ -365,7 +362,7 @@ const layoutRoutes = [
     path="/bbs/normal/view/:id"
     element={<MemberNormalBbsView />}
   />,
-  
+
 
   // QnA 게시판
   <Route key="qna-bbs" path="/bbs/qna" element={<QnaBbs />} />,
@@ -395,6 +392,7 @@ const layoutRoutes = [
     }
   />,
 
+
   // 이미지 게시판
   <Route key="img-list" path="/bbs/image" element={<ImgList />} />,
   <Route key="img-detail" path="/bbs/image/:id" element={<ImgDetail />} />,
@@ -410,6 +408,7 @@ const layoutRoutes = [
     path="/admin/bbs/image/Detail/:id"
     element={<AdminImgDetail />}
   />,
+
 
   //사용자
   <Route key="login" path={routes.member.login.path} element={<LoginPage />} />, //로그인
