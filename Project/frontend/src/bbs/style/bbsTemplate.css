@@ -312,6 +312,24 @@
 .write-btn:hover {
   background-color: #0056b3;
 }
+/* ================================
+  6. 게시판 단건 조회 제목 영역 {이미지(detail-container) qna, 공지사힝(bbs-container)}
+================================= */
+.detail-container h2 {
+    width: auto;
+    height: auto;
+    font-size: 1em;
+    line-height: normal;
+    color: black;
+}
+
+.bbs-container h2 {
+    width: auto;
+    height: auto;
+    font-size: 1em;
+    line-height: normal;
+    color: black;
+}
 
 
 /* 페이지네이션 마크업 */
