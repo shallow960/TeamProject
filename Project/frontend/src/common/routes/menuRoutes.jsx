@@ -6,53 +6,52 @@ const menuRoutes = [
     title: "센터소개",
     access: "ALL",
     children: [
-      { title: "인사말", path: "/about/greeting", access: "ALL" },
-      { title: "시설 소개", path: "/about/facility", access: "ALL" },
-      { title: "오시는 길", path: "/about/location", access: "ALL" },
+      { title: "인사말", path: "/contents/1", access: "ALL" },
+      { title: "연혁", path: "/contents/6", access: "ALL" },
+      { title: "시설 소개", path: "/contents/2", access: "ALL" },
+      { title: "오시는 길", path: "/contents/3", access: "ALL" },
     ],
   },
   {
     title: "입양 소식",
     access: "ALL",
     children: [
-      { title: "센터 아이들", path: "/about/list", access: "ALL" },
-      { title: "입양 절차 안내", path: "/about/process", access: "ALL" },
-      { title: "입양 후기", path: "/about/review", access: "ALL" },
+      { title: "센터 아이들", path: "/bbs/image", access: "ALL" },
+      { title: "입양 절차 안내", path: "/contents/7", access: "ALL" },
     ],
   },
   {
     title: "동물 놀이터",
     access: "ALL",
     children: [
-      { title: "놀이터 소개", path: "/land/info", access: "ALL" },
-      { title: "놀이터 둘러보기", path: "/land/gallery", access: "ALL" },
-      { title: "예약하기", path: "/land/reserve", access: "USER" },
+      { title: "놀이터 소개", path: "/contents/4", access: "ALL" },
+      { title: "예약하기", path: "/reserve/land/date", access: "ALL" },
     ],
   },
   {
     title: "봉사활동",
     access: "ALL",
     children: [
-      { title: "봉사 프로그램 소개", path: "/volunteer/info", access: "ALL" },
-      { title: "봉사 신청하기", path: "/volunteer/reserve", access: "USER" },
+      { title: "봉사 활동 안내", path: "/contents/5", access: "ALL" },
+      {
+        title: "봉사 신청하기",
+        path: "/reserve/volunteer/date",
+        access: "ALL",
+      },
     ],
   },
   {
     title: "게시판",
     access: "ALL",
     children: [
-      { title: "공지사항", path: "/board/notice", access: "ALL" },
-      { title: "질문 게시판", path: "/board/qna", access: "ALL" },
-      { title: "포토 게시판", path: "/board/photo", access: "ALL" },
+      { title: "공지사항", path: "/bbs/normal", access: "ALL" },
+      { title: "질문 게시판", path: "/bbs/qna", access: "ALL" },
     ],
   },
   {
     title: "후원하기",
     access: "ALL",
-    children: [
-      { title: "후원안내", path: "/fund/info", access: "ALL" },
-      { title: "후원금 사용내역", path: "/fund/allfund", access: "ALL" },
-    ],
+    children: [{ title: "후원안내", path: "/funds", access: "ALL" }],
   },
   {
     title: "관리자 메뉴",

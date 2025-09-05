@@ -1,6 +1,6 @@
 import React from "react";
-
-import { Link } from "react-router-dom"; // 페이지 이동용
+import { Link } from "react-router-dom";
+import FloatingChat from "../program/chat/services/FloatingChat";
 
 const Footer = () => {
   return (
@@ -10,6 +10,8 @@ const Footer = () => {
           <button type="button" className="top_btn">
             맨위로 이동하기 버튼
           </button>
+          {/* 채팅 배너를 푸터에 추가 */}
+          <FloatingChat />
         </div>
         <div className="nav_box">
           <ul className="nav_list">

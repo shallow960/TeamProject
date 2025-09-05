@@ -36,7 +36,13 @@ function hasValidLocalToken() {
 // 경로가 /member 또는 /member/** 인지 판별
 function isMemberRoot(pathname) {
   if (!pathname) return false;
-  return pathname === "/member" || pathname.startsWith("/member/");
+
+  return (
+    pathname.startsWith("/member") ||
+    pathname.startsWith("/reserve") ||
+    pathname.startsWith("/funds") 
+  );
+
 }
 
 export function RequireMember({ children }) {
