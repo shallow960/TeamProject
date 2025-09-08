@@ -3,7 +3,7 @@
 + [화면정의서](https://www.figma.com/design/nTh81nva0JrQA1IakEUY2y/%ED%95%A8%EA%B2%8C%EB%A7%88%EB%8B%B9-%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C?node-id=27-73&t=uppo0fHdFbpJ5gqJ-0)
 + [기능정의서, 구현정의서, 메뉴구조도, DB구성 리스트](https://docs.google.com/spreadsheets/d/11IeV-mdxs4t-SV8Si9VfBWFi8TP4IR0em3ZXPzXKcso/edit?gid=0#gid=0)
 + [유스케이스](https://app.diagrams.net/#G1TyS2MtcFxZIYL2ozCjKoXumwz_kmENtK#%7B%22pageId%22%3A%22aozdoE-P7H4EPuOHVj0a%22%7D)
-
++ [시연영상](https://youtu.be/S4rcpIbIyo0)
 -----------------------------------------------------------------------------------------------------------------
 
 #업무 분담
@@ -27,24 +27,3 @@
 + 이재복
   + 서비스기능
     + 지도 + 1:1 채팅 + 후원 + 알림(메시지 저장 로직)
-
-+ 추천 작업 순서
-  1. entity - DB 구조를 바탕으로 데이터 모델 정의
-  2. dto - 	요청/응답용 데이터 객체 정의
-  3. repository - DB 접근 계층 구현
-  4. service - 비즈니스 로직 처리
-  5. exception - 예외 처리 및 메시지 통일
-  6. controller - 외부 요청 응답 처리
-  7. config - 설정파일 (필요 시 WebMvc, Security 등)
- 
-
-
-
-+ 7월28일
-  + 안형주
-    + admin, member 테스트(response, service) 90% 완료
-    + controller 진행 대기중
-  + 이재복
-    + fund, chat - stay test(checking member entity)
-    + alarm, map - during with Front
-  
