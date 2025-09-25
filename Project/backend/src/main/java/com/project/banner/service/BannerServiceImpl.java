@@ -52,7 +52,7 @@ public class BannerServiceImpl implements BannerService {
 
         String fileName = saveFile(file);
 
-        AdminEntity admin = AdminEntity.builder().adminNum(5L).build();
+        AdminEntity admin = AdminEntity.builder().adminNum(1L).build();
         
         LocalDate startDate = (dto.getStartDate() != null)
                 ? dto.getStartDate()
