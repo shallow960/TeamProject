@@ -72,7 +72,7 @@ public class BannerController {
             @RequestPart(name = "file", required = false) MultipartFile file
     ) throws IOException {
         bannerService.update(id, dto, file);
-    }
+    }   
 
     // 배너 단건 삭제
     @DeleteMapping("/{id}")
