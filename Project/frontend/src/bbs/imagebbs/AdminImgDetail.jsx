@@ -16,8 +16,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 // ================= 상수 =================
-const backendUrl = "http://127.0.0.1:8090";
-const ADMIN_BASE = "http://127.0.0.1:8090/admin/bbs/poto";
+const backendUrl = "/api";
+const ADMIN_BASE = "/api/admin/bbs/poto";
 
 // ================= 유틸 =================
 

@@ -15,7 +15,7 @@ function MemberNormalBbs() {
   const [searchType, setSearchType] = useState("all");
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  const BASE_URL = "http://127.0.0.1:8090"; // 백엔드 서버 주소
+  const BASE_URL = "/api"; // 백엔드 서버 주소
   const PAGE_SIZE = 10; // 한 페이지당 글 수
 
   // 게시판 목록 불러오기

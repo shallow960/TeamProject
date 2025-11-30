@@ -29,7 +29,7 @@ const VolunteerReserveDatePage = () => {
   // ✅ 휴무일 조회
   const fetchClosedDays = async (year, month) => {
     try {
-      const { data } = await api.get("/api/closed-days", {
+      const { data } = await api.get("/closed-days", {
         params: { year, month },
       });
       setClosedDates(data.map((d) => ({ date: d.closedDate, reason: d.reason })));
@@ -41,7 +41,7 @@ const VolunteerReserveDatePage = () => {
   // ✅ 예약 현황 조회 (월 단위)
   const fetchMonthlyCounts = async (year, month) => {
     try {
-      const { data } = await api.get("/api/volunteer/timeslots/month", {
+      const { data } = await api.get("/volunteer/timeslots/month", {
         params: { year, month},
       });
 

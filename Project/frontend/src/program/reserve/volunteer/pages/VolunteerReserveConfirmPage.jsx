@@ -40,13 +40,13 @@ const VolunteerReserveConfirmPage = () => {
           timeSlotId: selectedSlotId,     // 선택한 슬롯 ID
         },
       };
-      console.log("[POST] /api/reserve payload:", payload);
+      console.log("[POST] /reserve payload:", payload);
 
-      const { data } = await api.post("/api/reserve", payload, {
+      const { data } = await api.post("/reserve", payload, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       });
 
-      console.log("[POST] /api/reserve response:", data);
+      console.log("[POST] /reserve response:", data);
       const reserveCode = data.reserveCode;
 
       // ✅ 응답값을 성공 페이지로 넘기기

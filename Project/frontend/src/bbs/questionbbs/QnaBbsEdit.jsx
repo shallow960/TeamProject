@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./qnabbs.css";
 
-const BACKEND_URL = "http://127.0.0.1:8090"; // 파일 절대경로용
+const BACKEND_URL = "/api"; // 파일 절대경로용
 
 const QnaBbsEdit = () => {
   const { id } = useParams();

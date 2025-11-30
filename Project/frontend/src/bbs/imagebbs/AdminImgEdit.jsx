@@ -21,7 +21,7 @@ export default function AdminImgEdit() {
   const navigate = useNavigate();
   const editorRef = useRef(null);
 
-  const baseUrl = "http://127.0.0.1:8090/admin/bbs";
+  const baseUrl = "/api/admin/bbs";
 
   // ✅ 성공/취소 시 이동할 관리자 상세보기 경로
   const goDetail = () => navigate(`/admin/bbs/image/Detail/${id}`);

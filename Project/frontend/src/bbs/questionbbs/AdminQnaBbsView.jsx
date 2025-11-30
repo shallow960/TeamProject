@@ -13,7 +13,7 @@ export default function AdminQnaBbsView() {
   const [answerText, setAnswerText] = useState("");
   const [files, setFiles] = useState([]); // 첨부파일 리스트
 
-  const BASE_URL = "http://127.0.0.1:8090/admin/bbs";
+  const BASE_URL = "/api/admin/bbs";
 
   // ---------------- 게시글 + 답변 조회 ----------------
   const fetchPost = async () => {

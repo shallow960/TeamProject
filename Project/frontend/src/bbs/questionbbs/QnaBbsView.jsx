@@ -7,7 +7,7 @@ function QnaBbsView() {
   const [post, setPost] = useState(null); // 게시글 + 답변 포함
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
-  const baseUrl = "http://127.0.0.1:8090/bbs";
+  const baseUrl = "/api/bbs";
 
   useEffect(() => {
     fetchPost();

@@ -19,7 +19,7 @@ function NoticeBbs() {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const navigate = useNavigate();
-  const BASE_URL = "http://127.0.0.1:8090"; // 관리자 백엔드 서버 주소
+  const BASE_URL = "/api"; // 관리자 백엔드 서버 주소
 
   // 📌 공지사항 목록 불러오기
   const fetchNotices = async (pageNumber = 0) => {

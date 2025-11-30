@@ -47,13 +47,13 @@ export default function AdminImgBoard() {
   const navigate = useNavigate();
 
   // ✅ 관리자 API 엔드포인트 (백엔드 규약 유지)
-  const baseUrl = "http://127.0.0.1:8090/admin/bbs/poto";
+  const baseUrl = "/api/admin/bbs/poto";
 
   // ✅ 관리자 페이지 목록 개수 (사용자와 다를 수 있음 → 관리자 기준으로 유지)
   const pageSize = 12;
 
   // ✅ 이미지 경로 prefix (사용자 페이지와 동일 규칙)
-  const backendUrl = "http://127.0.0.1:8090";
+  const backendUrl = "/api";
   const resolveSrc = (raw) => {
     if (!raw) return null;
     const s = String(raw);

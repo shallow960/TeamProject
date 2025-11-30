@@ -11,7 +11,7 @@ function NormalBbsView() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("accessToken");
-  const apiBase = "http://127.0.0.1:8090/admin/bbs/normal";
+  const apiBase = "/api/admin/bbs/normal";
 
   useEffect(() => {
     if (!token) {

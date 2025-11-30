@@ -86,13 +86,13 @@ const ChatPopup = ({ onClose }) => {
                     setIsLoading(false);
                     return;
                 }
-                const response = await api.post("/api/chat/detail", {}, {
+                const response = await api.post("/chat/detail", {}, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const newChatRoomNum = response.data.chatRoomNum;
                 setChatRoomNum(newChatRoomNum);
 
-                const historyResponse = await api.get(`/api/chat/detail/${newChatRoomNum}`, {
+                const historyResponse = await api.get(`/chat/detail/${newChatRoomNum}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setChatHistory(historyResponse.data);

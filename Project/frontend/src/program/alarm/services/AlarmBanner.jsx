@@ -33,7 +33,7 @@ const AlarmBanner = ({ isOpen, onClose }) => {
 
             try {
                 // API 호출, 백엔드에서 인증 처리
-                const response = await api.get("/api/alarm/list", {
+                const response = await api.get("/alarm/list", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 

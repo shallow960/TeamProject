@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../../common/api/axios";
 import "./normalbbs.css";
 
-const BACKEND_URL = "http://127.0.0.1:8090";
+const BACKEND_URL = "/api";
 const API_BASE = `${BACKEND_URL}/admin/bbs`;
 const FILE_DOWNLOAD = (fileNum) => `${BACKEND_URL}/bbs/files/${fileNum}/download`;
 

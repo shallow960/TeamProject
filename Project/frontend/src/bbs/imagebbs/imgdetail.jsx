@@ -18,7 +18,7 @@ export default function ImgDetail() {
   const [files, setFiles] = useState([]);
   const [repImage, setRepImage] = useState(null);
   const [isChatOpen, setIsChatOpen] = useState(false); // 채팅 팝업 상태 추가
-  const backendUrl = "http://127.0.0.1:8090";
+  const backendUrl = "/api";
 
   // Swiper 인스턴스 레퍼런스
   const swiperRef = useRef(null);

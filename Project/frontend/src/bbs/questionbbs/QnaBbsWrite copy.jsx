@@ -7,7 +7,7 @@
 //   const [files, setFiles] = useState([{ id: Date.now(), file: null, insertOption: "no-insert" }]);
 //   const editorRef = useRef(null);
 //   const navigate = useNavigate();
-//   const baseUrl = "http://127.0.0.1:8090/bbs/bbslist/bbsadd";
+//   const baseUrl = "/api/bbs/bbslist/bbsadd";
 
 //   // 파일 선택
 //   const handleFileChange = (id, newFile) => {

@@ -21,7 +21,8 @@ const ChatService = {
     // const socket = new SockJS(`http://192.168.0.115:8090/ws`);
     // stompClient = Stomp.over(socket);
     stompClient = Stomp.over(() => {
-      return new SockJS(`http://127.0.0.1:8090/ws`);
+      return new SockJS(`/ws`);
+      //return new SockJS(`http://127.0.0.1:8090/ws`);
     });
     // 디버그 메시지 비활성화 (필요하다면)
     // stompClient.debug = () => {};

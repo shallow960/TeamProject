@@ -207,7 +207,7 @@ const LandReserveFormPage = () => {
     }
     
     try {
-      const { data: exists } = await api.get("/api/reserve/check-duplicate", {
+      const { data: exists } = await api.get("/reserve/check-duplicate", {
         params: { memberNum: formData.memberNum , date: selectedDate, timeSlotId: selectedSlotId, type: "LAND" },
       });
       if (exists) {

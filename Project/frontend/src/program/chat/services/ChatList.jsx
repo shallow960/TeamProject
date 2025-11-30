@@ -11,14 +11,14 @@ const ChatList = () => {
     const [message, setMessage] = useState("");
 
     const authAxios = api.create({
-        baseURL: 'http://127.0.0.1:8090',
+        baseURL: '/api',
         headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
     });
 
     const fetchChatRooms = async () => {
         setLoading(true);
         try {
-            const response = await authAxios.get("/api/chat/admin/list", {
+            const response = await authAxios.get("/chat/admin/list", {
                 params: { page: 0, size: 20 }
             });
             setChatRooms(response.data.content);

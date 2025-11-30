@@ -79,7 +79,7 @@ const ChatDetail = () => {
     const [userRole, setUserRole] = useState(null);
 
     const authAxios = api.create({
-        baseURL: 'http://127.0.0.1:8090',
+        baseURL: '/api',
         headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
     });
 
@@ -97,7 +97,7 @@ const ChatDetail = () => {
     const fetchChatHistory = async () => {
         setLoading(true);
         try {
-            const response = await authAxios.get(`/api/chat/detail/${chatRoomNum}`);
+            const response = await authAxios.get(`/chat/detail/${chatRoomNum}`);
             setMessages(response.data);
             setError(null);
         } catch (err) {

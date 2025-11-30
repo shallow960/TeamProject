@@ -19,7 +19,7 @@ function AdminQnaBbs() {
   const [selectedPosts, setSelectedPosts] = useState([]);
   const navigate = useNavigate();
 
-  const BASE_URL = "http://127.0.0.1:8090/admin/bbs";
+  const BASE_URL = "/api/admin/bbs";
 
   const fetchPosts = async (pageNumber = 0) => {
     try {

@@ -23,7 +23,7 @@ const LandReserveDatePage = () => {
   // 휴무일 조회 API
   const fetchClosedDays = async (year, month) => {
     try {
-      const { data } = await api.get("/api/closed-days", {
+      const { data } = await api.get("/closed-days", {
         params: { year, month },
       });
       setClosedDays(data.map((d) => ({ date: d.closedDate, reason: d.reason })));
@@ -35,7 +35,7 @@ const LandReserveDatePage = () => {
   // 놀이터 예약 현황 (월 단위)
   const fetchLandMonthSlots = async (year, month) => {
     try {
-      const { data } = await api.get("/api/land/timeslots/month", {
+      const { data } = await api.get("/land/timeslots/month", {
         params: { year, month },
       });
 

@@ -9,7 +9,7 @@ export default function ImgWrite() {
   ]);
   const editorRef = useRef(null);
   const navigate = useNavigate();
-  const baseUrl = "http://127.0.0.1:8090/bbs/bbslist/bbsadd";
+  const baseUrl = "/api/bbs/bbslist/bbsadd";
 
   const handleFileChange = (id, newFile) => {
     if (

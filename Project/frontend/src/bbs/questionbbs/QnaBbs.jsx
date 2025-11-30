@@ -16,7 +16,7 @@ function QnaBbs() {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const navigate = useNavigate();
-  const baseUrl = "http://127.0.0.1:8090/bbs/bbslist";
+  const baseUrl = "/api/bbs/bbslist";
 
   const fetchPosts = async (pageNumber = 0) => {
     try {

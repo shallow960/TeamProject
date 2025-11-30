@@ -22,7 +22,7 @@ export default function KakaoCallbackPage() {
   const { search } = useLocation();
 
   const API_BASE = (
-    process.env.REACT_APP_API_BASE || "http://127.0.0.1:8090"
+    process.env.REACT_APP_API_BASE || "/api"
   ).replace(/\/+$/, "");
 
   const MYPAGE_PATH = routes?.member?.mypage?.path || "/member/mypage";

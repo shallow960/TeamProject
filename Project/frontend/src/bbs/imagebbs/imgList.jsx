@@ -16,8 +16,8 @@ export default function ImgBoard() {
   const [searchType, setSearchType] = useState("all");
 
   const navigate = useNavigate();
-  const baseUrl = "http://127.0.0.1:8090/bbs/bbslist";
-  const backendUrl = "http://127.0.0.1:8090"; // ⚠️ /DATA 경로에는 붙이지 않음
+  const baseUrl = "/api/bbs/bbslist";
+  const backendUrl = "/api"; // ⚠️ /DATA 경로에는 붙이지 않음
 
   // /DATA 또는 http(s)로 시작하면 그대로, 그 외만 backendUrl prefix
   const resolveSrc = (raw) => {

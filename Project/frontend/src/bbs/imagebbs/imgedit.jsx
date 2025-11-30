@@ -20,7 +20,7 @@ export default function GalleryEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const editorRef = useRef(null);
-  const baseUrl = "http://127.0.0.1:8090/bbs";
+  const baseUrl = "/api/bbs";
 
   const [title, setTitle] = useState("");
   const [files, setFiles] = useState([]);
