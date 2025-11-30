@@ -28,9 +28,9 @@ public interface BannerRepository extends JpaRepository<BannerEntity, Long> {
     List<BannerEntity> findByVisibleTrue();
     
     // 사용자 노출용 (메인페이지)
-    @Query("SELECT b FROM BannerEntity b " +
-    	       "WHERE b.visible = true " +
-    	       "AND b.startDate <= :today " +
-    	       "AND (b.endDate IS NULL OR b.endDate >= :today)")
-    	List<BannerEntity> findActiveBanners(@Param("today") LocalDate today);
+//    @Query("SELECT b FROM BannerEntity b " +
+//    	       "WHERE b.visible = true " +
+//    	       "AND b.startDate <= :today " +
+//    	       "AND (b.endDate IS NULL OR b.endDate >= :today)")
+//    	List<BannerEntity> findActiveBanners(@Param("today") LocalDate today);
 }

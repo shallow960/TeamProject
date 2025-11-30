@@ -34,7 +34,7 @@ public class AdminBootstrapConfig {
                     .adminPw(passwordEncoder.encode(DEFAULT_ADMIN_PW)) // ✅ 암호화 저장
                     //.adminPw("asd123123")
                     .adminName("관리자")
-                    .adminPhone("01096861400")
+                    .adminPhone("01096861401")
                     .registDate(LocalDateTime.now())
                     .connectData(LocalDateTime.now())
                     .build();

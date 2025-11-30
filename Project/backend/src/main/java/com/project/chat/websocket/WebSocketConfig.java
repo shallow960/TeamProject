@@ -33,7 +33,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws")
+        registry.addEndpoint("/ws")			//★ HTTP/WebSocket 엔드포인트
                 .setAllowedOriginPatterns("*") // 모든 도메인 허용
                 .withSockJS(); // SockJS 폴백 활성화
 

@@ -188,11 +188,32 @@ public class BannerServiceImpl implements BannerService {
     
     //25.09.01 안형주 추가
     //활성상태 베너 조회
+//    @Override
+//    public List<BannerResponseDto> getActiveBanners() {
+//    	LocalDate today = LocalDate.now();
+//    	return bannerRepository.findActiveBanners(today).stream()
+//                .map(BannerResponseDto::fromEntity)
+//                .collect(Collectors.toList());
+//    }
+    
+  //25.09.01 안형주 수정: 활성 상태 배너 조회 (자바에서 필터링)
     @Override
     public List<BannerResponseDto> getActiveBanners() {
-    	LocalDate today = LocalDate.now();
-    	return bannerRepository.findActiveBanners(today).stream()
+        LocalDate today = LocalDate.now();
+
+        return bannerRepository.findByVisibleTrue().stream()
+                .filter(banner -> {
+                    // 시작일 체크: null이면 오늘 기준으로 항상 허용
+                    LocalDate start = banner.getStartDate();
+                    LocalDate end   = banner.getEndDate();
+
+                    boolean afterStart = (start == null) || !start.isAfter(today);
+                    boolean beforeEnd  = (end == null) || !end.isBefore(today);
+
+                    return afterStart && beforeEnd;
+                })
                 .map(BannerResponseDto::fromEntity)
                 .collect(Collectors.toList());
     }
+
 }
