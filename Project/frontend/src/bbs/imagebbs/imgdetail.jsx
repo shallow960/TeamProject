@@ -34,7 +34,7 @@ export default function ImgDetail() {
   // 게시글 상세 조회
   const fetchPost = async () => {
     try {
-      const res = await api.get(`${backendUrl}/bbs/${id}`);
+      const res = await api.get(`/bbs/${id}`);
       const bbs = res.data.bbs || res.data;
 
       setPost(bbs);
@@ -60,7 +60,7 @@ export default function ImgDetail() {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
 
     try {
-      await api.delete(`${backendUrl}/bbs/${id}?memberNum=${memberNum}`);
+      await api.delete(`bbs/${id}?memberNum=${memberNum}`);
       alert("게시글 삭제 성공");
       navigate("/bbs/image");
     } catch (error) {
@@ -118,7 +118,7 @@ export default function ImgDetail() {
           {files.map((f) => {
             const imgUrl = f.fileUrl?.startsWith("http")
               ? f.fileUrl
-              : `${backendUrl}${f.fileUrl}`;
+              : `${f.fileUrl}`;
 
             return (
               <SwiperSlide key={f.fileNum}>

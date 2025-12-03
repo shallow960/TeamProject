@@ -21,7 +21,7 @@ export default function AdminImgEdit() {
   const navigate = useNavigate();
   const editorRef = useRef(null);
 
-  const baseUrl = "/api/admin/bbs";
+  const baseUrl = "/admin/bbs";
 
   // ✅ 성공/취소 시 이동할 관리자 상세보기 경로
   const goDetail = () => navigate(`/admin/bbs/image/Detail/${id}`);

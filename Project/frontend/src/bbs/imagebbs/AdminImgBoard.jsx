@@ -46,21 +46,38 @@ export default function AdminImgBoard() {
 
   const navigate = useNavigate();
 
-  // ✅ 관리자 API 엔드포인트 (백엔드 규약 유지)
-  const baseUrl = "/api/admin/bbs/poto";
+// ✅ 관리자 API 엔드포인트 (백엔드 규약 유지)
+// 25.12.01 경로 api/api 중복 수정
+const baseUrl = "/admin/bbs/poto";
 
   // ✅ 관리자 페이지 목록 개수 (사용자와 다를 수 있음 → 관리자 기준으로 유지)
   const pageSize = 12;
 
   // ✅ 이미지 경로 prefix (사용자 페이지와 동일 규칙)
-  const backendUrl = "/api";
+  // const backendUrl = "/api";
+  // const resolveSrc = (raw) => {
+  //   if (!raw) return null;
+  //   const s = String(raw);
+  //   // /DATA 또는 절대 URL이면 그대로 사용
+  //   if (s.startsWith("/DATA") || s.startsWith("http")) return s;
+  //   // 그 외는 백엔드 prefix 부착
+  //   return `${backendUrl}${s}`;
+  // };
+  
+  //25.12.03 경로 수정 /DATA > /api/DATA
+  // ✅ 이미지 경로 prefix
   const resolveSrc = (raw) => {
     if (!raw) return null;
     const s = String(raw);
-    // /DATA 또는 절대 URL이면 그대로 사용
-    if (s.startsWith("/DATA") || s.startsWith("http")) return s;
-    // 그 외는 백엔드 prefix 부착
-    return `${backendUrl}${s}`;
+
+    // 1) 절대 URL(http, https) → 그대로 사용
+    if (s.startsWith("http://") || s.startsWith("https://")) return s;
+
+    // 2) /DATA 로 시작하는 경우 → /api 붙여서 백엔드로 보내기
+    if (s.startsWith("/DATA")) return `/api${s}`;
+
+    // 3) 그 외 상대 경로도 /api prefix
+    return `/api${s}`;
   };
 
   // ---------- 게시글 + 대표 이미지 조회 ----------

@@ -20,7 +20,7 @@ export default function GalleryEdit() {
   const { id } = useParams();
   const navigate = useNavigate();
   const editorRef = useRef(null);
-  const baseUrl = "/api/bbs";
+  const baseUrl = "/bbs";
 
   const [title, setTitle] = useState("");
   const [files, setFiles] = useState([]);

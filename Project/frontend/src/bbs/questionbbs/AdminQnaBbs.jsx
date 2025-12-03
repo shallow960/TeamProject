@@ -19,7 +19,8 @@ function AdminQnaBbs() {
   const [selectedPosts, setSelectedPosts] = useState([]);
   const navigate = useNavigate();
 
-  const BASE_URL = "/api/admin/bbs";
+  //25.12.01 경로 api/api 중복 수정
+  const BASE_URL = "/admin/bbs";
 
   const fetchPosts = async (pageNumber = 0) => {
     try {

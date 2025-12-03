@@ -46,12 +46,27 @@ const BANNER_IMG_BASE = `${BACKEND_URL}/files`;
 // 백엔드가 내려주는 이미지 경로를 화면용으로 정규화
 // - "/DATA" 또는 "http"로 시작하면 그대로 사용
 // - 그 외엔 백엔드 호스트 prefix를 붙임
+//25.12.03 경로 수정 /DATA > /api/DATA
 const resolveSrc = (raw) => {
   if (!raw) return null;
   const s = String(raw);
-  if (s.startsWith("/DATA") || s.startsWith("http")) return s;
+
+  // 절대 URL은 그대로 사용
+  if (s.startsWith("http://") || s.startsWith("https://")) return s;
+
+  // /DATA로 시작하면 /api 를 붙여서 백엔드로 보냄
+  if (s.startsWith("/DATA")) return `${BACKEND_URL}${s}`;
+
+  // 그 외 상대 경로도 /api prefix
   return `${BACKEND_URL}${s}`;
 };
+// 기존
+// const resolveSrc = (raw) => {
+//   if (!raw) return null;
+//   const s = String(raw);
+//   if (s.startsWith("/DATA") || s.startsWith("http")) return s;
+//   return `${BACKEND_URL}${s}`;
+// };
 
 export default function MainPage() {
   // Swiper 인스턴스 레퍼런스

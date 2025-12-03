@@ -11,7 +11,10 @@ function NormalBbsView() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("accessToken");
-  const apiBase = "/api/admin/bbs/normal";
+  //const apiBase = "/api/admin/bbs/normal";
+
+  //25.12.01 경로 api/api 중복 수정
+  const apiBase = "/admin/bbs/normal";
 
   useEffect(() => {
     if (!token) {

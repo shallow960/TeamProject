@@ -16,7 +16,8 @@ function QnaBbs() {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const navigate = useNavigate();
-  const baseUrl = "/api/bbs/bbslist";
+  //25.12.01 경로 api/api 중복 수정
+  const BaseUrl = "/bbs/bbslist";
 
   const fetchPosts = async (pageNumber = 0) => {
     try {
@@ -28,7 +29,7 @@ function QnaBbs() {
         if (searchType === "content") params.bbscontent = searchKeyword.trim();
       }
 
-      const response = await axios.get(baseUrl, { params });
+      const response = await axios.get(BaseUrl, { params });
       const content = response.data?.bbsList?.content || []; // 안전하게 가져오기
       setPosts(content);
       setTotalPages(response.data?.bbsList?.totalPages || 0);

@@ -16,8 +16,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 // ================= 상수 =================
+//25.12.03 경로 api 중복 수정
 const backendUrl = "/api";
-const ADMIN_BASE = "/api/admin/bbs/poto";
+const ADMIN_BASE = "/admin/bbs/poto";
 
 // ================= 유틸 =================
 
@@ -47,11 +48,28 @@ const pickImageRaw = (file) => {
   return null; // 적절한 경로가 없으면 null
 };
 
+
+// 25.12.03 /DATA > /api 경로 수정
+// ✅ 이미지 경로 prefix
+// const resolveSrc = (raw) => {
+//   if (!raw) return null;
+//   const s = String(raw);
+//   if (s.startsWith("/DATA") || s.startsWith("http")) return s; // 👈 그대로 사용
+//   return `${backendUrl}${s}`;
+// };
+
 const resolveSrc = (raw) => {
   if (!raw) return null;
   const s = String(raw);
-  if (s.startsWith("/DATA") || s.startsWith("http")) return s; // 👈 그대로 사용
-  return `${backendUrl}${s}`;
+
+  // 1) 절대 URL(http, https) → 그대로 사용
+  if (s.startsWith("http://") || s.startsWith("https://")) return s;
+
+  // 2) /DATA 로 시작하는 경우 → /api 붙여서 백엔드로 보내기
+  if (s.startsWith("/DATA")) return `/api${s}`;
+
+  // 3) 그 외 상대 경로도 /api prefix
+  return `/api${s}`;
 };
 
 // 날짜 포맷
@@ -103,7 +121,7 @@ export default function AdminImgDetail() {
       if (!hasUsableDataPath) {
         // ⭐ 사용자 상세 API에서 /DATA가 들어있는 files를 가져와 대체
         try {
-          const userRes = await api.get(`${backendUrl}/bbs/${id}`);
+          const userRes = await api.get(`/bbs/${id}`); //api 중복 경로 수정
           const u = userRes.data?.bbs || userRes.data;
           const userFiles = userRes.data?.files || u?.files || [];
           // 사용자 응답의 작성자에 언마스킹 값이 있으면 갱신
@@ -194,8 +212,9 @@ export default function AdminImgDetail() {
                     <img src={imgUrl} alt={originalName} />
                   ) : (
                     // 이미지 경로가 없으면 다운로드 링크로만 표출
+                    //api 중복 경로 수정
                     <a
-                      href={`${backendUrl}/admin/bbs/files/${fileNum}/download`}
+                      href={`/admin/bbs/files/${fileNum}/download`}
                       download={originalName}
                     >
                       {originalName}

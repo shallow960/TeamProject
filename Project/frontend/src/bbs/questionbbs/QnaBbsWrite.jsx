@@ -10,7 +10,8 @@ function QnaBbsWrite() {
   ]);
   const editorRef = useRef(null);
   const navigate = useNavigate();
-  const baseUrl = "/api/bbs/bbslist/bbsadd";
+  //25.12.01 경로 api/api 중복 수정
+  const baseUrl = "/bbs/bbslist/bbsadd";
 
   // 파일 선택
   const handleFileChange = (id, newFile) => {

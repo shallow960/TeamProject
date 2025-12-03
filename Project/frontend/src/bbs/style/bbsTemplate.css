@@ -372,3 +372,6 @@
 
 .img_dtl_wrap .text_box .chat_btn_box{display:block;position:relative;margin-top:30px;}
 .img_dtl_wrap .text_box .chat_btn_box .chat_btn{display:inline-block;position:relative;padding:8px 10px;border:1px solid #246beb;border-radius:8px;background-color:#246beb;color:#fff;}
+
+/* 25.12.03 포토 게시판 슬라이드 이미지 버튼 삭제 */
+.swiper-button-prev, swiper-button-next{display:none;}

@@ -60,7 +60,7 @@ public class MemberBbsController {
 
     // ⚠️ 프론트는 /DATA/... 로 직접 접근하므로 미리보기에는 BACKEND_URL을 붙이지 않음
     //    단, "다운로드" 클릭 시 호출할 보조용 링크 구성에만 사용
-    private final String BACKEND_URL = "http://127.0.0.1:8090";
+    private final String BACKEND_URL = "/api";
 
     // =========================
     // 📌 application.properties 값 주입 (물리 저장소 경로)

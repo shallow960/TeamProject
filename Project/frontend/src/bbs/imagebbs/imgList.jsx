@@ -16,15 +16,31 @@ export default function ImgBoard() {
   const [searchType, setSearchType] = useState("all");
 
   const navigate = useNavigate();
-  const baseUrl = "/api/bbs/bbslist";
-  const backendUrl = "/api"; // ⚠️ /DATA 경로에는 붙이지 않음
+  const baseUrl = "/bbs/bbslist";
+  //const backendUrl = "/api"; // ⚠️ /DATA 경로에는 붙이지 않음
 
   // /DATA 또는 http(s)로 시작하면 그대로, 그 외만 backendUrl prefix
+  // const resolveSrc = (raw) => {
+  //   if (!raw) return null;
+  //   const s = String(raw);
+  //   if (s.startsWith("/DATA") || s.startsWith("http")) return s;
+  //   return `${backendUrl}${s}`;
+  // };
+
+  //25.12.03 /DATA > /api 경로 수정
+  // ✅ 이미지 경로 prefix
   const resolveSrc = (raw) => {
     if (!raw) return null;
     const s = String(raw);
-    if (s.startsWith("/DATA") || s.startsWith("http")) return s;
-    return `${backendUrl}${s}`;
+
+    // 1) 절대 URL(http, https) → 그대로 사용
+    if (s.startsWith("http://") || s.startsWith("https://")) return s;
+
+    // 2) /DATA 로 시작하는 경우 → /api 붙여서 백엔드로 보내기
+    if (s.startsWith("/DATA")) return `/api${s}`;
+
+    // 3) 그 외 상대 경로도 /api prefix
+    return `/api${s}`;
   };
 
   // 게시글 + 대표 이미지 조회

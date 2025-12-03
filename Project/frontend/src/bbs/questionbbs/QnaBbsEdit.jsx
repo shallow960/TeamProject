@@ -4,13 +4,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./qnabbs.css";
 
-const BACKEND_URL = "/api"; // 파일 절대경로용
+//const BACKEND_URL = "/api"; // 파일 절대경로용
 
 const QnaBbsEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const editorRef = useRef(null);
-  const baseUrl = `${BACKEND_URL}/bbs`;
+  const baseUrl = `/bbs`;
 
   const [title, setTitle] = useState("");
   const [files, setFiles] = useState([]);
@@ -33,7 +33,7 @@ const QnaBbsEdit = () => {
             id: f.fileNum,
             file: null,
             name: f.originalName,
-            url: `${BACKEND_URL}/bbs/files/${f.fileNum}/download`,
+            url: `/bbs/files/${f.fileNum}/download`,
             insertOption: "no-insert",
             isDeleted: false,
             isNew: false

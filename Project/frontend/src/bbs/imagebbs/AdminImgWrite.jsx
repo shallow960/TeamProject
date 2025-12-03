@@ -1,16 +1,3 @@
-// src/admin/bbs/imagebbs/AdminImgWrite.jsx
-// 목적: "관리자 이미지 게시글 작성 페이지" (레이아웃/클래스는 사용자 작성 페이지와 동일하게 유지)
-// 사용 엔드포인트:
-//  1) 기본:  POST /admin/bbs/poto               (관리자 전용 생성 API가 준비되어 있을 경우)
-//  2) 폴백:  POST /bbs/bbslist/bbsadd           (현재 사용자용 생성 API; 관리자 생성 API가 없을 때 임시 사용)
-// 전송 규격(서비스 로직 준수):
-//  - memberNum (필수; POTO는 작성 회원 필요)
-//  - type = "POTO"
-//  - bbsDto(JSON Blob): { bbsTitle, bbsContent, bulletinType: "POTO" }
-//  - files[] (jpg/jpeg, image/jpeg, 5MB 이하)
-//  - isRepresentative[] (files와 개수/순서 동일, 한 개는 "Y" 나머지는 "N")
-// 성공 시 이동: /admin/bbs/image/Detail/{bulletinNum}
-
 import React, { useRef, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 // 주의: 관리자 폴더에서 common/api까지의 상대경로는 3단계 상위입니다.
@@ -55,7 +42,11 @@ export default function AdminImgWrite() {
       alert("jpg/jpeg 형식, 5MB 이하만 첨부 가능합니다.");
       return;
     }
-    setFiles((prev) => prev.map((f) => (f.id === id ? { ...f, file } : f)));
+
+    setFiles((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, file } : f))
+    );
+
     // 대표 미설정 상태에서 첫 파일이 들어오면 자동 대표로 선정(UX 보조)
     if (!repId && file) setRepId(id);
   };
@@ -115,18 +106,15 @@ export default function AdminImgWrite() {
       formData.append("isRepresentative", f.id === finalRepId ? "Y" : "N");
     });
 
-    // 엔드포인트:
     const ADMIN_CREATE_URL = "/admin/bbs/imgadd";
 
     try {
       setSubmitting(true);
 
-      // 관리자 전용 생성 호출(라우트가 생겼으므로 단일 호출)
       const res = await api.post(ADMIN_CREATE_URL, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // 생성된 bulletinNum 파싱(컨트롤러/서비스 반환 형태 대응)
       const data = res?.data || {};
       const newId =
         data?.bulletinNum ??
@@ -135,10 +123,11 @@ export default function AdminImgWrite() {
         data?.bbs?.id ??
         null;
 
+      console.log("created bulletinNum:", newId);
+
       alert("게시글이 등록되었습니다.");
       navigate("/admin/bbs/image");
     } catch (error) {
-      // 서비스 예외 메시지 가급적 그대로 노출
       const msg =
         error?.response?.data?.error ||
         error?.response?.data?.message ||
@@ -151,12 +140,7 @@ export default function AdminImgWrite() {
   };
 
   // ─────────────────────────────────────────────────────────────
-  // 렌더 (레이아웃/클래스 구조는 사용자 페이지와 동일)
-  //  - .bbs-write-container
-  //  - .bbs-write-form
-  //  - .bbs-row / .bbs-label / .bbs-title-input / .bbs-content-input
-  //  - .bbs-file-list / .bbs-file-row / .bbs-file-options / .bbs-file-remove
-  //  - .bbs-btn-area / .bbs-cancel-btn / .bbs-save-btn
+  // 렌더
   // ─────────────────────────────────────────────────────────────
   return (
     <div className="bbs-write-container">
@@ -186,7 +170,6 @@ export default function AdminImgWrite() {
               whiteSpace: "pre-wrap",
             }}
           />
-          {/* 백엔드에서 썸네일(300x300)을 생성합니다. 본문에는 /DATA 경로가 그대로 저장됩니다. */}
         </div>
 
         <div className="bbs-row">
@@ -201,25 +184,15 @@ export default function AdminImgWrite() {
                 />
 
                 <div className="bbs-file-options">
-                  {/* 전역 1개 라디오 그룹: name을 동일하게 두어 한 번에 하나만 선택되게 함 */}
                   <label>
                     <input
                       type="radio"
-                      name="repOption" // 동일 그룹명(전역 하나)
-                      checked={repId === f.id}
+                      name="repOption"          // 전역 하나의 그룹
+                      disabled={!f.file}        // 파일이 없으면 선택 불가
+                      checked={repId === f.id}  // 이 행이 대표인지 여부
                       onChange={() => chooseRepresentative(f.id)}
                     />{" "}
-                    대표이미지 삽입
-                  </label>
-
-                  <label>
-                    <input
-                      type="radio"
-                      name="repOption"
-                      checked={repId !== f.id}
-                      onChange={() => setRepId(null)}
-                    />{" "}
-                    대표이미지 미삽입
+                    대표 이미지로 사용
                   </label>
                 </div>
 

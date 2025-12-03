@@ -108,13 +108,22 @@ public class BbsServiceImpl implements BbsService {
     }
     
     // ---------------- 게시글 저장(메타만) ----------------
+    //25.12.01 안형주 추가 수정
+    //게시글 작성시 adminID가 확인되지 않는 오류
     private BbsDto saveOnlyBbs(BbsDto dto, Long requesterMemberNum, String requesterAdminId) {
         MemberEntity member = null;
+        AdminEntity admin = null;
 
-        // ✅ memberNum 존재 시에만 관계 설정
+        // 회원 작성인 경우
         if (dto.getMemberNum() != null) {
             member = memberRepository.findByMemberNum(dto.getMemberNum())
                     .orElseThrow(() -> new BbsException("회원이 존재하지 않습니다."));
+        }
+
+        // 관리자 작성인 경우
+        if (requesterAdminId != null) {
+            admin = adminRepository.findFirstByAdminId(requesterAdminId)
+                    .orElseThrow(() -> new BbsException("관리자 정보가 존재하지 않습니다."));
         }
 
         BbsEntity.BbsEntityBuilder builder = BbsEntity.builder()
@@ -130,12 +139,44 @@ public class BbsServiceImpl implements BbsService {
         if (member != null) {
             builder.memberNum(member);
         }
+        if (admin != null) {
+            builder.adminId(admin);
+        }
 
         BbsEntity entity = builder.build();
         BbsEntity savedEntity = bbsRepository.save(entity);
 
         return convertToDto(savedEntity);
     }
+
+//    private BbsDto saveOnlyBbs(BbsDto dto, Long requesterMemberNum, String requesterAdminId) {
+//        MemberEntity member = null;
+//
+//        // ✅ memberNum 존재 시에만 관계 설정
+//        if (dto.getMemberNum() != null) {
+//            member = memberRepository.findByMemberNum(dto.getMemberNum())
+//                    .orElseThrow(() -> new BbsException("회원이 존재하지 않습니다."));
+//        }
+//
+//        BbsEntity.BbsEntityBuilder builder = BbsEntity.builder()
+//                .bulletinNum(dto.getBulletinNum())
+//                .bbstitle(dto.getBbsTitle())
+//                .bbscontent(dto.getBbsContent())
+//                .registdate(LocalDateTime.now())
+//                .revisiondate(dto.getRevisionDate())
+//                .deldate(dto.getDelDate())
+//                .viewers(dto.getViewers() != null ? dto.getViewers() : 0)
+//                .bulletinType(dto.getBulletinType());
+//
+//        if (member != null) {
+//            builder.memberNum(member);
+//        }
+//
+//        BbsEntity entity = builder.build();
+//        BbsEntity savedEntity = bbsRepository.save(entity);
+//
+//        return convertToDto(savedEntity);
+//    }
 
     // ---------------- 최상위 생성 메소드 ----------------
     @Override

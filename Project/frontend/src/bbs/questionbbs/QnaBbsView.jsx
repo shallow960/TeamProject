@@ -7,7 +7,8 @@ function QnaBbsView() {
   const [post, setPost] = useState(null); // 게시글 + 답변 포함
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
-  const baseUrl = "/api/bbs";
+  //25.12.01 경로 api/api 중복 수정
+  const baseUrl = "/bbs";
 
   useEffect(() => {
     fetchPost();

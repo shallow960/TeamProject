@@ -15,7 +15,7 @@ function MemberNormalBbs() {
   const [searchType, setSearchType] = useState("all");
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  const BASE_URL = "/api"; // 백엔드 서버 주소
+  //const BASE_URL = "/api"; // 백엔드 서버 주소
   const PAGE_SIZE = 10; // 한 페이지당 글 수
 
   // 게시판 목록 불러오기
@@ -37,7 +37,9 @@ function MemberNormalBbs() {
           params.bbscontent = searchKeyword.trim();
       }
 
-      const response = await api.get(`${BASE_URL}/bbs/bbslist`, { params });
+      //const response = await api.get(`${BASE_URL}/bbs/bbslist`, { params });
+      //25.12.01 api/api 중복경로 수정
+      const response = await api.get(`/bbs/bbslist`, { params });
       const bbsData = response.data.bbsList;
 
       setPosts(bbsData.content || []);

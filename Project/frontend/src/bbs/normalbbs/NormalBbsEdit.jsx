@@ -4,9 +4,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../../common/api/axios";
 import "./normalbbs.css";
 
-const BACKEND_URL = "/api";
-const API_BASE = `${BACKEND_URL}/admin/bbs`;
-const FILE_DOWNLOAD = (fileNum) => `${BACKEND_URL}/bbs/files/${fileNum}/download`;
+//const BACKEND_URL = "/api";
+//const API_BASE = `${BACKEND_URL}/admin/bbs`;
+//const FILE_DOWNLOAD = (fileNum) => `${BACKEND_URL}/bbs/files/${fileNum}/download`;
+
+//25.12.01 경로 api/api 중복 수정
+const API_BASE = `/admin/bbs`;
+const FILE_DOWNLOAD = (fileNum) => `$/bbs/files/${fileNum}/download`;
 
 const allowedExtensions = ["jpg", "jpeg", "png", "pdf", "ppt", "pptx", "doc", "docx"];
 const allowedMimeTypes = [

@@ -19,7 +19,7 @@ function NoticeBbs() {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const navigate = useNavigate();
-  const BASE_URL = "/api"; // 관리자 백엔드 서버 주소
+  //const BASE_URL = "/api"; // 관리자 백엔드 서버 주소
 
   // 📌 공지사항 목록 불러오기
   const fetchNotices = async (pageNumber = 0) => {
@@ -38,7 +38,10 @@ function NoticeBbs() {
       }
 
       // 🔹 공지사항 전용 API 호출
-      const response = await api.get(`${BASE_URL}/admin/bbs/notices`, {
+      //const response = await api.get(`${BASE_URL}/admin/bbs/notices`, {
+      
+      //25.12.01 
+      const response = await api.get(`/admin/bbs/notices`, {
         params,
       });
 
