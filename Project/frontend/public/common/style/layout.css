@@ -106,7 +106,7 @@ body{font-size:16px;line-height:28px;letter-spacing:0;font-weight:400;font-famil
 #footer .info_box{margin-top:25px;}
 #footer .info_box .info_list{display:inline-block;position:relative;width:auto;margin-bottom:10px;font-size:0;line-height:0;vertical-align:top;box-sizing:border-box;}
 #footer .info_box .info_list .info_item{display:inline-block;width:auto;padding:0 13.5px;font-size:0;line-height:0;vertical-align:top;box-sizing:border-box;}
-#footer .info_box .info_list .info_item .text{display:inline-block;font-size:15px;color:rgba(255, 255, 255, 0.6);line-height:25px;letter-spacing:0;font-weight:400;vertical-align:top;box-sizing:border-box;}
+#footer .info_box .info_list .info_item .text{display:inline-block;font-size:15px;color:rgba(255, 255, 255, 0.6);line-height:25px;letter-spacing:0;font-weight:400;vertical-align:top;box-sizing:border-box;font-style:normal;}
 #footer .info_box .refusal,
 #footer .info_box .copyright{display:block;font-size:14px;color:rgba(255, 255, 255, 0.6);line-height:26px;letter-spacing:0;font-weight:400;word-break:keep-all;box-sizing:border-box;text-align:center;}
 @media all and (max-width:640px) {

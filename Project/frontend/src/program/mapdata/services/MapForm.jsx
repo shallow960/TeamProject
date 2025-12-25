@@ -8,7 +8,7 @@ const MapForm = () => {
   const [activeTab, setActiveTab] = useState("hospital");
   const [currentLocation, setCurrentLocation] = useState(null);
   const [markers, setMarkers] = useState([]);
-  const kakaoMapKey = "9ef042d2c608fd6bd5f7c5f2658bc1aa";
+  const kakaoMapKey = "445e20007391454dbf9c6cc185f4ce6e";
 
   // ✅ 첫 번째 useEffect: 카카오맵 SDK 로드 및 맵 객체 생성
   useEffect(() => {
@@ -51,19 +51,54 @@ const MapForm = () => {
             });
             setMarkers([currentMarker]);
 
-            // ✅ SDK 로드 완료 후에 Places 호출
+            // 현재 위치 기준 동물병원 검색
             fetchPlacesByRadius(map, center, "동물병원", 3000);
           },
           (error) => {
             console.error("위치 정보를 가져오는 데 실패했습니다.", error);
-            alert("현재 위치를 가져오지 못했습니다. 기본 위치에서 검색을 시작합니다.");
 
-            fetchPlacesByRadius(map, map.getCenter(), "동물병원", 3000);
+            // ✅ 여기부터 수정: 실패 시 기본 위치(서울 시청)로 동작
+            // HTTP + IP 환경에서는 브라우저 정책으로 geolocation이 막히기 때문에
+            // 기본 좌표를 하나 잡아서 그 기준으로 검색/탭 등을 동작하게 만든다.
+            const defaultCenter = new window.kakao.maps.LatLng(
+              37.5665, // 위도 (서울 시청)
+              126.9780 // 경도
+            );
+
+            // 기본 위치를 currentLocation 으로 세팅
+            setCurrentLocation(defaultCenter);
+            map.setCenter(defaultCenter);
+
+            // 기본 위치 마커
+            const defaultMarker = new window.kakao.maps.Marker({
+              position: defaultCenter,
+              map: map,
+            });
+            setMarkers([defaultMarker]);
+
+            alert(
+              "현재 위치를 가져오지 못했습니다.\n기본 위치(서울 시청) 기준으로 주변 정보를 표시합니다."
+            );
+
+            // 기본 위치 기준으로 주변 동물병원 검색
+            fetchPlacesByRadius(map, defaultCenter, "동물병원", 3000);
           }
         );
       } else {
         console.error("이 브라우저에서는 Geolocation이 지원되지 않습니다.");
-        fetchPlacesByRadius(map, map.getCenter(), "동물병원", 3000);
+
+        // Geolocation 자체가 지원되지 않는 경우에도 기본 위치로 처리
+        const defaultCenter = new window.kakao.maps.LatLng(37.5665, 126.9780);
+        setCurrentLocation(defaultCenter);
+        map.setCenter(defaultCenter);
+
+        const defaultMarker = new window.kakao.maps.Marker({
+          position: defaultCenter,
+          map: map,
+        });
+        setMarkers([defaultMarker]);
+
+        fetchPlacesByRadius(map, defaultCenter, "동물병원", 3000);
       }
     });
   }, [map]);
@@ -238,67 +273,76 @@ const MapForm = () => {
   };
 
   return (
-    <div className="map-container">
-      <div className="map-wrapper">
-        <div id="map"></div>
-      </div>
-      <div className="list-wrapper">
-        <div className="list-header">
-          <div className="temp_form md w60p">
-            <input
-              className="temp_input"
-              type="text"
-              placeholder="장소명 검색"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <button className="form-button-primary" onClick={handleSearch}>
-            검색
-          </button>
+    <div className="map_wrap">
+      <div className="info_msg" style={{fontSize:"20px", lineHeight:"24px", color:"red",textAlign:"center",padding:"10px 0 30px"}}>현재 도메인 문제로 사용자의 위치정보를 받아올 수 없습니다.</div>
+      <div className="map-container">
+        <div className="map-wrapper">
+          <div id="map"></div>
         </div>
-        <div className="list-header">
-          <div className="tab-form_btn_box">
-            <button
-              className={`tab-item ${activeTab === "hospital" ? "active" : ""}`}
-              onClick={() => handleTabClick("hospital")}
-            >
-              동물병원
+        <div className="list-wrapper">
+          <div className="list-header">
+            <div className="temp_form md w60p">
+              <input
+                className="temp_input"
+                type="text"
+                placeholder="장소명 검색"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <button className="form-button-primary" onClick={handleSearch}>
+              검색
             </button>
           </div>
-          <div className="tab-form_btn_box">
-            <button
-              className={`tab-item ${activeTab === "playground" ? "active" : ""}`}
-              onClick={() => handleTabClick("playground")}
-            >
-              애견놀이터
-            </button>
-          </div>
-        </div>
-        <ul className="place-list">
-          {places.length > 0 ? (
-            places.map((place) => (
-              <li
-                key={place.mapdataNum}
-                onClick={() => handlePlaceClick(place.latitude, place.longitude)}
+          <div className="list-header">
+            <div className="tab-form_btn_box">
+              <button
+                className={`tab-item ${
+                  activeTab === "hospital" ? "active" : ""
+                }`}
+                onClick={() => handleTabClick("hospital")}
               >
-                <h4>{place.placeName}</h4>
-                <p>{place.address}</p>
-                <button
-                  className="form-button-primary"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleGetDirections(place.placeName);
-                  }}
+                동물병원
+              </button>
+            </div>
+            <div className="tab-form_btn_box">
+              <button
+                className={`tab-item ${
+                  activeTab === "playground" ? "active" : ""
+                }`}
+                onClick={() => handleTabClick("playground")}
+              >
+                애견놀이터
+              </button>
+            </div>
+          </div>
+          <ul className="place-list">
+            {places.length > 0 ? (
+              places.map((place) => (
+                <li
+                  key={place.mapdataNum}
+                  onClick={() =>
+                    handlePlaceClick(place.latitude, place.longitude)
+                  }
                 >
-                  길찾기
-                </button>
-              </li>
-            ))
-          ) : (
-            <li>검색 결과가 없습니다.</li>
-          )}
-        </ul>
+                  <h4>{place.placeName}</h4>
+                  <p>{place.address}</p>
+                  <button
+                    className="form-button-primary"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleGetDirections(place.placeName);
+                    }}
+                  >
+                    길찾기
+                  </button>
+                </li>
+              ))
+            ) : (
+              <li>검색 결과가 없습니다.</li>
+            )}
+          </ul>
+        </div>
       </div>
     </div>
   );

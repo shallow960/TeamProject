@@ -84,7 +84,7 @@ function NoticeBbs() {
                 style={{ cursor: "pointer" }}
               >
                 <td>{post.bulletinNum}</td>
-                <td>{post.bbstitle}</td>
+                <td className="text_left">{post.bbstitle}</td>
                 <td>{new Date(post.createdAt).toLocaleDateString()}</td>
               </tr>
             ))

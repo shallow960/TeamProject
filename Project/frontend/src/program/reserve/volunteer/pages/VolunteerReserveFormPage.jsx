@@ -188,7 +188,7 @@ const VolunteerReserveFormPage = () => {
     }
     try {
     const { data: exists } = await api.get("/reserve/check-duplicate", {
-      params: { memberNum: formData.memberNum, date: selectedDate, timeSlotId: selectedSlotId, type: "VOLUNTEER" },
+      params: { memberNum: formData.memberNum, date: selectedDate, timeSlotId: selectedSlotId, type: "VOL" },
       });
       if (exists) {
         return alert("이미 예약하신 시간대입니다. 다른 시간대를 선택해 주세요.");

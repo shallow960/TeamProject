@@ -132,7 +132,7 @@ function MemberNormalBbs() {
                 style={{ cursor: "pointer" }}
               >
                 <td>{post.bulletinNum}</td>
-                <td>{post.bbsTitle}</td>
+                <td className="text_left">{post.bbsTitle}</td>
                 <td>관리자</td>
                 <td>
                   {post.registDate

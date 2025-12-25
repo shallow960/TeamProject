@@ -45,13 +45,13 @@ const Footer = () => {
         <div className="info_box">
           <ul className="info_list">
             <li className="info_item">
-              <address className="text">경기 동두천시 생연동 557-3</address>
+              <address className="text">대전광역시 유성구 가정로 218</address>
             </li>
             <li className="info_item">
-              <span className="text">TEL : 031-860-2062</span>
+              <span className="text">TEL : 042-111-2222</span>
             </li>
             <li className="info_item">
-              <span className="text">FAX : 031-860-2722</span>
+              <span className="text">FAX : 042-111-2223</span>
             </li>
           </ul>
           <div className="refusal">
@@ -64,7 +64,7 @@ const Footer = () => {
         </div>
         <div className="logo_box">
           <Link href="/www/index.do" className="logo_link">
-            <span className="logo_text img">동두천시</span>
+            <span className="logo_text img">대전광역시</span>
           </Link>
         </div>
       </div>

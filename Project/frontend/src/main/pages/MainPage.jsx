@@ -75,20 +75,28 @@ export default function MainPage() {
   // 재생/정지 상태
   const [isPlaying, setIsPlaying] = useState(true);
 
-  // 외부 버튼 핸들러
-  const handlePrev = () => swiperRef.current?.slidePrev();
-  const handleNext = () => swiperRef.current?.slideNext();
-  const handleTogglePlay = () => {
+  // 외부 버튼 핸들러(null 방지)
+  const handlePrev = () => {
     if (!swiperRef.current) return;
+    swiperRef.current.slidePrev();
+  };
+
+  const handleNext = () => {
+    if (!swiperRef.current) return;
+    swiperRef.current.slideNext();
+  };
+
+  const handleTogglePlay = () => {
+    if (!swiperRef.current || !swiperRef.current.autoplay) return;
+
     if (isPlaying) {
-      swiperRef.current.autoplay?.stop();
+      swiperRef.current.autoplay.stop();
       setIsPlaying(false);
     } else {
-      swiperRef.current.autoplay?.start();
+      swiperRef.current.autoplay.start();
       setIsPlaying(true);
     }
   };
-
   // 배너 데이터
   const [banners, setBanners] = useState([]);
 
@@ -99,49 +107,61 @@ export default function MainPage() {
       .catch((err) => console.error(err));
   }, []);
 
-  const slideMarkup = (
-    <Swiper
-      modules={[Navigation, Pagination, Autoplay, A11y, EffectFade]}
-      effect="fade"
-      fadeEffect={{ crossFade: true }}
-      loop
-      speed={700}
-      autoplay={{
-        delay: 3000,
-        disableOnInteraction: false,
-      }}
-      pagination={{ clickable: true }}
-      onBeforeInit={(swiper) => {
-        swiperRef.current = swiper;
-      }}
-      className="main_swiper"
-    >
-      {banners.map((banner) => {
-        const imgSrc = banner.imageUrl
-          ? `${BANNER_IMG_BASE}/${banner.imageUrl}` // 예: /api/files/xxx.jpg
-          : undefined;
+const slideMarkup = (
+  <Swiper
+    modules={[Navigation, Pagination, Autoplay, A11y, EffectFade]}
+    effect="fade"
+    fadeEffect={{ crossFade: true }}
+    // 배너가 2장 이상일 때만 loop/autoplay 동작
+    loop={banners.length > 1}
+    speed={700}
+    autoplay={
+      banners.length > 1
+        ? {
+            delay: 3000,
+            disableOnInteraction: false,
+          }
+        : false
+    }
+    pagination={{ clickable: true }}
+    // React 공식 패턴: onSwiper 에서 인스턴스 ref 잡기
+    onSwiper={(swiper) => {
+      swiperRef.current = swiper;
+    }}
+    // 동적 데이터 반영 안정화
+    observer={true}
+    observeParents={true}
+    // banners 개수가 변하면 Swiper를 재초기화
+    key={banners.length || 1}
+    className="main_swiper"
+  >
+    {banners.map((banner) => {
+      const imgSrc = banner.imageUrl
+        ? `${BANNER_IMG_BASE}/${banner.imageUrl}` // 예: /api/files/xxx.jpg
+        : undefined;
 
-        return (
-          <SwiperSlide key={banner.bannerId}>
-            <div className="visual_img_box">
-              {imgSrc && (
-                <img
-                  src={imgSrc}
-                  alt={banner.altText || banner.title || "배너 이미지"}
-                  style={{ width: "100%", height: "auto" }}
-                />
-              )}
-              {banner.linkUrl && (
-                <a href={banner.linkUrl} className="banner_link">
-                  {banner.subTitle || banner.title}
-                </a>
-              )}
-            </div>
-          </SwiperSlide>
-        );
-      })}
-    </Swiper>
-  );
+      return (
+        <SwiperSlide key={banner.bannerId}>
+          <div className="visual_img_box">
+            {imgSrc && (
+              <img
+                src={imgSrc}
+                alt={banner.altText || banner.title || "배너 이미지"}
+                style={{ width: "100%", height: "auto" }}
+              />
+            )}
+            {banner.linkUrl && (
+              <a href={banner.linkUrl} className="banner_link">
+                {banner.subTitle || banner.title}
+              </a>
+            )}
+          </div>
+        </SwiperSlide>
+      );
+    })}
+  </Swiper>
+);
+
 
   // 동물 사진용 스와이퍼 ref
   const animalSwiperRef = useRef(null);
@@ -238,6 +258,7 @@ export default function MainPage() {
     <div className="main_page">
       <div className="rowgroup1">
         <section>
+          {/* <div className="intro_mes">현재 해당 사이트는 기능적인 부분에 문제점이 발견되어서 신속하게 조치 중에 있습니다.</div> */}
           <h2>메인 비주얼 영역</h2>
           <div className="main_visual_wrap waypoint">
             <div className="main_visual_list">

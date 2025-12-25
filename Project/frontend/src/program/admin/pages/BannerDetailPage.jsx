@@ -3,6 +3,24 @@ import { useParams, useNavigate } from "react-router-dom";
 import BannerService from "../services/BannerService";
 import "../style/BannerManage.css";
 
+// 배너 상세 컴포넌트 상단
+
+// 백엔드 기본 prefix
+const BACKEND_URL = "/api";
+
+// 배너 이미지 경로 정규화
+const resolveBannerSrc = (imageUrl) => {
+  if (!imageUrl) return "";
+  const s = String(imageUrl);
+  // 이미 절대 URL이면 그대로 사용 (예: http://..., https://...)
+  if (s.startsWith("http")) return s;
+  // DB에 /DATA/... 형식으로 저장된 경우 → /api/DATA/... 로 붙여서 백엔드로 보냄
+  if (s.startsWith("/DATA")) return `${BACKEND_URL}${s}`;
+  // 그 외: 파일명만 있는 경우 → /api/files/{파일명} 으로 가정 (메인 배너와 동일)
+  return `${BACKEND_URL}/files/${s}`;
+};
+
+
 const AdminBannerDetailPage = () => {
   const { bannerId } = useParams();
   const navigate = useNavigate();
@@ -104,10 +122,11 @@ const AdminBannerDetailPage = () => {
                 <th>이미지</th>
                 <td>
                   <img
-                    src={`/DATA/banner/${banner.imageUrl}`}
+                    src={resolveBannerSrc(banner.imageUrl)}
                     alt={banner.altText || "배너 이미지"}
                     style={{ maxWidth: "300px", borderRadius: "8px" }}
                   />
+
                 </td>
               </tr>
               <tr>

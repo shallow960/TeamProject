@@ -21,9 +21,9 @@ export default function KakaoCallbackPage() {
   const navigate = useNavigate();
   const { search } = useLocation();
 
-  const API_BASE = (
-    process.env.REACT_APP_API_BASE || "/api"
-  ).replace(/\/+$/, "");
+  // const API_BASE = (
+  //   process.env.REACT_APP_API_BASE || "/api"
+  // ).replace(/\/+$/, "");
 
   const MYPAGE_PATH = routes?.member?.mypage?.path || "/member/mypage";
   const JOIN_PATH = routes?.member?.join?.path || "/join";
@@ -48,9 +48,8 @@ export default function KakaoCallbackPage() {
 
     const run = async () => {
       try {
-        const url = `${API_BASE}/kakao/callback?code=${encodeURIComponent(
-          code
-        )}`;
+        // const url = `${API_BASE}/kakao/callback?code=${encodeURIComponent(
+        const url = `/kakao/callback?code=${encodeURIComponent(code)}`;
 
         // 공용 api 인스턴스 사용(헤더/쿠키 일관성)
         const res = await api.get(url);
@@ -72,6 +71,9 @@ export default function KakaoCallbackPage() {
               alsoAdmin: true,
             });
             if (data?.memberId) localStorage.setItem("memberId", data.memberId);
+            if (data?.memberNum) {
+              localStorage.setItem("memberNum", String(data.memberNum));
+            }
             if (data?.role) localStorage.setItem("role", data.role);
             // 가드 레이스 방지 이벤트
             try {

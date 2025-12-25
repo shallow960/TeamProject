@@ -120,6 +120,7 @@
   transform: scale(1.05);
 }
 
+.fund-section-card .form_title{font-size:20px;margin-top:24px;margin-bottom:12px;font-weight:600;}
 .fund-section-icon {
   font-size: 3rem; /* 48px */
   margin-bottom: 1rem; /* 16px */

@@ -19,18 +19,23 @@
 
 import React, { useMemo } from "react";
 
-// CRA/Next/Vite 등 다양한 번들러 대응: 둘 중 있는 값을 사용
+// 1) env 우선 사용 로직 일단 비활성화(주석 처리)
+
+/*
 const ENV_REST_KEY =
   process.env.REACT_APP_KAKAO_REST_API_KEY ||
   import.meta?.env?.VITE_KAKAO_REST_KEY;
 const ENV_REDIRECT_URI =
   process.env.REACT_APP_KAKAO_REDIRECT_URI ||
   import.meta?.env?.VITE_KAKAO_REDIRECT_URI ||
-  "http://127.0.0.1:3000/oauth/kakao/callback"; // 기본값(로컬)
+  "http://152.67.212.81/api/kakao/callback";
+*/
+
+// 2) 카카오 REST API 키와 Redirect URI를 "현재 사용 중인 앱 설정"으로 하드코딩
+const REST_API_KEY = "81e534db4230445c24fa35d7ac6594af";
+const REDIRECT_URI = "http://152.67.212.81/oauth/kakao/callback";
 
 const KAKAO_AUTHORIZE_URL = "https://kauth.kakao.com/oauth/authorize";
-
-// 우리가 요구하는 동의 항목(필요에 맞게 수정 가능)
 const DEFAULT_SCOPES = [
   "account_email",
   "phone_number",
@@ -40,7 +45,6 @@ const DEFAULT_SCOPES = [
 ];
 
 function buildState() {
-  // CSRF 방지를 위한 state 값 (세션에 저장)
   const s = Math.random().toString(36).slice(2) + Date.now().toString(36);
   try {
     sessionStorage.setItem("kakao_oauth_state", s);
@@ -48,25 +52,19 @@ function buildState() {
   return s;
 }
 
-export default function KakaoLoginButton({
-  scopes = DEFAULT_SCOPES,
-  fullWidth = false,
-}) {
-  // 인가 URL 구성
+export default function KakaoLoginButton({ scopes = DEFAULT_SCOPES }) {
   const authorizeUrl = useMemo(() => {
-    const clientId = ENV_REST_KEY;
-    const redirectUri = ENV_REDIRECT_URI;
+    const clientId = REST_API_KEY;
+    const redirectUri = REDIRECT_URI;
+
     if (!clientId || !redirectUri) return null;
 
     const params = new URLSearchParams({
       response_type: "code",
       client_id: clientId,
       redirect_uri: redirectUri,
-      // 여러 scope는 공백으로 구분 → encodeURIComponent 로 인코딩됨
       scope: scopes.join(" "),
-      // 선택: 계정 재선택 유도 (동일 브라우저에 여러 계정 있을 때 편리)
       prompt: "select_account",
-      // CSRF 대비 state
       state: buildState(),
     });
     return `${KAKAO_AUTHORIZE_URL}?${params.toString()}`;
@@ -74,19 +72,11 @@ export default function KakaoLoginButton({
 
   const handleClick = () => {
     if (!authorizeUrl) {
-      alert(
-        "환경변수(REACT_APP_KAKAO_REST_KEY / REACT_APP_KAKAO_REDIRECT_URI)가 설정되지 않았습니다."
-      );
+      alert("Kakao 설정이 잘못되었습니다.");
       return;
     }
-    // 인가 페이지로 이동
     window.location.href = authorizeUrl;
   };
-
-  // 간단 스타일(프로젝트 버튼 클래스가 있으면 className만 넘겨서 쓰면 됨)
-  const style = fullWidth
-    ? { width: "100%", background: "#FEE500", color: "#000", borderRadius: 8 }
-    : { background: "#FEE500", color: "#000", borderRadius: 8 };
 
   return (
     <div className="kakao_login bth_item">
@@ -95,22 +85,12 @@ export default function KakaoLoginButton({
         className="login_btn kakao_btn"
         onClick={handleClick}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          className="login-v2-button__item__logo"
-        >
-          <title>kakao 로고</title>
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M9.96052 3C5.83983 3 2.5 5.59377 2.5 8.79351C2.5 10.783 3.79233 12.537 5.75942 13.5807L4.9313 16.6204C4.85835 16.8882 5.1634 17.1029 5.39883 16.9479L9.02712 14.5398C9.33301 14.5704 9.64386 14.587 9.96052 14.587C14.0812 14.587 17.421 11.9932 17.421 8.79351C17.421 5.59377 14.0812 3 9.96052 3Z"
-            fill="black"
-          ></path>
-        </svg>
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M9.96052 3C5.83983 3 2.5 5.59377 2.5 8.79351C2.5 10.783 3.79233 12.537 5.75942 13.5807L4.9313 16.6204C4.85835 16.8882 5.1634 17.1029 5.39883 16.9479L9.02712 14.5398C9.33301 14.5704 9.64386 14.587 9.96052 14.587C14.0812 14.587 17.421 11.9932 17.421 8.79351C17.421 5.59377 14.0812 3 9.96052 3Z"
+          fill="black"
+        ></path>
         <span>카카오 로그인</span>
       </button>
     </div>

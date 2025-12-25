@@ -11,6 +11,45 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+// 이미지 src로 쓸 "원본 경로" 고르기: /DATA or http만 허용, download URL은 배제
+const pickImageRaw = (file) => {
+  const candidates = [
+    file?.thumbnailPath,
+    file?.imagePath,
+    file?.fileUrl,
+    file?.url,
+    file?.path,
+    file?.savePath,
+  ];
+  for (const c of candidates) {
+    if (isDataLike(c) && !isDownloadUrl(c)) return c;
+  }
+  return null; // 적절한 경로가 없으면 null
+};
+
+// /DATA 또는 http(s) 경로인가?
+const isDataLike = (s) =>
+  typeof s === "string" && (s.startsWith("/DATA") || s.startsWith("http"));
+// download URL 패턴인가? (관리자/사용자 모두 커버)
+const isDownloadUrl = (s) =>
+  typeof s === "string" &&
+  (/\/admin\/bbs\/files\/\d+\/download/.test(s) ||
+    /\/bbs\/files\/\d+\/download/.test(s));
+
+    const resolveSrc = (raw) => {
+  if (!raw) return null;
+  const s = String(raw);
+
+  // 1) 절대 URL(http, https) → 그대로 사용
+  if (s.startsWith("http://") || s.startsWith("https://")) return s;
+
+  // 2) /DATA 로 시작하는 경우 → /api 붙여서 백엔드로 보내기
+  if (s.startsWith("/DATA")) return `/api${s}`;
+
+  // 3) 그 외 상대 경로도 /api prefix
+  return `/api${s}`;
+};
+
 export default function ImgDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -115,7 +154,39 @@ export default function ImgDetail() {
             swiperRef.current = swiper; // ref 연결
           }}
         >
-          {files.map((f) => {
+          {
+          files.map((f) => {
+              const fileNum = f.fileNum ?? f.filenum ?? f.id;
+              const originalName =
+                f.originalName ?? f.originalname ?? f.name ?? "첨부파일";
+              const ext = (f.extension ?? f.ext ?? "").toLowerCase();
+              const isImage = /(jpe?g|png|gif|webp)$/i.test(ext);
+
+              // ✅ 반드시 /DATA(or http) 경로만 이미지로 사용
+              const rawImg = pickImageRaw(f);
+              const imgUrl = rawImg ? resolveSrc(rawImg) : null;
+
+              return (
+                <SwiperSlide key={fileNum ?? originalName}>
+                  <div className="slide_item">
+                    {isImage && imgUrl ? (
+                      <img src={imgUrl} alt={originalName} />
+                    ) : (
+                      // 이미지 경로가 없으면 다운로드 링크로만 표출
+                      //api 중복 경로 수정
+                      <a
+                        href={`/admin/bbs/files/${fileNum}/download`}
+                        download={originalName}
+                      >
+                        {originalName}
+                      </a>
+                    )}
+                  </div>
+                </SwiperSlide>
+              );
+            })
+                    
+            /* {files.map((f) => {
             const imgUrl = f.fileUrl?.startsWith("http")
               ? f.fileUrl
               : `${f.fileUrl}`;
@@ -127,7 +198,7 @@ export default function ImgDetail() {
                 </div>
               </SwiperSlide>
             );
-          })}
+          })} */}
         </Swiper>
       ) : (
         <div className="no-image">첨부파일이 없습니다.</div>

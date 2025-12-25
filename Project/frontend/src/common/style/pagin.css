@@ -9,4 +9,4 @@
 .pagination_box .page_btn_box .page:hover{background-color:#246beb;color:#fff;}
 .pagination_box .page_btn_box .page.active{background-color:#246beb;color:#fff;}
 
-.search_bar_box{display:flex;gap:14px;justify-content:flex-end;margin:60px 0 30px;}
+.search_bar_box{display:flex;gap:14px;justify-content:flex-end;margin:100px 0 30px;}

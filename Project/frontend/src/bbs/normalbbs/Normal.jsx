@@ -134,7 +134,7 @@ function NoticeBbs() {
               <tr key={post.bulletinNum}>
                 <td>{post.bulletinNum}</td>
                 {/* 제목 클릭 시 상세 페이지로 이동 */}
-                <td
+                <td className="text_left"
                   style={{ cursor: "pointer", color: "#007bff" }}
                   onClick={() =>
                     navigate(`/admin/bbs/normal/${post.bulletinNum}`)

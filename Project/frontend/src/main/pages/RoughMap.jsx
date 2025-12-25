@@ -6,8 +6,8 @@ export default function RoughMap() {
     const timer = setInterval(() => {
       if (window.daum?.roughmap?.Lander) {
         new window.daum.roughmap.Lander({
-          timestamp: "1756631194028",
-          key: "7xasvvnbqw8",
+          timestamp: "1765439763900",
+          key: "dp2txyfd5tv",
           mapWidth: "100%",   // 반응형
           mapHeight: "100%", // 원하는 높이
         }).render();
@@ -22,7 +22,7 @@ export default function RoughMap() {
       <div className="con_map_wrap">
         <div className="map_inner main_map_size">
           <div
-            id="daumRoughmapContainer1756631194028"
+            id="daumRoughmapContainer1765439763900"
             className="root_daum_roughmap root_daum_roughmap_landing"
           ></div>
         </div>
