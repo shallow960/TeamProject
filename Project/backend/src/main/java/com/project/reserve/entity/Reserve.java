@@ -45,7 +45,7 @@ public class Reserve {
     @Enumerated(EnumType.STRING)
     @Column(name = "reserve_state" )
     private ReserveState reserveState;		//예약 상태 (enum)
-
+ 
     @Column(name = "reserve_number")
     private Integer reserveNumber;		//인원수
     
