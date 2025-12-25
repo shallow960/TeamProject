@@ -53,7 +53,6 @@ public class Reserve {
     @Column(name = "update_time")
     private LocalDateTime updateTime;	// 상태변경 시간
     
-    @UpdateTimestamp
     @Column(name = "note")
     private String note;		//비고
 

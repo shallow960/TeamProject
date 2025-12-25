@@ -60,7 +60,7 @@ public class MemberBbsController {
 
     // ⚠️ 프론트는 /DATA/... 로 직접 접근하므로 미리보기에는 BACKEND_URL을 붙이지 않음
     //    단, "다운로드" 클릭 시 호출할 보조용 링크 구성에만 사용
-    private final String BACKEND_URL = "/api";
+    //private final String BACKEND_URL = "/api";
 
     // =========================
     // 📌 application.properties 값 주입 (물리 저장소 경로)
@@ -157,7 +157,7 @@ public class MemberBbsController {
             fileMap.put("path", f.getPath());                  // /DATA/... (프론트 직접 접근용)
             fileMap.put("size", f.getSize());
             fileMap.put("extension", f.getExtension());
-            fileMap.put("fileUrl", BACKEND_URL + "/bbs/files/" + f.getFileNum() + "/download"); // 다운로드 보조용 링크
+            fileMap.put("fileUrl", "/bbs/files/" + f.getFileNum() + "/download"); // 다운로드 보조용 링크
             fileMapList.add(fileMap);
         }
         response.put("files", fileMapList);
@@ -258,7 +258,7 @@ public class MemberBbsController {
                     fileMap.put("path", f.getPath());
                     fileMap.put("size", f.getSize());
                     fileMap.put("extension", f.getExtension());
-                    fileMap.put("fileUrl", BACKEND_URL + "/bbs/files/" + f.getFileNum() + "/download");
+                    fileMap.put("fileUrl", "/bbs/files/" + f.getFileNum() + "/download");
                     fileMapList.add(fileMap);
                 }
                 response.put("files", fileMapList);
@@ -347,7 +347,7 @@ public class MemberBbsController {
             fileMap.put("path", f.getPath()); // /DATA/... (프론트 직접 접근 가능)
             fileMap.put("size", f.getSize());
             fileMap.put("extension", f.getExtension());
-            fileMap.put("fileUrl", BACKEND_URL + "/bbs/files/" + f.getFileNum() + "/download");
+            fileMap.put("fileUrl", "/bbs/files/" + f.getFileNum() + "/download");
             fileMapList.add(fileMap);
         }
 
@@ -418,7 +418,7 @@ public class MemberBbsController {
             fileMap.put("fileNum", f.getFileNum());
             fileMap.put("originalName", f.getOriginalName());  // 상세에는 "이름만" 노출
             fileMap.put("path", f.getPath());                  // /DATA/... (필요 시 미리보기)
-            fileMap.put("fileUrl", BACKEND_URL + "/bbs/files/" + f.getFileNum() + "/download"); // 다운로드 보조용
+            fileMap.put("fileUrl", "/bbs/files/" + f.getFileNum() + "/download"); // 다운로드 보조용
             fileMapList.add(fileMap);
         }
         return ResponseEntity.ok(fileMapList);

@@ -1,6 +1,7 @@
 package com.project.reserve.dto;
 
 import com.project.reserve.entity.ReserveState;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.member.entity.MemberEntity;
 import com.project.reserve.entity.Reserve;
 
@@ -19,12 +20,13 @@ public class ReserveResponseDto {
 
 	private Long reserveCode;
 	private Long memberNum;
-	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime applyDate;
     private LocalDate reserveDate;       //놀이터 or 봉사 예약일 Land.landDate, Volunteer.volDate
     private int reserveType;
     private String reserveTypeName;
     private ReserveState reserveState;
+    private String note;
     
   //entity -> dto 변환 (서버가 응답한걸 사용자에게 넘기는 과정 ex)예약코드)
     public static ReserveResponseDto from(Reserve reserve) {
@@ -50,6 +52,7 @@ public class ReserveResponseDto {
                 .reserveType(reserve.getReserveType())
                 .reserveTypeName(getReserveTypeName(reserve.getReserveType()))
                 .reserveState(reserve.getReserveState())
+                .note(reserve.getNote())
                 .build();
     }
     public static String getReserveTypeName(int type) {  //public: 모든클래스에서 접근가능 private:같은 클래스내에서만 접근가능

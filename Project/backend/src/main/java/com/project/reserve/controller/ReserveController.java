@@ -12,6 +12,8 @@ import com.project.reserve.service.ReserveService;
 import com.project.volunteer.dto.VolunteerDetailDto;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reserve")
+@RequestMapping("/reserve")
 @RequiredArgsConstructor
 public class ReserveController {
 
@@ -65,7 +67,6 @@ public class ReserveController {
         MemberEntity member = memberRepository.findByMemberId(memberId)
         		.orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
         Long memberNum = member.getMemberNum();
-
         LandDetailDto detail = reserveService.getMemberLandReserveDetail(reserveCode, memberNum);
         return ResponseEntity.ok(detail);
     }
@@ -95,22 +96,48 @@ public class ReserveController {
     }
     
     // formpage -> confirmpage 넘어갈때 예약 중복검사
+    //25.12.11 중복여부 수정
     @GetMapping("/check-duplicate")
     public ResponseEntity<Boolean> checkDuplicate(
             @RequestParam Long memberNum,
-            @RequestParam LocalDate date,
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam Long timeSlotId,
-            @RequestParam String type // "LAND" or "VOLUNTEER"
+            @RequestParam String type // "LAND" or "VOL"
     ) {
+
+        if (memberNum == null) {
+            throw new IllegalArgumentException("회원 번호가 필요합니다.");
+        }
+
         boolean exists;
+
         if ("LAND".equalsIgnoreCase(type)) {
             exists = reserveService.existsLandDuplicate(memberNum, date, timeSlotId);
-        } else if ("VOLUNTEER".equalsIgnoreCase(type)) {
+        } else if ("VOL".equalsIgnoreCase(type)) {
             exists = reserveService.existsVolunteerDuplicate(memberNum, date, timeSlotId);
         } else {
-            throw new IllegalArgumentException("예약 유형이 잘못되었습니다.");
+            throw new IllegalArgumentException("지원하지 않는 예약 타입입니다: " + type);
         }
+
         return ResponseEntity.ok(exists);
     }
+//    @GetMapping("/check-duplicate")
+//    public ResponseEntity<Boolean> checkDuplicate(
+//            @RequestParam Long memberNum,
+//            @RequestParam LocalDate date,
+//            @RequestParam Long timeSlotId,
+//            @RequestParam String type // "LAND" or "VOLUNTEER"
+//    ) {
+//        boolean exists;
+//        if ("LAND".equalsIgnoreCase(type)) {
+//            exists = reserveService.existsLandDuplicate(memberNum, date, timeSlotId);
+//        } else if ("VOLUNTEER".equalsIgnoreCase(type)) {
+//            exists = reserveService.existsVolunteerDuplicate(memberNum, date, timeSlotId);
+//        } else {
+//            throw new IllegalArgumentException("예약 유형이 잘못되었습니다.");
+//        }
+//        return ResponseEntity.ok(exists);
+//    }
     
 }

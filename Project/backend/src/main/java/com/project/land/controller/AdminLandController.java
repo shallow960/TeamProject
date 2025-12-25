@@ -14,7 +14,7 @@ import com.project.land.service.LandService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/admin/land")
+@RequestMapping("/admin/land")
 @RequiredArgsConstructor
 public class AdminLandController {
 

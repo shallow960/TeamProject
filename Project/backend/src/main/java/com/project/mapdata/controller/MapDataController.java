@@ -22,7 +22,7 @@ import com.project.mapdata.service.MapDataService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/mapdata")
+@RequestMapping("/mapdata")
 @RequiredArgsConstructor
 public class MapDataController {
     private final MapDataService mapDataService;

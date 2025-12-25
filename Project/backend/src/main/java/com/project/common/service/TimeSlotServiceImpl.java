@@ -38,36 +38,73 @@ public class TimeSlotServiceImpl implements TimeSlotService {
     }
     
     // 타입별 시간대 조회
+//    @Override
+//    @Transactional(readOnly = true)
+//    public List<TimeSlotDto> getTimeSlotsByType(TimeType timeType) {
+//    	LocalDate today = LocalDate.now();
+//    	
+//        return timeSlotRepository
+//                .findByTimeTypeOrderByStartTimeAsc(timeType)
+//                .stream()
+//                .map(slot -> {
+//                	 boolean hasFutureReserve = false;
+//                	 List<ReserveState> activeStates = List.of(ReserveState.ING, ReserveState.DONE);
+//                	 
+//                	 if (timeType == TimeType.LAND) {
+//                		    hasFutureReserve = reserveRepository
+//                		        .existsByLandDetail_TimeSlot_IdAndLandDetail_LandDateAfterAndReserveStateIn(
+//                		            slot.getId(), today, activeStates
+//                		        );
+//                		} else if (timeType == TimeType.VOL) {
+//                		    hasFutureReserve = reserveRepository
+//                		        .existsByVolunteerDetail_TimeSlot_IdAndVolunteerDetail_VolDateAfterAndReserveStateIn(
+//                		            slot.getId(), today, activeStates
+//                		        );
+//                		}
+//                     TimeSlotDto dto = TimeSlotDto.fromEntity(slot);
+//                     dto.setHasFutureReserve(hasFutureReserve); // ✅ 예약 여부 주입
+//                     return dto;
+//                 })
+//                 .toList();
+//    }
+    
+    
     @Override
     @Transactional(readOnly = true)
     public List<TimeSlotDto> getTimeSlotsByType(TimeType timeType) {
-    	LocalDate today = LocalDate.now();
-    	
+        LocalDate today = LocalDate.now();
+
         return timeSlotRepository
                 .findByTimeTypeOrderByStartTimeAsc(timeType)
                 .stream()
                 .map(slot -> {
-                	 boolean hasFutureReserve = false;
-                	 List<ReserveState> activeStates = List.of(ReserveState.ING, ReserveState.DONE);
-                	 
-                	 if (timeType == TimeType.LAND) {
-                		    hasFutureReserve = reserveRepository
-                		        .existsByLandDetail_TimeSlot_IdAndLandDetail_LandDateAfterAndReserveStateIn(
-                		            slot.getId(), today, activeStates
-                		        );
-                		} else if (timeType == TimeType.VOL) {
-                		    hasFutureReserve = reserveRepository
-                		        .existsByVolunteerDetail_TimeSlot_IdAndVolunteerDetail_VolDateAfterAndReserveStateIn(
-                		            slot.getId(), today, activeStates
-                		        );
-                		}
-                     TimeSlotDto dto = TimeSlotDto.fromEntity(slot);
-                     dto.setHasFutureReserve(hasFutureReserve); // ✅ 예약 여부 주입
-                     return dto;
-                 })
-                 .toList();
+                    // 1차 테스트용: 예약 여부는 일단 false 로 고정
+                    boolean hasFutureReserve = false;
+
+                    // 원래 로직은 잠시 주석 처리
+                    /*
+                    List<ReserveState> activeStates = List.of(ReserveState.ING, ReserveState.DONE);
+
+                    if (timeType == TimeType.LAND) {
+                        hasFutureReserve = reserveRepository
+                            .existsByLandDetail_TimeSlot_IdAndLandDetail_LandDateAfterAndReserveStateIn(
+                                slot.getId(), today, activeStates
+                            );
+                    } else if (timeType == TimeType.VOL) {
+                        hasFutureReserve = reserveRepository
+                            .existsByVolunteerDetail_TimeSlot_IdAndVolunteerDetail_VolDateAfterAndReserveStateIn(
+                                slot.getId(), today, activeStates
+                            );
+                    }
+                    */
+
+                    TimeSlotDto dto = TimeSlotDto.fromEntity(slot);
+                    dto.setHasFutureReserve(hasFutureReserve);
+                    return dto;
+                })
+                .toList();
     }
-    
+
     // 전체 시간대 조회
     public List<TimeSlotDto> getAllTimeSlots() {
         return timeSlotRepository.findAll()

@@ -86,10 +86,28 @@ public class ClosedDayServiceImpl implements ClosedDayService {
         }
     }
     
+//    @Override
+//    public List<ClosedDayResponseDto> getClosedDays(int year, int month) {
+//        LocalDate start = LocalDate.of(year, month, 1);
+//        LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
+//        return getClosedDaysInPeriod(start, end); // 범용 메서드 재사용
+//    }
+    
     @Override
     public List<ClosedDayResponseDto> getClosedDays(int year, int month) {
-        LocalDate start = LocalDate.of(year, month, 1);
-        LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
-        return getClosedDaysInPeriod(start, end); // 범용 메서드 재사용
+        try {
+            LocalDate start = LocalDate.of(year, month, 1);
+            LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
+            System.out.println("[DEBUG] getClosedDays year=" + year + ", month=" + month
+                    + ", start=" + start + ", end=" + end);
+
+            List<ClosedDayResponseDto> list = getClosedDaysInPeriod(start, end);
+            System.out.println("[DEBUG] getClosedDays result size=" + list.size());
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace(); // 여기 찍히는 stack trace가 진짜 원인
+            throw e;
+        }
     }
+
 }

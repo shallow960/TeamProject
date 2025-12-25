@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/closed-days")
+@RequestMapping("/closed-days")
 @RequiredArgsConstructor
 public class ClosedDayController {
 

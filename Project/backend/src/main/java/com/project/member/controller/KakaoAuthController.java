@@ -98,7 +98,8 @@ public class KakaoAuthController {
             body.put("refreshToken", refreshToken);
             body.put("memberId", subject);
             body.put("role", role);
-
+            //25.12.11 MemberNum 추가(카카오 사용자 예약 오류)
+            body.put("memberNum", m.getMemberNum());
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, atCookie.toString())
                     .header(HttpHeaders.SET_COOKIE, rtCookie.toString())

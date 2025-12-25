@@ -45,7 +45,7 @@ public class BbsAdminController {
     private JwtTokenProvider jwtTokenProvider;
 
     // ⚠️ 프론트는 /DATA/... 로 직접 접근하므로 이미지/파일 미리보기에는 BACKEND_URL을 붙이지 않음
-    private final String BACKEND_URL = "/api";
+    //private final String BACKEND_URL = "/api";
 
     // =========================
     // 📌 application.properties 값 주입 (물리 저장소 경로)
@@ -190,7 +190,7 @@ public class BbsAdminController {
             fileMap.put("savedName", f.getSavedName());
             fileMap.put("path", f.getPath()); // ✅ 프론트가 원하면 직접 렌더 가능 (/DATA/..)
             // ✅ 보조용 다운로드 링크 (상세화면에서 "이름만 표시 + 클릭 시 다운로드" 용)
-            fileMap.put("fileUrl", BACKEND_URL + "/admin/bbs/files/" + f.getFileNum() + "/download");
+            fileMap.put("fileUrl", "/admin/bbs/files/" + f.getFileNum() + "/download");
             fileMapList.add(fileMap);
         }
 
@@ -434,7 +434,7 @@ public class BbsAdminController {
                 fileMap.put("path", f.getPath());
                 fileMap.put("size", f.getSize());
                 fileMap.put("extension", f.getExtension());
-                fileMap.put("fileUrl", BACKEND_URL + "/bbs/files/" + f.getFileNum() + "/download");
+                fileMap.put("fileUrl", "/bbs/files/" + f.getFileNum() + "/download");
                 fileMapList.add(fileMap);
             }
             response.put("files", fileMapList);
@@ -542,7 +542,7 @@ public class BbsAdminController {
             fileMap.put("size", f.getSize());
             fileMap.put("extension", f.getExtension());
             // 보조 다운로드 링크
-            fileMap.put("fileUrl", BACKEND_URL + "/admin/bbs/files/" + f.getFileNum() + "/download");
+            fileMap.put("fileUrl", "/admin/bbs/files/" + f.getFileNum() + "/download");
             fileMapList.add(fileMap);
         }
 
@@ -570,7 +570,7 @@ public class BbsAdminController {
             fileMap.put("size", f.getSize());
             fileMap.put("extension", f.getExtension());
             // 보조 다운로드 링크
-            fileMap.put("fileUrl", BACKEND_URL + "/admin/bbs/files/" + f.getFileNum() + "/download");
+            fileMap.put("fileUrl", "/admin/bbs/files/" + f.getFileNum() + "/download");
             fileMapList.add(fileMap);
         }
 

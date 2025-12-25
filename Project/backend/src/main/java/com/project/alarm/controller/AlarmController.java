@@ -35,7 +35,7 @@ public class AlarmController {
         return memberService.getMyInfo(memberId);
     }
 
-    @GetMapping("/api/alarm/list")
+    @GetMapping("/alarm/list")
     public ResponseEntity<List<AlarmResponseDto>> getAlarms(HttpServletRequest request) {
         MemberMeResponseDto member = getMemberFromRequest(request);
         if (member == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

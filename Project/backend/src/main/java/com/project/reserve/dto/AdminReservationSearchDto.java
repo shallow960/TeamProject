@@ -15,5 +15,6 @@ public class AdminReservationSearchDto {
     private String memberName;	//회원 이름
     private Long reserveCode; //예약 코드
     private ReserveState reserveState; //예약상태
+    private String note; //비고
 }
 //관리자 검색필터용

@@ -320,7 +320,7 @@ public class ReserveServiceImpl implements ReserveService {
                 .reserveNumber(reserve.getReserveNumber())
                 .build();
     }
-    //사용자가 자신의 예약을 취소할때 사용
+    //사용자가 자신의 예약을 취소할때 사용	
     @Override
     @Transactional
     public void memberCancelReserve(Long reserveCode, Long memberNum) {

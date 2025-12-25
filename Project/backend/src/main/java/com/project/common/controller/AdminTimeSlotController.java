@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin/timeslots") // 관리자 전용
+@RequestMapping("/admin/timeslots") // 관리자 전용
 @RequiredArgsConstructor
 public class AdminTimeSlotController {
 

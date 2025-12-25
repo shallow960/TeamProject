@@ -42,5 +42,5 @@ public class Land {
 
     @Column(name = "pay_number") 
     private int payNumber;		// 결제금액
-
+    
 }

@@ -103,10 +103,10 @@ public class LandServiceImpl implements LandService {
         int basePrice = 2000;
         int animalNumber = landDto.getAnimalNumber();
         int reserveNumber = reserve.getReserveNumber();
-
+        
         int additionalPrice = (animalNumber > 1 ? (animalNumber - 1) * 1000 : 0) + reserveNumber * 1000;
         int totalPrice = basePrice + additionalPrice;
-
+        
         Land land = Land.builder()
                 .reserve(reserve)
                 .landDate(landDto.getLandDate())

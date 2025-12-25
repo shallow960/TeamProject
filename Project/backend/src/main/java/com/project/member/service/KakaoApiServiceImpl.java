@@ -19,7 +19,7 @@ import java.util.Map;
  * 핵심 포인트
  * - KOE320(invalid_grant) 회피:
  *   1) 토큰 교환 시 redirect_uri가 "인가 코드 발급에 사용된 것"과 '완전히' 동일해야 함
- *      (ex. http://127.0.0.1:3000/oauth/kakao/callback)
+ *      (ex. http://152.67.212.81/oauth/kakao/callback)
  *   2) React StrictMode로 콜백이 2번 호출되면 code가 재사용되어 실패 → 프론트에서 중복호출 가드 필요
  * - Kakao 앱에 Client Secret이 "사용"으로 되어 있으면 반드시 함께 전송해야 함.
  */
@@ -39,7 +39,7 @@ public class KakaoApiServiceImpl implements KakaoApiService {
     private String clientId;
 
     // ⚠ redirect-uri는 "카카오 개발자 콘솔에 등록된 것"과 '완전히 동일'해야 한다.
-    //    (localhost vs 127.0.0.1, http vs https, 포트/경로 한 글자라도 다르면 실패)
+    //    (localhost vs 152.67.212.81/, http vs https, 포트/경로 한 글자라도 다르면 실패)
     @Value("${kakao.redirect-uri}")
     private String redirectUri;
 

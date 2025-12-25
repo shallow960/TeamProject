@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/timeslots")
+@RequestMapping("/timeslots")
 @RequiredArgsConstructor
 public class TimeSlotController {
 
@@ -34,5 +34,7 @@ public class TimeSlotController {
             return ResponseEntity.badRequest().build();
         }
     }
+    
+    
     
 }
