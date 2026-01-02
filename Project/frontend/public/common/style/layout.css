@@ -33,7 +33,7 @@ body{font-size:16px;line-height:28px;letter-spacing:0;font-weight:400;font-famil
 .info_box .today_box .today{font-size:16px;line-height:30px;font-weight:400;color:#333;}
 .info_box .weather_inner{position:relative;display:inline-flex;gap:8px;box-sizing:border-box;vertical-align:top;}
 .info_box .weather_inner span{display:inline-block;position:relative;vertical-align:top;font-weight:400;font-size:16px;line-height:30px;}
-.info_box .weather_inner .icon{width:30px;height:30px;background-image:url('/common/images/w1.png');background-size:contain;}
+/* .info_box .weather_inner .icon{width:30px;height:30px;background-image:url('/common/images/w1.png');background-size:contain;} */
 .info_box .weather_inner .temperature{height:100%;}
 
 .search_wrap .search_box{display:block;width:40%;position:relative;box-sizing:border-box;}

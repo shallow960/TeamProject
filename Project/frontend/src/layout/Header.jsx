@@ -4,7 +4,7 @@ import { useAuth } from "../common/context/AuthContext";
 import NavLinks from "../common/routes/NavLinks";
 import { LogoutLink } from "../program/login/pages/LogoutLink";
 import AlarmBanner from "../program/alarm/services/AlarmBanner";
-import TodayTime from "../layout/TodayTime.jsx";
+import WeatherWidget from "../main/pages/WeatherWidget";
 
 //공용css
 import "../contents/styles/contents1.css";
@@ -45,20 +45,10 @@ const Header = () => {
             onClose={() => setIsAlarmOpen(false)}
           />
           {/* 날짜 */}
-          <TodayTime />
           <div className="today_box">
-            <span className="today">2025년 9월 9일</span>
+              <span className="today">{new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric", })}</span>
           </div>
-          <div className="weather_inner">
-            <span className="icon"></span>
-            <span className="temperature">
-              <span className="">
-                33
-                <span>℃</span>
-              </span>
-            </span>
-            <span className="weather">맑음</span>
-          </div>
+          <WeatherWidget />
         </div>
       </div>
 
