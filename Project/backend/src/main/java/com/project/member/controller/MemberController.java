@@ -88,7 +88,7 @@ public class MemberController {
 		return ResponseEntity.ok(memberService.sigup(dto));
 	}
 
-	 // ✅ 아이디 중복 체크: 존재하면 409, 없으면 200
+	 //아이디 중복 체크: 존재하면 409, 없으면 200
     @GetMapping("/check-id") // 최종 경로: (클래스 prefix) + "/check-id"
     public ResponseEntity<Map<String, String>> checkDuplicateId(@RequestParam("memberId") String memberId) {
         log.info("[check-id] memberId={}", memberId);
@@ -268,4 +268,5 @@ public class MemberController {
 	public ResponseEntity<String> checkPhoneNumber(@RequestParam String phoneNum){
 		return ResponseEntity.ok(memberService.checkPhoneNumber(phoneNum));
 	}
+	
 }

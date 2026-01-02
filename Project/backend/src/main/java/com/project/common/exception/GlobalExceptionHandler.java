@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +30,14 @@ public class GlobalExceptionHandler {
 	    log.warn("AccessDeniedException: {}", ex.getMessage());
 	    return buildErrorResponse(HttpStatus.FORBIDDEN, "접근 권한이 없습니다.");
 	}
-
+	
+	// ✅ 페이지를 찾을 수 없음(404)
+	@ExceptionHandler(NoHandlerFoundException.class)
+	public ResponseEntity<ApiErrorResponse> handleNotFound(NoHandlerFoundException ex) {
+	    log.warn("NoHandlerFoundException: {}", ex.getRequestURL());
+	    return buildErrorResponse(HttpStatus.NOT_FOUND, "요청하신 자원을 찾을 수 없습니다.");
+	}
+	
 	// ✅ 중복데이터 처리 예외 (409)
 	@ExceptionHandler(DuplicateException.class)
 	public ResponseEntity<ApiErrorResponse> handleDuplicateException(DuplicateException ex) {

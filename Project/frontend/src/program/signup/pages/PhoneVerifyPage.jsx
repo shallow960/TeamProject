@@ -20,25 +20,50 @@ export default function PhoneVerifyPage() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
+  // +82(E.164) -> 010xxxxxxxx (서비스 내부 010 통일)
+  const normalizeKoreanPhone = (raw) => {
+    if (!raw) return "";
+
+    let p = String(raw).trim();
+
+    // 숫자와 +만 남김 (공백/하이픈/괄호 제거)
+    p = p.replace(/[^\d+]/g, "");
+
+    // +82 / 82 로 시작하면 0으로 치환
+    if (p.startsWith("+82")) p = "0" + p.slice(3);
+    else if (p.startsWith("82")) p = "0" + p.slice(2);
+
+    // 최종적으로 숫자만 남김
+    p = p.replace(/[^\d]/g, "");
+
+    return p;
+  };
+
   // 팝업에서 인증 성공 시 호출되는 콜백
   const handleVerified = useCallback(
     ({ phone, firebaseUid }) => {
+      const normalizedPhone = normalizeKoreanPhone(phone);
+
       try {
         // 세션에 인증 결과 저장 (회원가입 페이지 가드/자동 채움용)
         sessionStorage.setItem("phoneVerified", "true");
-        sessionStorage.setItem("verifiedPhone", phone); // +82 형식
+
+        // A방안: 내부 표준(010)로 저장/전달
+        sessionStorage.setItem("verifiedPhone", normalizedPhone);
+
+        // 원본(+82) 보관
+        // sessionStorage.setItem("verifiedPhoneRaw", phone);
+
         sessionStorage.setItem("phoneVerifiedAt", new Date().toISOString());
-        // firebaseUid가 필요하면 함께 저장 가능
+
         if (firebaseUid) sessionStorage.setItem("firebaseUid", firebaseUid);
       } catch (e) {
-        // 세션이 막혀있거나 용량문제 등
         console.warn("세션 저장 실패:", e);
       }
 
       // 회원가입 페이지로 즉시 이동
       navigate("/join", {
-        // location.state로도 넘겨둠(새로고침 시엔 사라지니 세션 저장도 병행)
-        state: { phoneVerified: true, verifiedPhone: phone },
+        state: { phoneVerified: true, verifiedPhone: normalizedPhone },
         replace: true,
       });
     },
