@@ -4,6 +4,7 @@ import { useAuth } from "../common/context/AuthContext";
 import NavLinks from "../common/routes/NavLinks";
 import { LogoutLink } from "../program/login/pages/LogoutLink";
 import AlarmBanner from "../program/alarm/services/AlarmBanner";
+import TodayTime from "../layout/TodayTime.jsx";
 
 //공용css
 import "../contents/styles/contents1.css";
@@ -44,6 +45,7 @@ const Header = () => {
             onClose={() => setIsAlarmOpen(false)}
           />
           {/* 날짜 */}
+          <TodayTime />
           <div className="today_box">
             <span className="today">2025년 9월 9일</span>
           </div>
